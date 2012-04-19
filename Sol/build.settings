@@ -1,0 +1,33 @@
+-- Supported values for orientation:
+-- portrait, portraitUpsideDown, landscapeLeft, landscapeRight
+
+settings = {
+	
+	orientation = {
+		default = "landscapeLeft",
+		supported = { "landscapeLeft", }
+	},
+	
+	iphone = {
+		plist = {
+			UIStatusBarHidden = false,
+			UIPrerenderedIcon = false, -- set to false for "shine" overlay
+			UIApplicationExitsOnSuspend = false,
+			CFBundleIconFile = "Icon.png",
+            CFBundleIconFiles = {
+                	"Icon.png" , 
+                    "Icon@2x.png" , 
+                    "Icon-72.png" , 
+            },
+            CFBundleDisplayName = "Solar control",
+            CFBundleVersion = "1.0",
+		}
+	},
+	
+	--[[ For Android:
+	
+	androidPermissions = {
+  		"android.permission.INTERNET",
+  	},
+	]]--
+}
