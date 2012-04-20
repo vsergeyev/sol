@@ -7,8 +7,8 @@
 require "info"
 
 
-local baseImpulse = 0.4
-local maxImpulseMoveSize = 1
+local baseImpulse = 0.01
+local maxImpulseMoveSize = 0.02
 local rand = math.random
 
 
@@ -24,8 +24,52 @@ function hudBuildShip( e )
 		-- ship.imageRotation = 15 -- scout image now a little rotated
 		group:insert(ship)
 		ship:addEventListener('touch', selectShip)
-		physics.addBody(ship, {})
+		physics.addBody(ship, {radius=20})
 		-- table.insert(ships, ship)
+	end
+
+	return true
+end
+
+-----------------------------------------------------------------------------------------
+function impulseShip(t, dx, dy)
+	local length = math.sqrt(dx*dx + dy*dy)
+
+    if length > 0 then
+        local xI = dx / length;
+        local yI = dy / length;
+
+        if length > maxImpulseMoveSize then
+        	length = maxImpulseMoveSize
+        end
+        local k = length / maxImpulseMoveSize * baseImpulse
+
+    	t:applyLinearImpulse(xI*k, yI*k, t.x, t.y)
+    end
+end
+
+-----------------------------------------------------------------------------------------
+function hudFleetControl( e )
+	local planet = nil
+	local planet_name = e.target.fleetTarget
+	print(planet_name)
+
+	for i = 1, group.numChildren, 1 do
+		if group[i].name == planet_name then
+			planet = group[i]
+			break
+		end
+	end
+	print(planet)
+	if planet then
+		for i = 1, group.numChildren, 1 do
+			if group[i].nameType == "ship" then
+				local g = group[i]
+				print(g)
+				g.rotation = math.deg(math.atan2((planet.y - g.y), (planet.x - g.x)))
+				impulseShip(g, planet.x-g.x, planet.y-g.y)
+			end
+		end
 	end
 
 	return true
@@ -91,18 +135,20 @@ function selectShip( e )
 			t.isFocus = false
 			display.getCurrentStage():setFocus( t, e.id )
 	    	
-	        local length = math.sqrt(dx*dx + dy*dy)
-	        if length > 0 then
-		        local xI = dx / length;
-		        local yI = dy / length;
+			impulseShip(t, dx, dy)
 
-		        if length > maxImpulseMoveSize then
-		        	length = maxImpulseMoveSize
-		        end
-		        local k = length / maxImpulseMoveSize * baseImpulse
+	      --   local length = math.sqrt(dx*dx + dy*dy)
+	      --   if length > 0 then
+		     --    local xI = dx / length;
+		     --    local yI = dy / length;
 
-		    	t:applyLinearImpulse(xI*k, yI*k, t.x, t.y)
-	        end
+		     --    if length > maxImpulseMoveSize then
+		     --    	length = maxImpulseMoveSize
+		     --    end
+		     --    local k = length / maxImpulseMoveSize * baseImpulse
+
+		    	-- t:applyLinearImpulse(xI*k, yI*k, t.x, t.y)
+	      --   end
 		end
     end
 

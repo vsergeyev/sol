@@ -7,6 +7,7 @@
 require "info"
 require "hud"
 require "build_ui"
+require "fleet_ui"
 
 
 -----------------------------------------------------------------------------------------
@@ -90,38 +91,52 @@ end
 
 -----------------------------------------------------------------------------------------
 function addHud()
-	local infoPanel = display.newRect(0, 0, 200, screenH)
+	local infoPanel = display.newRect(0, 0, screenW, 200)
 	infoPanel:setFillColor( 127 )
 
 	local infoTitle = display.newText("", 10, 10, 180, 20, native.systemFont, 16)
-	local infoText = display.newText("", 10, 40, 180, 300, native.systemFont, 12)
+	local infoText = display.newText("", 10, 40, 380, 200, native.systemFont, 12)
 
 	-- Resources
-	local infoMoney = display.newText("", 10, screenH-30, 180, 20, native.systemFont, 16)
+	local infoMoney = display.newText("", screenW-100, 10, 180, 20, native.systemFont, 16)
 	infoMoney:setTextColor(200, 200, 80)
+	infoMoney.text = "$"..gold.." E"..energy
 
 	groupHud:insert(infoPanel)
 	groupHud:insert(infoTitle)
 	groupHud:insert(infoText)
 	groupHud:insert(infoMoney)
 
-	groupHud.x = screenW-200
+	groupHud.x = 0
+	groupHud.y = screenH-200
 	groupHud.title = infoTitle
 	groupHud.text = infoText
 	groupHud.money = infoMoney
 
+	-- Build Buttons
 	local build = display.newGroup()
 	groupHud:insert(build)
 	addBuildButtons(build)
-	build.x, build.y = 10, screenH-300
+	build.x, build.y = 410, 10
 	groupHud.build = build
-	groupHud.alpha = 0
+	build.alpha = 0
+
+	-- Command Fleet
+	local fleet = display.newGroup()
+	groupHud:insert(fleet)
+	addFleetButtons(fleet)
+	fleet.x, fleet.y = 410, 10
+	groupHud.fleet = fleet
+	fleet.alpha = 0
+
+	-- Main Hud Alpha
+	groupHud.alpha = 0.5	
 end
 
 -----------------------------------------------------------------------------------------
 function moveBg( e )
 	if e.phase == "began" then
-		groupHud.alpha = 0
+		--groupHud.alpha = 0
 		groupX, groupY = group.x, group.y
 	elseif e.phase == "moved" then
 		group.x = groupX + (e.x - e.xStart)

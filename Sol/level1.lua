@@ -70,9 +70,9 @@ function scene:createScene( event )
 	group:insert(bg)
 	bg:addEventListener('touch', moveBg)
 
-	mtouch.setZoomObject( bg )
-	mtouch.setOnZoomIn( OnZoomIn  ) 
-	mtouch.setOnZoomOut( OnZoomOut  )
+	-- mtouch.setZoomObject( bg )
+	-- mtouch.setOnZoomIn( OnZoomIn  ) 
+	-- mtouch.setOnZoomOut( OnZoomOut  )
 
 	createSun()
 	addPlanets()

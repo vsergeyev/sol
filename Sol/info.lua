@@ -20,7 +20,7 @@ Chemically, about three quarters of the Sun's mass consists of hydrogen, while t
 }
 
 function showInfo( item )
-	groupHud.alpha = 1
+	groupHud.alpha = 0.5
 	groupHud.title.text = item.name:sub(1,1):upper()..item.name:sub(2)
 	groupHud.text.text = infoPedia[item.name]
 	groupHud.money.text = "$"..gold.." E"..energy
@@ -28,12 +28,12 @@ function showInfo( item )
 	-- print(item.nameType)
 	if item.nameType == "planet" then
 		groupHud.build.alpha = 1
-		-- TODO: Show build buttons
-		-- Hide othe buttons (ship control, etc)
-	-- elseif item.nameType == "ship" then
+		groupHud.fleet.alpha = 0
+	elseif item.nameType == "ship" then
+		groupHud.build.alpha = 0
+		groupHud.fleet.alpha = 1
 	else
 		groupHud.build.alpha = 0
-		-- TODO: Hide build buttons
-		-- Show ship control buttons
+		groupHud.fleet.alpha = 0
 	end
 end

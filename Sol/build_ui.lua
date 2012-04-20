@@ -4,23 +4,19 @@
 --
 -----------------------------------------------------------------------------------------
 
-function addBuildButtons(buildGroup)
+function addBuildButtons(g)
 	-- Build buttons
-	local buildShip = display.newImageRect("ui/build/scout.png", 70, 70)
-	buildShip:setReferencePoint(display.TopLeftReferencePoint)
-	buildShip.x, buildShip.y = 0, 0
-	buildShip.name = "button"
-	buildShip.nameType = "build"
-	buildShip.ship = "scout"
-	buildShip:addEventListener('touch', hudBuildShip)
-	buildGroup:insert(buildShip)
+	local b = display.newImageRect("ui/build/scout.png", 70, 70)
+	b:setReferencePoint(display.TopLeftReferencePoint)
+	b.x, b.y = 0, 0
+	b.ship = "scout"
+	b:addEventListener('touch', hudBuildShip)
+	g:insert(b)
 	
-	local buildShip = display.newImageRect("ui/build/cruiser.png", 70, 70)
-	buildShip:setReferencePoint(display.TopLeftReferencePoint)
-	buildShip.x, buildShip.y = 80, 0
-	buildShip.name = "button"
-	buildShip.nameType = "build"
-	buildShip.ship = "cruiser"
-	buildShip:addEventListener('touch', hudBuildShip)
-	buildGroup:insert(buildShip)
+	local b = display.newImageRect("ui/build/cruiser.png", 70, 70)
+	b:setReferencePoint(display.TopLeftReferencePoint)
+	b.x, b.y = 80, 0
+	b.ship = "cruiser"
+	b:addEventListener('touch', hudBuildShip)
+	g:insert(b)
 end
