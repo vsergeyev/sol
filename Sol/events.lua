@@ -7,8 +7,6 @@
 require "info"
 require "hud"
 
-local selectOverlay = nil
-
 -----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------
 
@@ -71,6 +69,7 @@ function selectPlanet( e )
 
 	if selectOverlay then
 		selectOverlay:removeSelf()
+		selectOverlay = nil
 	end
 	
 	selectOverlay = display.newCircle(t.x, t.y, t.r)

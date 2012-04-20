@@ -29,6 +29,7 @@ require "planets"
 require "create_scene"
 
 selectedObject = nil
+selectOverlay = nil
 groupSky = nil
 group = nil
 groupHud = nil
