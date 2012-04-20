@@ -16,6 +16,7 @@ Chemically, about three quarters of the Sun's mass consists of hydrogen, while t
 	venus = [[Venus]],
 	mars = [[Mars]],
 	scout = [[Light exploration ship]],
+	cruiser = [[Heavy gunship]],
 }
 
 function showInfo( item )
@@ -24,10 +25,14 @@ function showInfo( item )
 	groupHud.text.text = infoPedia[item.name]
 	groupHud.money.text = "$"..gold.." E"..energy
 
+	-- print(item.nameType)
 	if item.nameType == "planet" then
+		groupHud.build.alpha = 1
 		-- TODO: Show build buttons
 		-- Hide othe buttons (ship control, etc)
-	elseif item.nameType == "ship" then
+	-- elseif item.nameType == "ship" then
+	else
+		groupHud.build.alpha = 0
 		-- TODO: Hide build buttons
 		-- Show ship control buttons
 	end

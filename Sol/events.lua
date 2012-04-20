@@ -6,6 +6,8 @@
 
 require "info"
 require "hud"
+require "build_ui"
+
 
 -----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------
@@ -67,21 +69,23 @@ end
 function selectPlanet( e )
 	local t = e.target
 
-	if selectOverlay then
-		selectOverlay:removeSelf()
-		selectOverlay = nil
+	if e.phase == "ended" then
+		if selectOverlay then
+			selectOverlay:removeSelf()
+			selectOverlay = nil
+		end
+		
+		selectOverlay = display.newCircle(t.x, t.y, t.r)
+		selectOverlay.alpha = 0.3
+		selectOverlay.strokeWidth = 5
+		selectOverlay:setStrokeColor(255)
+		group:insert(selectOverlay)
+		t.overlay = selectOverlay
+
+		selectedObject = t
+
+		showInfo(t)
 	end
-	
-	selectOverlay = display.newCircle(t.x, t.y, t.r)
-	selectOverlay.alpha = 0.3
-	selectOverlay.strokeWidth = 5
-	selectOverlay:setStrokeColor(255)
-	group:insert(selectOverlay)
-	t.overlay = selectOverlay
-
-	selectedObject = t
-
-	showInfo(t)
 end
 
 -----------------------------------------------------------------------------------------
@@ -92,20 +96,6 @@ function addHud()
 	local infoTitle = display.newText("", 10, 10, 180, 20, native.systemFont, 16)
 	local infoText = display.newText("", 10, 40, 180, 300, native.systemFont, 12)
 
-	local buildPanel = display.newRect(10, screenH-300, 180, 250)
-	buildPanel:setFillColor(127)
-	buildPanel.strokeWidth = 1
-	buildPanel:setStrokeColor(100)
-	
-	-- Build buttons
-	local buildShip = display.newImageRect("ui/build/ship.png", 70, 70)
-	buildShip:setReferencePoint(display.TopLeftReferencePoint)
-	buildShip.x, buildShip.y = 10, screenH-300
-	buildShip.name = "button"
-	buildShip.nameType = "build"
-	buildShip:addEventListener('touch', hudBuildShip)
-	buildPanel.ship = buildShip
-
 	-- Resources
 	local infoMoney = display.newText("", 10, screenH-30, 180, 20, native.systemFont, 16)
 	infoMoney:setTextColor(200, 200, 80)
@@ -113,21 +103,25 @@ function addHud()
 	groupHud:insert(infoPanel)
 	groupHud:insert(infoTitle)
 	groupHud:insert(infoText)
-	groupHud:insert(buildPanel)
-	groupHud:insert(buildShip)
 	groupHud:insert(infoMoney)
 
 	groupHud.x = screenW-200
 	groupHud.title = infoTitle
 	groupHud.text = infoText
-	groupHud.build = buildPanel
 	groupHud.money = infoMoney
+
+	local build = display.newGroup()
+	groupHud:insert(build)
+	addBuildButtons(build)
+	build.x, build.y = 10, screenH-300
+	groupHud.build = build
 	groupHud.alpha = 0
 end
 
 -----------------------------------------------------------------------------------------
 function moveBg( e )
 	if e.phase == "began" then
+		groupHud.alpha = 0
 		groupX, groupY = group.x, group.y
 	elseif e.phase == "moved" then
 		group.x = groupX + (e.x - e.xStart)

@@ -12,13 +12,16 @@ local maxImpulseMoveSize = 1
 local rand = math.random
 
 
+-----------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------
 function hudBuildShip( e )
 	if e.phase == 'began' then
-		local ship = display.newImageRect("ships/scout.png", 150, 67)
+		local ship = display.newImageRect("ships/"..e.target.ship..".png", 100, 100)
 		ship.x, ship.y = selectedObject.x, selectedObject.y
 		ship.r = 75
-		ship.name = "scout"
-		ship.imageRotation = 15 -- scout image now a little rotated
+		ship.name = e.target.ship
+		ship.nameType = "ship"
+		-- ship.imageRotation = 15 -- scout image now a little rotated
 		group:insert(ship)
 		ship:addEventListener('touch', selectShip)
 		physics.addBody(ship, {})
@@ -28,8 +31,8 @@ function hudBuildShip( e )
 	return true
 end
 
+-----------------------------------------------------------------------------------------
 -- local arrows = {}
-
 function selectShip( e )
 	local t = e.target
 	local phase = e.phase
@@ -78,7 +81,7 @@ function selectShip( e )
 			-- arrow.width = 3
 			-- arrows[e.id] = arrow
 
-			t.rotation = math.deg(math.atan2((e.y - t.y), (e.x - t.x))) - t.imageRotation
+			-- t.rotation = math.deg(math.atan2((e.y - t.y), (e.x - t.x))) -- - t.imageRotation
 			-- print(t.rotation)
 		
 		elseif "ended" == phase or "cancelled" == phase then
