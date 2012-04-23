@@ -23,22 +23,27 @@ physics.setGravity(0, 0)
 
 -- forward declarations and other locals
 screenW, screenH, halfW = display.contentWidth, display.contentHeight, display.contentWidth*0.5
-
-require "events"
-require "planets"
-require "create_scene"
-
 selectedObject = nil
 selectOverlay = nil
 groupSky = nil
 group = nil
 groupHud = nil
+minimap = nil
 groupX, groupY = 0, 0
 sun = nil
 ships = {}
 
 gold = 400
 energy = 50
+
+planetGravitationFieldRadius = 200
+planetGraviationDamping = 4
+
+require "events"
+require "planets"
+require "create_scene"
+require "hud"
+require "minimap_ui"
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -58,17 +63,18 @@ function scene:createScene( event )
 	sky:setReferencePoint( display.CenterReferencePoint )
 	sky.x, sky.y = screenW/2, screenH/2
 	groupSky:insert(sky)
+	sky:addEventListener('touch', moveBg)
 
 	local g = graphics.newGradient(
 	  { 0, 0, 0 },
 	  { 50, 50, 50 },
 	  "down" )
 
-	local bg = display.newRect( -2*screenW, -2*screenH, 5*screenW, 5*screenH)
-	bg:setFillColor( 0 )
-	bg.alpha = 0.5
-	group:insert(bg)
-	bg:addEventListener('touch', moveBg)
+	-- local bg = display.newRect( -9*screenW, -9*screenH, 19*screenW, 19*screenH)
+	-- bg:setFillColor( 0 )
+	-- bg.alpha = 0.5
+	-- group:insert(bg)
+	-- bg:addEventListener('touch', moveBg)
 
 	-- mtouch.setZoomObject( bg )
 	-- mtouch.setOnZoomIn( OnZoomIn  ) 
@@ -78,13 +84,19 @@ function scene:createScene( event )
 	addPlanets()
 	addHud()
 
+
+	-- Test planets positions with smaller zoom
+	-- group.xScale = 0.5
+	-- group.yScale = 0.5
+
 	-- Timers
 	-- timer.performWithDelay(50, rotateSky, 0 )
 	timer.performWithDelay(100, movePlanets, 0 )
 	timer.performWithDelay(6000, hightlightSun, 0 )
+	timer.performWithDelay(2000, refreshMinimap, 0 )
 
 	-- Frame handlers
-	-- Runtime:addEventListener( "enterFrame", frameHandler )
+	Runtime:addEventListener( "enterFrame", frameHandler )
 end
 
 -- Called immediately after scene has moved onscreen:

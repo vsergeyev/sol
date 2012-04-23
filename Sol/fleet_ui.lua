@@ -28,4 +28,9 @@ function addFleetButtons(g)
 	b.fleetTarget = "mars"
 	b:addEventListener('touch', hudFleetControl)
 	g:insert(b)
+
+	local b = display.newText("Jupiter", 0, 150, native.systemFont, 16)
+	b.fleetTarget = "jupiter"
+	b:addEventListener('touch', hudFleetControl)
+	g:insert(b)
 end

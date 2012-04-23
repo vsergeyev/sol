@@ -20,19 +20,27 @@ Chemically, about three quarters of the Sun's mass consists of hydrogen, while t
 }
 
 function showInfo( item )
-	groupHud.alpha = 0.5
-	groupHud.title.text = item.name:sub(1,1):upper()..item.name:sub(2)
-	groupHud.text.text = infoPedia[item.name]
+	-- groupHud.alpha = 0.5
 	groupHud.money.text = "$"..gold.." E"..energy
 
-	-- print(item.nameType)
-	if item.nameType == "planet" then
-		groupHud.build.alpha = 1
-		groupHud.fleet.alpha = 0
-	elseif item.nameType == "ship" then
-		groupHud.build.alpha = 0
-		groupHud.fleet.alpha = 1
+	if item then
+		groupHud.title.text = item.name:sub(1,1):upper()..item.name:sub(2)
+		groupHud.text.text = infoPedia[item.name]	
+
+		-- print(item.nameType)
+		if item.nameType == "planet" then
+			groupHud.build.alpha = 1
+			groupHud.fleet.alpha = 0
+		elseif item.nameType == "ship" then
+			groupHud.build.alpha = 0
+			groupHud.fleet.alpha = 1
+		else
+			groupHud.build.alpha = 0
+			groupHud.fleet.alpha = 0
+		end
 	else
+		groupHud.title.text = "Solar system"
+		groupHud.text.text = ""
 		groupHud.build.alpha = 0
 		groupHud.fleet.alpha = 0
 	end

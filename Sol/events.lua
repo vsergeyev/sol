@@ -6,8 +6,6 @@
 
 require "info"
 require "hud"
-require "build_ui"
-require "fleet_ui"
 
 
 -----------------------------------------------------------------------------------------
@@ -58,9 +56,27 @@ function movePlanets( e )
 			g.alphaR = g.alphaR + 0.001 * g.speed
 			g.x = g.x0  + g.orbit * math.sin(g.alphaR)
 			g.y = g.y0  + g.orbit/1.5 * math.cos(g.alphaR)
+			-- move gravitation fields with their planets
+			g.field.x = g.x
+			g.field.y = g.y
+			-- move overlay if planet selected
 			if g.overlay then
 				g.overlay.x = g.x
 				g.overlay.y = g.y
+			end
+
+			-- move planet's moon if exists
+			if g.moon then
+				local moon = g.moon
+				moon.x0, moon.y0 = g.x, g.y
+
+				moon.alphaR = moon.alphaR + 0.001 * moon.speed
+				moon.x = moon.x0  + moon.orbit * math.sin(moon.alphaR)
+				moon.y = moon.y0  + moon.orbit/1.5 * math.cos(moon.alphaR)
+				if moon.overlay then
+					moon.overlay.x = moon.x
+					moon.overlay.y = moon.y
+				end
 			end
 		end
 	end
@@ -90,52 +106,15 @@ function selectPlanet( e )
 end
 
 -----------------------------------------------------------------------------------------
-function addHud()
-	local infoPanel = display.newRect(0, 0, screenW, 200)
-	infoPanel:setFillColor( 127 )
-
-	local infoTitle = display.newText("", 10, 10, 180, 20, native.systemFont, 16)
-	local infoText = display.newText("", 10, 40, 380, 200, native.systemFont, 12)
-
-	-- Resources
-	local infoMoney = display.newText("", screenW-100, 10, 180, 20, native.systemFont, 16)
-	infoMoney:setTextColor(200, 200, 80)
-	infoMoney.text = "$"..gold.." E"..energy
-
-	groupHud:insert(infoPanel)
-	groupHud:insert(infoTitle)
-	groupHud:insert(infoText)
-	groupHud:insert(infoMoney)
-
-	groupHud.x = 0
-	groupHud.y = screenH-200
-	groupHud.title = infoTitle
-	groupHud.text = infoText
-	groupHud.money = infoMoney
-
-	-- Build Buttons
-	local build = display.newGroup()
-	groupHud:insert(build)
-	addBuildButtons(build)
-	build.x, build.y = 410, 10
-	groupHud.build = build
-	build.alpha = 0
-
-	-- Command Fleet
-	local fleet = display.newGroup()
-	groupHud:insert(fleet)
-	addFleetButtons(fleet)
-	fleet.x, fleet.y = 410, 10
-	groupHud.fleet = fleet
-	fleet.alpha = 0
-
-	-- Main Hud Alpha
-	groupHud.alpha = 0.5	
-end
-
------------------------------------------------------------------------------------------
 function moveBg( e )
 	if e.phase == "began" then
+		if selectOverlay then
+			selectOverlay:removeSelf()
+			selectOverlay = nil
+		end
+		selectedObject = nil
+		showInfo(nil)
+
 		--groupHud.alpha = 0
 		groupX, groupY = group.x, group.y
 	elseif e.phase == "moved" then
@@ -146,4 +125,46 @@ function moveBg( e )
 	end
 
 	return true
+end
+
+-----------------------------------------------------------------------------------------
+function frameHandler( e )
+	local s = selectedObject
+	local border = 200 -- keep moving ship inside this
+	local delta = 2
+	local fast = 5
+
+	if s then
+		-- keep moving ship in bounds of screen
+		-- move screen instead
+		if s.nameType == "ship" then
+			if s.x + group.x < border then
+				group.x = group.x + delta
+			end
+			if s.x + group.x < border/2 then
+				group.x = group.x + fast*delta
+			end
+
+			if s.x + group.x > screenW - border then
+				group.x = group.x - delta
+			end
+			if s.x + group.x > screenW - border/2 then
+				group.x = group.x - fast*delta
+			end
+
+			if s.y + group.y < border then
+				group.y = group.y + delta
+			end
+			if s.y + group.y < border/2 then
+				group.y = group.y + fast*delta
+			end
+
+			if s.y + group.y > screenH - border then
+				group.y = group.y - delta
+			end
+			if s.y + group.y > screenH - border/2 then
+				group.y = group.y - fast*delta
+			end
+		end
+	end
 end
