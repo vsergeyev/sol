@@ -132,7 +132,7 @@ function addPlanets()
 	-- Jupiter
 	local p = display.newImageRect("i/jupiter.png", 200, 200)
 	p.x, p.y = screenW/1.5, screenH/1.5
-	p.r = 75
+	p.r = 100
 	p.speed = 0.1
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 5000
