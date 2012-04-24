@@ -37,7 +37,7 @@ gold = 400
 energy = 50
 
 planetGravitationFieldRadius = 200
-planetGraviationDamping = 0.1
+planetGraviationDamping = 1
 
 require "events"
 require "planets"
@@ -83,7 +83,7 @@ function scene:createScene( event )
 	createSun()
 	addPlanets()
 	addHud()
-
+	refreshMinimap()
 
 	-- Test planets positions with smaller zoom
 	-- group.xScale = 0.5
@@ -93,7 +93,8 @@ function scene:createScene( event )
 	-- timer.performWithDelay(50, rotateSky, 0 )
 	timer.performWithDelay(100, movePlanets, 0 )
 	timer.performWithDelay(6000, hightlightSun, 0 )
-	timer.performWithDelay(2000, refreshMinimap, 0 )
+	timer.performWithDelay(200, refreshMinimap, 1 )
+	timer.performWithDelay(5000, refreshMinimap, 0 )
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )

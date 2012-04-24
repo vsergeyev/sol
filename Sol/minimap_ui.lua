@@ -4,6 +4,8 @@
 --
 -----------------------------------------------------------------------------------------
 
+require "info"
+
 local mapW, mapH = 180, 135
 local systemSizeX, systemSizeY = 10, 10 -- Sol system size in screenW/H
 local zx, zy = mapW/(screenW*systemSizeX), mapH/(screenH*systemSizeY) -- zoom of map
@@ -11,6 +13,10 @@ local halfW, halfH = mapW/2, mapH/2
 
 -----------------------------------------------------------------------------------------
 function gotoMinimap( e )
+	if selectedObject and selectedObject.nameType == "ship" then
+		selectedObject = nil
+		showInfo(nil)
+	end
 	-- center Solar system to the point on minimap
 	group.x = (halfW - e.x + 5 + minimap.x) * 50
 	group.y = (halfH - e.y + 50 + groupHud.y) * 50

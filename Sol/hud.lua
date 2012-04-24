@@ -72,9 +72,11 @@ end
 
 -----------------------------------------------------------------------------------------
 function hudFleetControl( e )
+	-- Target and move all ships on-screen like selected
+	-- to the planet
+	 
 	local planet = nil
 	local planet_name = e.target.fleetTarget
-	-- print(planet_name)
 
 	for i = 1, group.numChildren, 1 do
 		if group[i].name == planet_name then
@@ -83,12 +85,14 @@ function hudFleetControl( e )
 		end
 	end
 	
-	--print(planet)
-	if planet then
+	local g = selectedObject
+	g.rotation = math.deg(math.atan2((planet.y - g.y), (planet.x - g.x)))
+	impulseShip(g, planet.x-g.x, planet.y-g.y)
+	
+	if false and planet then
 		for i = 1, group.numChildren, 1 do
 			if group[i].nameType == "ship" then
 				local g = group[i]
-				-- print(g)
 				g.rotation = math.deg(math.atan2((planet.y - g.y), (planet.x - g.x)))
 				impulseShip(g, planet.x-g.x, planet.y-g.y)
 			end

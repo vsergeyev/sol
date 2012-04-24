@@ -9,7 +9,7 @@ require "fleet_control"
 
 function addFleetButtons(g)
 	-- Fleet control buttons
-	local b = display.newText("Fleet control:", 0, 0, native.systemFont, 16)
+	local b = display.newText("Ship control:", 0, 0, native.systemFont, 16)
 	g:insert(b)
 	
 	local b = display.newText("Mercury", 0, 30, native.systemFont, 16)
@@ -36,10 +36,4 @@ function addFleetButtons(g)
 	b.fleetTarget = "jupiter"
 	b:addEventListener('touch', hudFleetControl)
 	g:insert(b)
-	
-	-- Colonize planet
-	local b = display.newText("Colonize", 400, 0, native.systemFont, 16)
-	b:addEventListener('touch', colonizePlanet)
-	g:insert(b)
-	g.colonize = b
 end

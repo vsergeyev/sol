@@ -4,8 +4,12 @@
 --
 -----------------------------------------------------------------------------------------
 
+require "build_control"
+
+
+-----------------------------------------------------------------------------------------
 function addBuildButtons(g)
-	-- Build buttons
+	-- Build ships buttons
 	local b = display.newImageRect("ui/build/explorer.png", 70, 70)
 	b:setReferencePoint(display.TopLeftReferencePoint)
 	b.x, b.y = 0, 0
@@ -46,5 +50,39 @@ function addBuildButtons(g)
 		e = 50
 	}
 	b:addEventListener('touch', hudBuildShip)
+	g:insert(b)
+	
+	-- Tech buttons
+	local b = display.newImageRect("ui/build/tech.png", 70, 70)
+	b:setReferencePoint(display.TopLeftReferencePoint)
+	b.x, b.y = 0, 80
+	b.tech = "tech"
+	b.res = {
+		cost = 100,
+		e = 10
+	}
+	b:addEventListener('touch', buildTech)
+	g:insert(b)
+	
+	local b = display.newImageRect("ui/build/energy.png", 70, 70)
+	b:setReferencePoint(display.TopLeftReferencePoint)
+	b.x, b.y = 80, 80
+	b.tech = "energy"
+	b.res = {
+		cost = 100,
+		e = 10
+	}
+	b:addEventListener('touch', buildTech)
+	g:insert(b)
+	
+	local b = display.newImageRect("ui/build/defence.png", 70, 70)
+	b:setReferencePoint(display.TopLeftReferencePoint)
+	b.x, b.y = 160, 80
+	b.tech = "defence"
+	b.res = {
+		cost = 100,
+		e = 10
+	}
+	b:addEventListener('touch', buildTech)
 	g:insert(b)
 end

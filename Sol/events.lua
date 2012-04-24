@@ -130,14 +130,14 @@ end
 -----------------------------------------------------------------------------------------
 function frameHandler( e )
 	local s = selectedObject
-	local border = 200 -- keep moving ship inside this
-	local delta = 2
+	local border = 300 -- keep moving ship inside this
+	local delta = 1
 	local fast = 5
 
 	if s then
 		-- keep moving ship in bounds of screen
 		-- move screen instead
-		if s.nameType == "ship" then
+		if false and s.nameType == "ship" then
 			if s.x + group.x < border then
 				group.x = group.x + delta
 			end

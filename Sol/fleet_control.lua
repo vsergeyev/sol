@@ -4,8 +4,8 @@
 --
 -----------------------------------------------------------------------------------------
 
-local baseImpulse = 50
-local maxImpulseMoveSize = 50
+local baseImpulse = 80
+local maxImpulseMoveSize = 80
 local rand = math.random
 local planetToColonize, colonizationShip = nil, nil
 
@@ -20,7 +20,7 @@ function buildShip(e)
 	ship.nameType = "ship"
 	ship.enemy = false
 	-- ship.imageRotation = 15 -- scout image now a little rotated
-	physics.addBody(ship, {radius=20, friction=0.1})
+	physics.addBody(ship, {radius=20, friction=0})
 	-- ship.linearDamping = 1
 	group:insert(ship)
 	ship:addEventListener('touch', selectShip)
@@ -63,6 +63,9 @@ function collisionShip(e)
 			colonizationShip = t
 			local alert = native.showAlert( "Colonize "..planet.name, "Do you want to colonize this planet?", 
                                         { "Not now", "Create colony" }, onCompleteColonization )
+		elseif t.nameType == "ship" then
+			local x, y = t:getLinearVelocity()
+			t:setLinearVelocity(x/2, y/2)
 		end
 	end
 end
@@ -79,7 +82,7 @@ function impulseShip(t, dx, dy)
         if length > maxImpulseMoveSize then
         	length = maxImpulseMoveSize
         end
-        local k = length / maxImpulseMoveSize * baseImpulse
+        local k = length / maxImpulseMoveSize * baseImpulse * t.res.speed
 
     	-- t:applyLinearImpulse(xI*k, yI*k, t.x, t.y)
     	-- print(xI*k)
@@ -168,7 +171,3 @@ function selectShip( e )
     return true
 end
 
------------------------------------------------------------------------------------------
-function colonizePlanet( e )
-
-end
