@@ -78,6 +78,11 @@ function movePlanets( e )
 					moon.overlay.y = moon.y
 				end
 			end
+
+			-- badges
+			if g.badgeDefence then
+				g.badgeDefence.x, g.badgeDefence.y = g.x + g.r, g.y - g.r
+			end
 		end
 	end
 end

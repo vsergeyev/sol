@@ -4,6 +4,8 @@
 --
 -----------------------------------------------------------------------------------------
 
+require "badges"
+
 -- local planetsDb = {
 -- 	mercury = {
 		
@@ -19,9 +21,11 @@ function addPlanets()
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 600
 	p.alphaR = 0
+	p.fullName = "Mercury"
 	p.name = "mercury"
 	p.nameType = "planet"
 	p.res = {
+		supplies = 50,
 		colonized = false,
 		population = 0,
 		techlevel = 0,
@@ -40,9 +44,11 @@ function addPlanets()
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 1200
 	p.alphaR = 270
+	p.fullName = "Venus"
 	p.name = "venus"
 	p.nameType = "planet"
 	p.res = {
+		supplies = 100,
 		colonized = false,
 		population = 0,
 		techlevel = 0,
@@ -61,6 +67,7 @@ function addPlanets()
 	earth.x0, earth.y0 = 100, screenH - 100 -- 0, screenH
 	earth.orbit = 2000
 	earth.alphaR = 90
+	earth.fullName = "Earth"
 	earth.name = "earth"
 	earth.nameType = "planet"
 	earth.res = {
@@ -72,7 +79,7 @@ function addPlanets()
 	}
 	group:insert(earth)
 	earth:addEventListener('touch', selectPlanet)
-
+	addDefenceBadge(earth)
 
 	-- Moon
 	local moon = display.newImageRect("i/moon.png", 30, 30)
@@ -82,9 +89,11 @@ function addPlanets()
 	moon.x0, moon.y0 = earth.x, earth.y
 	moon.orbit = 200
 	moon.alphaR = 90
+	moon.fullName = "Moon"
 	moon.name = "moon"
 	moon.nameType = "moon" -- "planet"
 	moon.res = {
+		supplies = 0,
 		colonized = false,
 		population = 0,
 		techlevel = 0,
@@ -105,9 +114,11 @@ function addPlanets()
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 3000
 	p.alphaR = 120
+	p.fullName = "Mars"
 	p.name = "mars"
 	p.nameType = "planet"
 	p.res = {
+		supplies = 40,
 		colonized = false,
 		population = 0,
 		techlevel = 0,
@@ -118,16 +129,18 @@ function addPlanets()
 	p:addEventListener('touch', selectPlanet)
 
 	-- Jupiter
-	local p = display.newImageRect("i/jupiter.png", 150, 150)
+	local p = display.newImageRect("i/jupiter.png", 200, 200)
 	p.x, p.y = screenW/1.5, screenH/1.5
 	p.r = 75
 	p.speed = 0.1
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 5000
 	p.alphaR = 200
+	p.fullName = "Jupiter"
 	p.name = "jupiter"
 	p.nameType = "planet"
 	p.res = {
+		supplies = 300,
 		colonized = false,
 		population = 0,
 		techlevel = 0,

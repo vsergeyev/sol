@@ -44,6 +44,7 @@ require "planets"
 require "create_scene"
 require "hud"
 require "minimap_ui"
+require "economy"
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -95,9 +96,14 @@ function scene:createScene( event )
 	timer.performWithDelay(6000, hightlightSun, 0 )
 	timer.performWithDelay(200, refreshMinimap, 1 )
 	timer.performWithDelay(5000, refreshMinimap, 0 )
+	timer.performWithDelay(20000, calcIncome, 0 )
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )
+
+	-- Position camera on Earth
+	group.x = -1350
+	group.y = 300
 end
 
 -- Called immediately after scene has moved onscreen:

@@ -5,6 +5,8 @@
 -----------------------------------------------------------------------------------------
 
 require "info"
+require "badges"
+require "notifications"
 
 -----------------------------------------------------------------------------------------
 function buildTech(e)
@@ -15,10 +17,14 @@ function buildTech(e)
 		if s then
 			if t.tech == "tech" then
 				s.res.techlevel = s.res.techlevel + 1
+				showBaloon(s.fullName.."\nTech level improved")
 			elseif t.tech == "energy" then
 				s.res.generators = s.res.generators + 1
-			elseif t.tech == "defence" then
+				showBaloon(s.fullName.."\nNuclear plant added")
+			elseif t.tech == "defence" and s.res.defence < 10 then
 				s.res.defence = s.res.defence + 1
+				addDefenceBadge(s)
+				showBaloon(s.fullName.."\nDefence improved")
 			end
 			
 			showInfo(s)

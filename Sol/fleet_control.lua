@@ -4,6 +4,8 @@
 --
 -----------------------------------------------------------------------------------------
 
+require "notifications"
+
 local baseImpulse = 80
 local maxImpulseMoveSize = 80
 local rand = math.random
@@ -15,6 +17,7 @@ function buildShip(e)
 	local ship = display.newImageRect("ships/"..e.target.ship..".png", 100, 100)
 	ship.x, ship.y = selectedObject.x, selectedObject.y
 	ship.r = 75
+	ship.fullName = e.target.fullName
 	ship.name = e.target.ship
 	ship.res = e.target.res
 	ship.nameType = "ship"
@@ -26,6 +29,8 @@ function buildShip(e)
 	ship:addEventListener('touch', selectShip)
 	ship:addEventListener('collision', collisionShip)
 	-- table.insert(ships, ship)
+
+	showBaloon("Ship ready: \n"..ship.fullName)
 end
 
 -----------------------------------------------------------------------------------------
@@ -33,11 +38,13 @@ function onCompleteColonization(e)
 	if "clicked" == e.action then
 		local i = e.index
         if 1 == i then
-            -- Do nothing; dialog will simply dismiss
+            planetToColonize = nil
+			colonizationShip = nil
         elseif 2 == i then
         	if planetToColonize then
             	planetToColonize.res.colonized = true
             	planetToColonize.res.population = 1000
+            	showBaloon(planetToColonize.fullName.."\nHuman colony established")
             	planetToColonize = nil
             	colonizationShip:removeSelf()
             end
@@ -65,7 +72,7 @@ function collisionShip(e)
                                         { "Not now", "Create colony" }, onCompleteColonization )
 		elseif t.nameType == "ship" then
 			local x, y = t:getLinearVelocity()
-			t:setLinearVelocity(x/2, y/2)
+			t:setLinearVelocity(x/5, y/5)
 		end
 	end
 end

@@ -13,6 +13,7 @@ function addBuildButtons(g)
 	local b = display.newImageRect("ui/build/explorer.png", 70, 70)
 	b:setReferencePoint(display.TopLeftReferencePoint)
 	b.x, b.y = 0, 0
+	b.fullName = "Colonization ship"
 	b.ship = "explorer"
 	b.res = {
 		hp = 50,
@@ -27,6 +28,7 @@ function addBuildButtons(g)
 	local b = display.newImageRect("ui/build/fighters.png", 70, 70)
 	b:setReferencePoint(display.TopLeftReferencePoint)
 	b.x, b.y = 80, 0
+	b.fullName = "Fighters squadron"
 	b.ship = "fighters"
 	b.res = {
 		hp = 200,
@@ -41,6 +43,7 @@ function addBuildButtons(g)
 	local b = display.newImageRect("ui/build/cruiser.png", 70, 70)
 	b:setReferencePoint(display.TopLeftReferencePoint)
 	b.x, b.y = 160, 0
+	b.fullName = "Battlecruiser"
 	b.ship = "cruiser"
 	b.res = {
 		hp = 500,

@@ -22,10 +22,14 @@ Chemically, about three quarters of the Sun's mass consists of hydrogen, while t
 
 function showInfo( item )
 	-- groupHud.alpha = 0.5
-	groupHud.money.text = "$"..gold.." E"..energy
+	groupHud.money.text = "C"..gold.." E"..energy
 
 	if item then
-		groupHud.title.text = item.name:sub(1,1):upper()..item.name:sub(2)	
+		if item.fullName then
+			groupHud.title.text = item.fullName
+		else
+			groupHud.title.text = item.name:sub(1,1):upper()..item.name:sub(2)	
+		end
 		groupHud.text.text = ""
 
 		-- print(item.nameType)
@@ -37,7 +41,7 @@ function showInfo( item )
 				groupHud.build.alpha = 1
 				groupHud.text.text = "Population: "..item.res.population.."\nTech. level: "..item.res.techlevel.."\nEnergy: "..item.res.generators.."\nDefence: "..item.res.defence
 			else
-				groupHud.text.text = "NOT COLONIZED"
+				groupHud.text.text = "Bonus resources: "..item.res.supplies.."\n\nNOT COLONIZED"
 			end
 			groupHud.text.text = groupHud.text.text .. "\n\n" .. infoPedia[item.name]
 		elseif item.nameType == "ship" then
