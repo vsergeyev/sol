@@ -35,6 +35,7 @@ ships = {}
 
 gold = 400
 energy = 50
+stardate = 48315.6
 
 planetGravitationFieldRadius = 200
 planetGraviationDamping = 1
@@ -97,6 +98,7 @@ function scene:createScene( event )
 	timer.performWithDelay(200, refreshMinimap, 1 )
 	timer.performWithDelay(5000, refreshMinimap, 0 )
 	timer.performWithDelay(20000, calcIncome, 0 )
+	timer.performWithDelay(10000, stardateGo, 0 )
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )
@@ -111,6 +113,8 @@ function scene:enterScene( event )
 	local group = self.view
 	
 	physics.start()
+
+	showInfo(selectedObject)
 end
 
 -- Called when scene is about to move offscreen:

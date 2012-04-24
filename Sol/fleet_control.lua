@@ -43,6 +43,7 @@ function onCompleteColonization(e)
         elseif 2 == i then
         	if planetToColonize then
             	planetToColonize.res.colonized = true
+            	planetToColonize.res.at = stardate
             	planetToColonize.res.population = 1000
             	showBaloon(planetToColonize.fullName.."\nHuman colony established")
             	planetToColonize = nil
@@ -68,7 +69,7 @@ function collisionShip(e)
 			t:setLinearVelocity(0, 0)
 			planetToColonize = planet
 			colonizationShip = t
-			local alert = native.showAlert( "Colonize "..planet.name, "Do you want to colonize this planet?", 
+			local alert = native.showAlert( planet.fullName, "Do you want to colonize this planet?", 
                                         { "Not now", "Create colony" }, onCompleteColonization )
 		elseif t.nameType == "ship" then
 			local x, y = t:getLinearVelocity()

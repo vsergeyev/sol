@@ -75,7 +75,8 @@ function addPlanets()
 		population = 7 * 1000000000,
 		techlevel = 1,
 		defence = 1,
-		generators = 1
+		generators = 1,
+		at = stardate
 	}
 	group:insert(earth)
 	earth:addEventListener('touch', selectPlanet)

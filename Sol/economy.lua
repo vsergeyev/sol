@@ -19,6 +19,19 @@ function calcIncome()
 		if g.nameType == "planet" then
 			c = c + math.ceil(g.res.population / 100000000)
 			e = e + g.res.generators
+
+			-- population grows
+			local p = g.res.population
+			if p > 10000000000 then
+				p = p
+			elseif p > 1000000000 then
+				p = p + math.random(0, 1000000)
+			elseif p > 1000000 then
+				p = p + math.random(0, 10000)
+			else
+				p = p + math.random(0, p)
+			end
+			g.res.population = p
 		end
 	end
 
@@ -28,4 +41,9 @@ function calcIncome()
 	showInfo(selectedObject)
 
 	showBaloon("Income: \n+"..c.."Megacredits \n+"..e.."Energy")
+end
+
+function stardateGo()
+	stardate = stardate + 100.2
+	showInfo(selectedObject)
 end

@@ -22,7 +22,7 @@ Chemically, about three quarters of the Sun's mass consists of hydrogen, while t
 
 function showInfo( item )
 	-- groupHud.alpha = 0.5
-	groupHud.money.text = "C"..gold.." E"..energy
+	groupHud.money.text = gold.."C "..energy.."E | Date: "..stardate
 
 	if item then
 		if item.fullName then
@@ -38,8 +38,15 @@ function showInfo( item )
 			
 			-- Planet info
 			if item.res.colonized then
+				local p = item.res.population
+				if p > 1000000000 then
+					p = math.ceil(p / 1000000000).." Blns"
+				elseif p > 1000000 then
+					p = math.ceil(p / 1000000).." Mlns"
+				end
+
 				groupHud.build.alpha = 1
-				groupHud.text.text = "Population: "..item.res.population.."\nTech. level: "..item.res.techlevel.."\nEnergy: "..item.res.generators.."\nDefence: "..item.res.defence
+				groupHud.text.text = "Colonized in: "..item.res.at.."\nPopulation: "..p.."\nTech. level: "..item.res.techlevel.."\nEnergy: "..item.res.generators.."\nDefence: "..item.res.defence
 			else
 				groupHud.text.text = "Bonus resources: "..item.res.supplies.."\n\nNOT COLONIZED"
 			end

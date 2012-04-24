@@ -19,9 +19,8 @@ function addHud()
 	local infoText = display.newText("", 10, 40, 280, 200, native.systemFont, 12)
 
 	-- Resources
-	local infoMoney = display.newText("", screenW-100, 10, 180, 20, native.systemFont, 16)
+	local infoMoney = display.newText("", screenW-190, 10, 220, 20, native.systemFont, 12)
 	infoMoney:setTextColor(200, 200, 80)
-	infoMoney.text = "C"..gold.." E"..energy
 
 	groupHud:insert(infoPanel)
 	groupHud:insert(infoTitle)
