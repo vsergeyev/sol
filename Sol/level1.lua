@@ -37,7 +37,7 @@ gold = 400
 energy = 50
 
 planetGravitationFieldRadius = 200
-planetGraviationDamping = 4
+planetGraviationDamping = 0.1
 
 require "events"
 require "planets"

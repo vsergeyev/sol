@@ -18,7 +18,7 @@ function addPlanets()
 	p.speed = 2
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 600
-	p.alphaR = 90 --0
+	p.alphaR = 0
 	p.name = "mercury"
 	p.nameType = "planet"
 	p.res = {
@@ -39,7 +39,7 @@ function addPlanets()
 	p.speed = 1.5
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 1200
-	p.alphaR = 90 --270
+	p.alphaR = 270
 	p.name = "venus"
 	p.nameType = "planet"
 	p.res = {
@@ -104,7 +104,7 @@ function addPlanets()
 	p.speed = 0.2
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 3000
-	p.alphaR = 90 --120
+	p.alphaR = 120
 	p.name = "mars"
 	p.nameType = "planet"
 	p.res = {
@@ -124,7 +124,7 @@ function addPlanets()
 	p.speed = 0.1
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 5000
-	p.alphaR = 90 --200
+	p.alphaR = 200
 	p.name = "jupiter"
 	p.nameType = "planet"
 	p.res = {
@@ -145,7 +145,7 @@ function addPlanets()
 			gr.name = "planet_field"
 			gr.alpha = 0.1
 			group:insert(gr)
-			physics.addBody(gr, {radius=planetGravitationFieldRadius})
+			physics.addBody(gr, {friction=planetGraviationDamping, radius=planetGravitationFieldRadius})
 			gr.isSensor = true
 			gr.planet = g
 			g.field = gr

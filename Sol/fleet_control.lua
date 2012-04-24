@@ -4,10 +4,10 @@
 --
 -----------------------------------------------------------------------------------------
 
-local baseImpulse = 0.3
-local maxImpulseMoveSize = 0.3
+local baseImpulse = 50
+local maxImpulseMoveSize = 50
 local rand = math.random
-
+local planetToColonize, colonizationShip = nil, nil
 
 -----------------------------------------------------------------------------------------
 function buildShip(e)
@@ -16,15 +16,33 @@ function buildShip(e)
 	ship.x, ship.y = selectedObject.x, selectedObject.y
 	ship.r = 75
 	ship.name = e.target.ship
+	ship.res = e.target.res
 	ship.nameType = "ship"
 	ship.enemy = false
 	-- ship.imageRotation = 15 -- scout image now a little rotated
-	physics.addBody(ship, {radius=20})
-	-- ship.linearDamping = 0.1
+	physics.addBody(ship, {radius=20, friction=0.1})
+	-- ship.linearDamping = 1
 	group:insert(ship)
 	ship:addEventListener('touch', selectShip)
 	ship:addEventListener('collision', collisionShip)
 	-- table.insert(ships, ship)
+end
+
+-----------------------------------------------------------------------------------------
+function onCompleteColonization(e)
+	if "clicked" == e.action then
+		local i = e.index
+        if 1 == i then
+            -- Do nothing; dialog will simply dismiss
+        elseif 2 == i then
+        	if planetToColonize then
+            	planetToColonize.res.colonized = true
+            	planetToColonize.res.population = 1000
+            	planetToColonize = nil
+            	colonizationShip:removeSelf()
+            end
+        end
+    end
 end
 
 -----------------------------------------------------------------------------------------
@@ -34,12 +52,17 @@ function collisionShip(e)
 
 	if o.name == "planet_field" then
 		-- stop ship
-		t.linearDamping = planetGraviationDamping
+		-- t.linearDamping = planetGraviationDamping
+		-- t:setLinearVelocity(xI*k, yI*k)
 
 		-- if this is exploration ship and planet not colonized
 		local planet = o.planet
 		if t.name == "explorer" and not planet.res.colonized then
-			--
+			t:setLinearVelocity(0, 0)
+			planetToColonize = planet
+			colonizationShip = t
+			local alert = native.showAlert( "Colonize "..planet.name, "Do you want to colonize this planet?", 
+                                        { "Not now", "Create colony" }, onCompleteColonization )
 		end
 	end
 end
@@ -58,7 +81,10 @@ function impulseShip(t, dx, dy)
         end
         local k = length / maxImpulseMoveSize * baseImpulse
 
-    	t:applyLinearImpulse(xI*k, yI*k, t.x, t.y)
+    	-- t:applyLinearImpulse(xI*k, yI*k, t.x, t.y)
+    	-- print(xI*k)
+    	-- print(yI*k)
+    	t:setLinearVelocity(xI*k, yI*k)
     end
 end
 
@@ -140,4 +166,9 @@ function selectShip( e )
     end
 
     return true
+end
+
+-----------------------------------------------------------------------------------------
+function colonizePlanet( e )
+
 end

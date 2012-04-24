@@ -53,7 +53,7 @@ function movePlanets( e )
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
 		if g.nameType == "planet" then
-			g.alphaR = g.alphaR + 0.001 * g.speed
+			g.alphaR = g.alphaR + 0.0002 * g.speed
 			g.x = g.x0  + g.orbit * math.sin(g.alphaR)
 			g.y = g.y0  + g.orbit/1.5 * math.cos(g.alphaR)
 			-- move gravitation fields with their planets

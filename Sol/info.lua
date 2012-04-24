@@ -17,6 +17,7 @@ Chemically, about three quarters of the Sun's mass consists of hydrogen, while t
 	mars = [[Mars]],
 	scout = [[Light exploration ship]],
 	cruiser = [[Heavy gunship]],
+	explorer = [[Exploration vessel used to colonize planets]],
 }
 
 function showInfo( item )
@@ -24,19 +25,29 @@ function showInfo( item )
 	groupHud.money.text = "$"..gold.." E"..energy
 
 	if item then
-		groupHud.title.text = item.name:sub(1,1):upper()..item.name:sub(2)
-		groupHud.text.text = infoPedia[item.name]	
+		groupHud.title.text = item.name:sub(1,1):upper()..item.name:sub(2)	
+		groupHud.text.text = ""
 
 		-- print(item.nameType)
 		if item.nameType == "planet" then
-			groupHud.build.alpha = 1
 			groupHud.fleet.alpha = 0
+			groupHud.fleet.colonize.alpha = 0
+			-- Planet info
+			if item.res.colonized then
+				groupHud.build.alpha = 1
+				groupHud.text.text = "Population: "..item.res.population.."\nTech. level: "..item.res.techlevel.."\nEnergy: "..item.res.generators.."\nDefence: "..item.res.defence
+			else
+				groupHud.text.text = "NOT COLONIZED"
+			end
 		elseif item.nameType == "ship" then
 			groupHud.build.alpha = 0
 			groupHud.fleet.alpha = 1
+			-- Ship details
+			groupHud.text.text = "HP: "..item.res.hp.."\nAttack: "..item.res.attack.."\nWarp speed: "..item.res.speed
 		else
 			groupHud.build.alpha = 0
 			groupHud.fleet.alpha = 0
+			groupHud.fleet.colonize.alpha = 0
 		end
 	else
 		groupHud.title.text = "Solar system"
@@ -44,4 +55,7 @@ function showInfo( item )
 		groupHud.build.alpha = 0
 		groupHud.fleet.alpha = 0
 	end
+
+	groupHud.text.text = groupHud.text.text .. "\n\n" .. infoPedia[item.name]
+	
 end
