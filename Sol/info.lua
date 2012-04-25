@@ -15,7 +15,7 @@ Chemically, about three quarters of the Sun's mass consists of hydrogen, while t
 	earth = [[The Earth is the third planet from the Sun, and the densest and fifth-largest of the eight planets in the Solar System. It is also the largest of the Solar System's four terrestrial planets. It is sometimes referred to as the world, the Blue Planet, or by its Latin name, Terra.]],
 	venus = [[Venus]],
 	mars = [[Mars]],
-	scout = [[Light exploration ship]],
+	fighters = [[Fast fighters]],
 	cruiser = [[Heavy gunship]],
 	explorer = [[Exploration vessel used to colonize planets]],
 }

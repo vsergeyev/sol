@@ -71,7 +71,7 @@ end
 
 -----------------------------------------------------------------------------------------
 function hudFleetControl( e )
-	-- Target and move all ships on-screen like selected
+	-- Target and move selected ship
 	-- to the planet
 	 
 	local planet = nil
@@ -86,6 +86,7 @@ function hudFleetControl( e )
 	
 	local g = selectedObject
 	g.targetPlanet = planet
+	g.targetReached = false
 	g.rotation = math.deg(math.atan2((planet.y - g.y), (planet.x - g.x)))
 	impulseShip(g, planet.x-g.x, planet.y-g.y)
 	

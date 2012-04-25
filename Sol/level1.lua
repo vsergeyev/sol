@@ -100,7 +100,7 @@ function scene:createScene( event )
 	timer.performWithDelay(5000, refreshMinimap, 0 )
 	timer.performWithDelay(20000, calcIncome, 0 )
 	timer.performWithDelay(10000, stardateGo, 0 )
-	timer.performWithDelay(2000, targetShips, 0 )
+	timer.performWithDelay(5000, targetShips, 0 )
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )

@@ -10,20 +10,24 @@ local baseImpulse = 80
 local maxImpulseMoveSize = 80
 local rand = math.random
 local planetToColonize, colonizationShip = nil, nil
+local shipsCollisionFilter = { groupIndex = -1 }
 
 -----------------------------------------------------------------------------------------
 function buildShip(e)
 	-- Builds ship on the planet
 	local ship = display.newImageRect("ships/"..e.target.ship..".png", 100, 100)
 	ship.x, ship.y = selectedObject.x, selectedObject.y
+	ship.targetPlanet = selectedObject
+	ship.targetReached = true
 	ship.r = 75
+	ship.orbit = 3 + math.random(3)
 	ship.fullName = e.target.fullName
 	ship.name = e.target.ship
 	ship.res = e.target.res
 	ship.nameType = "ship"
 	ship.enemy = false
 	-- ship.imageRotation = 15 -- scout image now a little rotated
-	physics.addBody(ship, {radius=20, friction=0})
+	physics.addBody(ship, {radius=10, friction=0, filter=shipsCollisionFilter})
 	-- ship.linearDamping = 1
 	group:insert(ship)
 	ship:addEventListener('touch', selectShip)
@@ -71,9 +75,11 @@ function collisionShip(e)
 			colonizationShip = t
 			local alert = native.showAlert( planet.fullName, "Do you want to colonize this planet?", 
                                         { "Not now", "Create colony" }, onCompleteColonization )
-		elseif t.nameType == "ship" then
-			-- local x, y = t:getLinearVelocity()
-			-- t:setLinearVelocity(x/5, y/5)
+		elseif t.nameType == "ship" and planet == t.targetPlanet and not t.targetReached then
+			showBaloon(t.fullName.."\n"..planet.fullName.." reached")
+			t.targetReached = true
+			local x, y = t:getLinearVelocity()
+			t:setLinearVelocity(0, 0)
 		end
 	end
 end
@@ -122,6 +128,8 @@ function selectShip( e )
 		-- t.overlay = selectOverlay
 
 		selectedObject = t
+		t.targetPlanet = nil
+		t.targetReached = false
 		showInfo(t)
 		--
 
@@ -179,3 +187,14 @@ function selectShip( e )
     return true
 end
 
+-----------------------------------------------------------------------------------------
+function targetShips(e)
+	for i = 1, group.numChildren, 1 do
+		local g = group[i]
+		if g.nameType == "ship" and g.targetPlanet and not g.targetReached then
+			local planet = g.targetPlanet
+			g.rotation = math.deg(math.atan2((planet.y - g.y), (planet.x - g.x)))
+			impulseShip(g, planet.x-g.x, planet.y-g.y)
+		end
+	end
+end
