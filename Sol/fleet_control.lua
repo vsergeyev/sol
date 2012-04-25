@@ -71,6 +71,7 @@ function collisionShip(e)
 		local planet = o.planet
 		if t.name == "explorer" and not planet.res.colonized then
 			t:setLinearVelocity(0, 0)
+			t.targetPlanet = nil
 			planetToColonize = planet
 			colonizationShip = t
 			local alert = native.showAlert( planet.fullName, "Do you want to colonize this planet?", 
