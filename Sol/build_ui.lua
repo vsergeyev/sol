@@ -5,87 +5,32 @@
 -----------------------------------------------------------------------------------------
 
 require "build_control"
-
+require "balance"
 
 -----------------------------------------------------------------------------------------
 function addBuildButtons(g)
 	-- Build ships buttons
-	local b = display.newImageRect("ui/build/explorer.png", 70, 70)
-	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 0, 0
-	b.fullName = "Colonization ship"
-	b.ship = "explorer"
-	b.res = {
-		hp = 50,
-		speed = 1,
-		attack = 0,
-		cost = 100,
-		e = 10
-	}
-	b:addEventListener('touch', hudBuildShip)
-	g:insert(b)
-
-	local b = display.newImageRect("ui/build/fighters.png", 70, 70)
-	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 80, 0
-	b.fullName = "Fighters squadron"
-	b.ship = "fighters"
-	b.res = {
-		hp = 200,
-		speed = 2,
-		attack = 10,
-		cost = 200,
-		e = 20
-	}
-	b:addEventListener('touch', hudBuildShip)
-	g:insert(b)
-	
-	local b = display.newImageRect("ui/build/cruiser.png", 70, 70)
-	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 160, 0
-	b.fullName = "Battlecruiser"
-	b.ship = "cruiser"
-	b.res = {
-		hp = 500,
-		speed = 1,
-		attack = 20,
-		cost = 500,
-		e = 50
-	}
-	b:addEventListener('touch', hudBuildShip)
-	g:insert(b)
+	for i = 1, #shipsData, 1 do
+		local s = shipsData[i]
+		local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
+		b:setReferencePoint(display.TopLeftReferencePoint)
+		b.x, b.y = (i-1)*80, 0
+		b.fullName = s.fullName
+		b.ship = s.ship
+		b.res = s.res
+		b:addEventListener('touch', hudBuildShip)
+		g:insert(b)
+	end
 	
 	-- Tech buttons
-	local b = display.newImageRect("ui/build/tech.png", 70, 70)
-	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 0, 80
-	b.tech = "tech"
-	b.res = {
-		cost = 100,
-		e = 10
-	}
-	b:addEventListener('touch', buildTech)
-	g:insert(b)
-	
-	local b = display.newImageRect("ui/build/energy.png", 70, 70)
-	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 80, 80
-	b.tech = "energy"
-	b.res = {
-		cost = 100,
-		e = 10
-	}
-	b:addEventListener('touch', buildTech)
-	g:insert(b)
-	
-	local b = display.newImageRect("ui/build/defence.png", 70, 70)
-	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 160, 80
-	b.tech = "defence"
-	b.res = {
-		cost = 100,
-		e = 10
-	}
-	b:addEventListener('touch', buildTech)
-	g:insert(b)
+	for i = 1, #buildData, 1 do
+		local s = buildData[i]
+		local b = display.newImageRect("ui/build/"..s.tech..".png", 70, 70)
+		b:setReferencePoint(display.TopLeftReferencePoint)
+		b.x, b.y = (i-1)*80, 80
+		b.tech = s.tech
+		b.res = s.res
+		b:addEventListener('touch', buildTech)
+		g:insert(b)
+	end
 end

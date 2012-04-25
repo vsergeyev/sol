@@ -85,6 +85,7 @@ function hudFleetControl( e )
 	end
 	
 	local g = selectedObject
+	g.targetPlanet = planet
 	g.rotation = math.deg(math.atan2((planet.y - g.y), (planet.x - g.x)))
 	impulseShip(g, planet.x-g.x, planet.y-g.y)
 	

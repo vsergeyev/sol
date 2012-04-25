@@ -155,11 +155,12 @@ function addPlanets()
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
 		if g.nameType == "planet" or g.name == "sun" then
-			local gr = display.newCircle(g.x, g.y, planetGravitationFieldRadius)
+			local gr = display.newCircle(g.x, g.y, g.r*planetGravitationFieldRadius)
 			gr.name = "planet_field"
 			gr.alpha = 0.1
 			group:insert(gr)
-			physics.addBody(gr, {friction=planetGraviationDamping, radius=planetGravitationFieldRadius})
+			-- physics.addBody(gr, {friction=planetGraviationDamping, radius=planetGravitationFieldRadius})
+			physics.addBody(gr, {radius=g.r*planetGravitationFieldRadius})
 			gr.isSensor = true
 			gr.planet = g
 			g.field = gr

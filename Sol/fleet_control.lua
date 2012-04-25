@@ -72,8 +72,8 @@ function collisionShip(e)
 			local alert = native.showAlert( planet.fullName, "Do you want to colonize this planet?", 
                                         { "Not now", "Create colony" }, onCompleteColonization )
 		elseif t.nameType == "ship" then
-			local x, y = t:getLinearVelocity()
-			t:setLinearVelocity(x/5, y/5)
+			-- local x, y = t:getLinearVelocity()
+			-- t:setLinearVelocity(x/5, y/5)
 		end
 	end
 end

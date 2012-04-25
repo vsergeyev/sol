@@ -37,7 +37,7 @@ gold = 400
 energy = 50
 stardate = 48315.6
 
-planetGravitationFieldRadius = 200
+planetGravitationFieldRadius = 2
 planetGraviationDamping = 1
 
 require "events"
@@ -46,6 +46,7 @@ require "create_scene"
 require "hud"
 require "minimap_ui"
 require "economy"
+require "fleet_control"
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -99,6 +100,7 @@ function scene:createScene( event )
 	timer.performWithDelay(5000, refreshMinimap, 0 )
 	timer.performWithDelay(20000, calcIncome, 0 )
 	timer.performWithDelay(10000, stardateGo, 0 )
+	timer.performWithDelay(2000, targetShips, 0 )
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )
