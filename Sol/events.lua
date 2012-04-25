@@ -8,6 +8,8 @@ require "info"
 require "hud"
 
 
+local oneTouchBegan = false
+
 -----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------
 
@@ -126,6 +128,8 @@ end
 -----------------------------------------------------------------------------------------
 function moveBg( e )
 	if e.phase == "began" then
+		oneTouchBegan = true
+
 		if selectOverlay then
 			selectOverlay:removeSelf()
 			selectOverlay = nil
@@ -136,10 +140,13 @@ function moveBg( e )
 		--groupHud.alpha = 0
 		groupX, groupY = group.x, group.y
 	elseif e.phase == "moved" then
-		group.x = groupX + (e.x - e.xStart)
-		group.y = groupY + (e.y - e.yStart)
+		if oneTouchBegan then
+			group.x = groupX + (e.x - e.xStart)
+			group.y = groupY + (e.y - e.yStart)
+		end
 	elseif e.phase == "ended" or e.phase == "cancelled" then
 		groupX, groupY = 0, 0
+		oneTouchBegan = false
 	end
 
 	return true

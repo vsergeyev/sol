@@ -33,6 +33,14 @@ function addHud()
 	groupHud.text = infoText
 	groupHud.money = infoMoney
 
+	-- Planets fast buttons
+	local planets = display.newGroup()
+	groupHud:insert(planets)
+	addPlanetsButtons(planets)
+	planets.x, planets.y = 310, 10
+	groupHud.planets = planets
+	planets.alpha = 0
+
 	-- Build Buttons
 	local build = display.newGroup()
 	groupHud:insert(build)

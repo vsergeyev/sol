@@ -75,3 +75,15 @@ function refreshMinimap(e)
 		end
 	end
 end
+
+function gotoPlanet(e)
+	local planet_name = e.target.fleetTarget
+
+	for i = 1, group.numChildren, 1 do
+		if group[i].name == planet_name then
+			planet = group[i]
+			break
+		end
+	end
+	group.x, group.y = -planet.x + screenW/2, -planet.y + screenH/2
+end

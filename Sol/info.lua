@@ -29,13 +29,14 @@ function showInfo( item )
 		if item.fullName then
 			groupHud.title.text = item.fullName
 		else
-			groupHud.title.text = item.name:sub(1,1):upper()..item.name:sub(2)	
+			groupHud.title.text = item.name:sub(1,1):upper()..item.name:sub(2)
 		end
 		groupHud.text.text = ""
 
 		-- print(item.nameType)
 		if item.nameType == "planet" then
 			groupHud.fleet.alpha = 0
+			groupHud.planets.alpha = 0
 			
 			-- Planet info
 			if item.res.colonized then
@@ -54,6 +55,7 @@ function showInfo( item )
 			groupHud.text.text = groupHud.text.text .. "\n\n" .. infoPedia[item.name]
 		elseif item.nameType == "ship" then
 			groupHud.build.alpha = 0
+			groupHud.planets.alpha = 0
 			groupHud.fleet.alpha = 1
 			
 			-- Ship details
@@ -62,6 +64,7 @@ function showInfo( item )
 		else
 			groupHud.build.alpha = 0
 			groupHud.fleet.alpha = 0
+			groupHud.planets.alpha = 0
 			groupHud.text.text = infoPedia[item.name]
 		end
 	else
@@ -69,5 +72,6 @@ function showInfo( item )
 		groupHud.text.text = [[The Solar System consists of the Sun and the astronomical objects gravitationally bound in orbit around it, all of which formed from the collapse of a giant molecular cloud approximately 4.6 billion years ago.]]
 		groupHud.build.alpha = 0
 		groupHud.fleet.alpha = 0
+		groupHud.planets.alpha = 1
 	end
 end

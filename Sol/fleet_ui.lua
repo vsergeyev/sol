@@ -12,44 +12,17 @@ function addFleetButtons(g)
 	local b = display.newText("Ship control:", 0, 0, native.systemFont, 16)
 	g:insert(b)
 	
-	local b = display.newText("Mercury", 0, 30, native.systemFont, 16)
-	b.fleetTarget = "mercury"
-	b:addEventListener('touch', hudFleetControl)
-	g:insert(b)
+	for i = 1, #planetsData, 1 do
+		local name = planetsData[i]:sub(1,1):upper()..planetsData[i]:sub(2)
 
-	local b = display.newText("Venus", 0, 60, native.systemFont, 16)
-	b.fleetTarget = "venus"
-	b:addEventListener('touch', hudFleetControl)
-	g:insert(b)
+		local x, y = 0, 40*i - 10
+		if i > 4 then
+			x, y = 200, 40*(i-4) - 10
+		end
 
-	local b = display.newText("Earth", 0, 90, native.systemFont, 16)
-	b.fleetTarget = "earth"
-	b:addEventListener('touch', hudFleetControl)
-	g:insert(b)
-
-	local b = display.newText("Mars", 0, 120, native.systemFont, 16)
-	b.fleetTarget = "mars"
-	b:addEventListener('touch', hudFleetControl)
-	g:insert(b)
-
-	local b = display.newText("Jupiter", 0, 150, native.systemFont, 16)
-	b.fleetTarget = "jupiter"
-	b:addEventListener('touch', hudFleetControl)
-	g:insert(b)
-
-	-- Second row
-	local b = display.newText("Saturn", 200, 0, native.systemFont, 16)
-	b.fleetTarget = "saturn"
-	b:addEventListener('touch', hudFleetControl)
-	g:insert(b)
-
-	local b = display.newText("Uranus", 200, 30, native.systemFont, 16)
-	b.fleetTarget = "uranus"
-	b:addEventListener('touch', hudFleetControl)
-	g:insert(b)
-
-	local b = display.newText("Neptune", 200, 60, native.systemFont, 16)
-	b.fleetTarget = "neptune"
-	b:addEventListener('touch', hudFleetControl)
-	g:insert(b)
+		local b = display.newText(name, x, y, native.systemFont, 16)
+		b.fleetTarget = planetsData[i]
+		b:addEventListener('touch', hudFleetControl)
+		g:insert(b)
+	end
 end
