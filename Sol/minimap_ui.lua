@@ -7,7 +7,7 @@
 require "info"
 
 local mapW, mapH = 180, 135
-local systemSizeX, systemSizeY = 10, 10 -- Sol system size in screenW/H
+local systemSizeX, systemSizeY = 20, 20 -- Sol system size in screenW/H
 local zx, zy = mapW/(screenW*systemSizeX), mapH/(screenH*systemSizeY) -- zoom of map
 local halfW, halfH = mapW/2, mapH/2
 
@@ -18,8 +18,8 @@ function gotoMinimap( e )
 		showInfo(nil)
 	end
 	-- center Solar system to the point on minimap
-	group.x = (halfW - e.x + 5 + minimap.x) * 50
-	group.y = (halfH - e.y + 50 + groupHud.y) * 50
+	group.x = (halfW - e.x + 15 + minimap.x) * 120
+	group.y = (halfH - e.y + 52 + groupHud.y) * 120
 
 	return true
 end
@@ -54,8 +54,8 @@ function refreshMinimap(e)
 
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
-		local x = g.x*zx + 0 + halfW
-		local y = g.y*zy + 25 + halfH
+		local x = g.x*zx + 5 + halfW
+		local y = g.y*zy + 35 + halfH
 		local obj = nil
 
 		if g.name == "sun" then

@@ -129,6 +129,7 @@ function addPlanets()
 	group:insert(p)
 	p:addEventListener('touch', selectPlanet)
 
+
 	-- Jupiter
 	local p = display.newImageRect("i/jupiter.png", 200, 200)
 	p.x, p.y = screenW/1.5, screenH/1.5
@@ -139,6 +140,75 @@ function addPlanets()
 	p.alphaR = 200
 	p.fullName = "Jupiter"
 	p.name = "jupiter"
+	p.nameType = "planet"
+	p.res = {
+		supplies = 300,
+		colonized = false,
+		population = 0,
+		techlevel = 0,
+		defence = 0,
+		generators = 0
+	}
+	group:insert(p)
+	p:addEventListener('touch', selectPlanet)
+
+
+	-- Saturn
+	local p = display.newImageRect("i/saturn.png", 200, 200)
+	p.x, p.y = screenW/1.5, screenH/1.5
+	p.r = 100
+	p.speed = 0.1
+	p.x0, p.y0 = 100, screenH - 100
+	p.orbit = 6000
+	p.alphaR = 100
+	p.fullName = "Saturn"
+	p.name = "saturn"
+	p.nameType = "planet"
+	p.res = {
+		supplies = 100,
+		colonized = false,
+		population = 0,
+		techlevel = 0,
+		defence = 0,
+		generators = 0
+	}
+	group:insert(p)
+	p:addEventListener('touch', selectPlanet)
+
+
+	-- Uranus
+	local p = display.newImageRect("i/uranus.png", 100, 100)
+	p.x, p.y = screenW/1.5, screenH/1.5
+	p.r = 50
+	p.speed = 0.2
+	p.x0, p.y0 = 100, screenH - 100
+	p.orbit = 7000
+	p.alphaR = 0
+	p.fullName = "Uranus"
+	p.name = "uranus"
+	p.nameType = "planet"
+	p.res = {
+		supplies = 1000,
+		colonized = false,
+		population = 0,
+		techlevel = 0,
+		defence = 0,
+		generators = 0
+	}
+	group:insert(p)
+	p:addEventListener('touch', selectPlanet)
+
+
+	-- Neptune
+	local p = display.newImageRect("i/neptune.png", 80, 80)
+	p.x, p.y = screenW/1.5, screenH/1.5
+	p.r = 40
+	p.speed = 0.1
+	p.x0, p.y0 = 100, screenH - 100
+	p.orbit = 7500
+	p.alphaR = 90
+	p.fullName = "Neptune"
+	p.name = "neptune"
 	p.nameType = "planet"
 	p.res = {
 		supplies = 300,
