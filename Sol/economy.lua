@@ -39,10 +39,18 @@ function calcIncome()
 	energy = energy + e
 
 	showInfo(selectedObject)
-
 	showBaloon("Income: \n+"..c.."Megacredits \n+"..e.."Energy")
 end
 
+-----------------------------------------------------------------------------------------
+function tradeIncome()
+	gold = gold + 1
+
+	showInfo(selectedObject)
+	showBaloon("Trade income: \n1 Megacredits")
+end
+
+-----------------------------------------------------------------------------------------
 function stardateGo()
 	stardate = stardate + 100.2
 	showInfo(selectedObject)

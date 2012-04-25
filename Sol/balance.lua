@@ -20,6 +20,17 @@ shipsData = {
 		}
 	},
 	{
+		fullName = "Trade ship",
+		ship = "trade",
+		res = {
+			hp = 80,
+			speed = 1,
+			attack = 0,
+			cost = 80,
+			e = 10
+		}
+	},
+	{
 		fullName = "Fighters squadron",
 		ship = "fighters",
 		res = {

@@ -5,6 +5,7 @@
 -----------------------------------------------------------------------------------------
 
 require "notifications"
+require "economy"
 
 local baseImpulse = 80
 local maxImpulseMoveSize = 80
@@ -17,6 +18,7 @@ function buildShip(e)
 	-- Builds ship on the planet
 	local ship = display.newImageRect("ships/"..e.target.ship..".png", 100, 100)
 	ship.x, ship.y = selectedObject.x, selectedObject.y
+	ship.originPlanet = selectedObject
 	ship.targetPlanet = selectedObject
 	ship.targetReached = true
 	ship.r = 75
@@ -63,10 +65,6 @@ function collisionShip(e)
 	local o = e.other
 
 	if o.name == "planet_field" then
-		-- stop ship
-		-- t.linearDamping = planetGraviationDamping
-		-- t:setLinearVelocity(xI*k, yI*k)
-
 		-- if this is exploration ship and planet not colonized
 		local planet = o.planet
 		if t.name == "explorer" and not planet.res.colonized then
@@ -76,6 +74,12 @@ function collisionShip(e)
 			colonizationShip = t
 			local alert = native.showAlert( planet.fullName, "Do you want to colonize this planet?", 
                                         { "Not now", "Create colony" }, onCompleteColonization )
+		elseif t.name == "trade" and planet.res.colonized and planet == t.targetPlanet and not t.targetReached and t.targetPlanet ~= t.originPlanet then
+			-- this is trader, so +1C and target him back to origin planet
+			tradeIncome()
+			t.targetPlanet = t.originPlanet
+			t.originPlanet = planet
+			t.targetReached = false
 		elseif t.nameType == "ship" and planet == t.targetPlanet and not t.targetReached then
 			showBaloon(t.fullName.."\n"..planet.fullName.." reached")
 			t.targetReached = true
