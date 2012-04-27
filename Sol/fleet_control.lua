@@ -6,9 +6,10 @@
 
 require "notifications"
 require "economy"
+-- require "battle"
 
-local baseImpulse = 80
-local maxImpulseMoveSize = 80
+local baseImpulse = 150
+local maxImpulseMoveSize = 150
 local rand = math.random
 local planetToColonize, colonizationShip = nil, nil
 local shipsCollisionFilter = { groupIndex = -1 }
@@ -29,7 +30,7 @@ function buildShip(e)
 	ship.nameType = "ship"
 	ship.enemy = false
 	-- ship.imageRotation = 15 -- scout image now a little rotated
-	physics.addBody(ship, {radius=10, friction=0, filter=shipsCollisionFilter})
+	physics.addBody(ship, {radius=40, friction=0, filter=shipsCollisionFilter})
 	-- ship.linearDamping = 1
 	group:insert(ship)
 	ship:addEventListener('touch', selectShip)
@@ -60,6 +61,18 @@ function onCompleteColonization(e)
 end
 
 -----------------------------------------------------------------------------------------
+function onCompleteBattle(e)
+	if "clicked" == e.action then
+		local i = e.index
+        if 1 == i then
+            --
+        elseif 2 == i then
+        	--
+        end
+    end
+end
+
+-----------------------------------------------------------------------------------------
 function collisionShip(e)
 	local t = e.target
 	local o = e.other
@@ -85,6 +98,11 @@ function collisionShip(e)
 			t.targetReached = true
 			local x, y = t:getLinearVelocity()
 			t:setLinearVelocity(0, 0)
+		end
+	elseif o.nameType == "ship" then
+		if t.enemy ~= o.enemy then
+			local alert = native.showAlert( "Encountered aliens battleship!", "Start battle or retreat to nearest planet?", 
+                                        { "Retreat", "Fight" }, onCompleteBattle )
 		end
 	end
 end

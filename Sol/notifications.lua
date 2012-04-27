@@ -9,8 +9,8 @@
 function showBaloon(text)
 	-- display popup at right bottom corner
 
-	if group.baloon then
-		group.baloon:removeSelf()
+	if groupNotifications.baloon then
+		groupNotifications.baloon:removeSelf()
 	end
 
 	local baloonGroup = display.newGroup()
@@ -25,9 +25,9 @@ function showBaloon(text)
 	local t = display.newText(text, 10, 10, 180, 75, native.systemFont, 16)
 	baloonGroup:insert(t)
 
-	baloonGroup.x, baloonGroup.y = -group.x + screenW-200, -group.y+screenH-300
-	group.baloon = baloonGroup
-	group:insert(baloonGroup)
+	baloonGroup.x, baloonGroup.y = screenW-200, screenH-300
+	groupNotifications.baloon = baloonGroup
+	groupNotifications:insert(baloonGroup)
 
 	transition.to(baloonGroup,{delay=3000, time=2000, alpha=0})
 end

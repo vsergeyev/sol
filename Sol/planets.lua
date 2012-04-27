@@ -79,6 +79,7 @@ function addPlanets()
 		at = stardate
 	}
 	group:insert(earth)
+	group.earth = earth
 	earth:addEventListener('touch', selectPlanet)
 	addDefenceBadge(earth)
 
@@ -227,7 +228,7 @@ function addPlanets()
 		if g.nameType == "planet" or g.name == "sun" then
 			local gr = display.newCircle(g.x, g.y, g.r*planetGravitationFieldRadius)
 			gr.name = "planet_field"
-			gr.alpha = 0.1
+			gr.alpha = 0.01
 			group:insert(gr)
 			-- physics.addBody(gr, {friction=planetGraviationDamping, radius=planetGravitationFieldRadius})
 			physics.addBody(gr, {radius=g.r*planetGravitationFieldRadius})

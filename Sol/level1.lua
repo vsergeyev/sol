@@ -28,6 +28,7 @@ selectOverlay = nil
 groupSky = nil
 group = nil
 groupHud = nil
+groupNotifications = nil
 minimap = nil
 groupX, groupY = 0, 0
 sun = nil
@@ -47,6 +48,7 @@ require "hud"
 require "minimap_ui"
 require "economy"
 require "fleet_control"
+require "aliens"
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -61,12 +63,23 @@ function scene:createScene( event )
 	groupSky = display.newGroup()
 	group = display.newGroup() -- self.view
 	groupHud = display.newGroup()
+	groupNotifications = display.newGroup()
 
-	local sky = display.newImageRect("i/sky.jpg", 1024, 1024)
+	local sky = display.newImageRect("bg/bg3.png", 1700, 1200)
 	sky:setReferencePoint( display.CenterReferencePoint )
 	sky.x, sky.y = screenW/2, screenH/2
+	sky.alpha = 0.8
 	groupSky:insert(sky)
 	sky:addEventListener('touch', moveBg)
+	
+	local sky = display.newImageRect("bg/bg2.png", 1280, 852)	
+	sky:setReferencePoint( display.CenterReferencePoint )
+	sky.x, sky.y = screenW/2, screenH/2
+	sky.alpha = 0.3
+	groupSky:insert(sky)
+	groupSky.sky = sky
+
+	
 
 	local g = graphics.newGradient(
 	  { 0, 0, 0 },
@@ -89,8 +102,8 @@ function scene:createScene( event )
 	refreshMinimap()
 
 	-- Test planets positions with smaller zoom
-	-- group.xScale = 0.5
-	-- group.yScale = 0.5
+	--group.xScale = 0.3
+	--group.yScale = 0.3
 
 	-- Timers
 	-- timer.performWithDelay(50, rotateSky, 0 )
@@ -101,6 +114,8 @@ function scene:createScene( event )
 	timer.performWithDelay(20000, calcIncome, 0 )
 	timer.performWithDelay(10000, stardateGo, 0 )
 	timer.performWithDelay(5000, targetShips, 0 )
+	
+	timer.performWithDelay(5000, addAlienShip, 0 )
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )
@@ -108,6 +123,8 @@ function scene:createScene( event )
 	-- Position camera on Earth
 	group.x = -1350
 	group.y = 300
+	--group.x =  100
+	--group.y = 200
 end
 
 -- Called immediately after scene has moved onscreen:

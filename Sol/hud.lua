@@ -14,6 +14,8 @@ require "minimap_ui"
 function addHud()
 	local infoPanel = display.newRect(0, 0, screenW, 200)
 	infoPanel:setFillColor( 127 )
+	infoPanel:addEventListener('touch', function() return true
+	end)
 
 	local infoTitle = display.newText("", 10, 10, 180, 20, native.systemFont, 16)
 	local infoText = display.newText("", 10, 40, 280, 200, native.systemFont, 12)

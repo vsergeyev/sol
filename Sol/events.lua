@@ -127,6 +127,8 @@ end
 
 -----------------------------------------------------------------------------------------
 function moveBg( e )
+	local sky = e.target
+
 	if e.phase == "began" then
 		oneTouchBegan = true
 
@@ -139,10 +141,16 @@ function moveBg( e )
 
 		--groupHud.alpha = 0
 		groupX, groupY = group.x, group.y
+		sky.x0, sky.y0 = sky.x, sky.y
 	elseif e.phase == "moved" then
 		if oneTouchBegan then
 			group.x = groupX + (e.x - e.xStart)
 			group.y = groupY + (e.y - e.yStart)
+			
+			groupSky.sky.x = sky.x0 + (e.x - e.xStart) / 30
+			groupSky.sky.y = sky.y0 + (e.y - e.yStart) / 30
+			sky.x = sky.x0 + (e.x - e.xStart) / 100
+			sky.y = sky.y0 + (e.y - e.yStart) / 100
 		end
 	elseif e.phase == "ended" or e.phase == "cancelled" then
 		groupX, groupY = 0, 0
