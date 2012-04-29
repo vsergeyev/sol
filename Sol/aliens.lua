@@ -39,7 +39,7 @@ function addAlienShip()
 		attack = 1,
 	}
 	ship.nameType = "ship"
-	physics.addBody(ship, {radius=100, friction=0, filter=aliensCollisionFilter})
+	physics.addBody(ship, {radius=200, friction=0, filter=aliensCollisionFilter})
 	ship.isSensor = true
 	group:insert(ship)
 	ship:addEventListener('touch', selectShip)

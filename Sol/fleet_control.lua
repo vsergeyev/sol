@@ -286,6 +286,7 @@ function battleShips(e)
 
 					if g.battleTarget.res.hp < 0 then
 						g.battleTarget:removeSelf()
+						g.battleTarget = nil
 						g:setLinearVelocity(0, 0)
 						g.inBattle = false
 					end
