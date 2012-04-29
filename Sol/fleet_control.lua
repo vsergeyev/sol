@@ -284,6 +284,10 @@ function battleShips(e)
 						explosion:removeSelf()
 					end})
 
+					if g.battleTarget == selectedObject then
+						showInfo(selectedObject)
+					end
+
 					if g.battleTarget.res.hp < 0 then
 						g.battleTarget:removeSelf()
 						g.battleTarget = nil
