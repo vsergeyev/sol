@@ -92,9 +92,9 @@ function scene:createScene( event )
 	-- group:insert(bg)
 	-- bg:addEventListener('touch', moveBg)
 
-	mtouch.setZoomObject( sky )
-	mtouch.setOnZoomIn( OnZoomIn  ) 
-	mtouch.setOnZoomOut( OnZoomOut  )
+	-- mtouch.setZoomObject( sky )
+	-- mtouch.setOnZoomIn( OnZoomIn  ) 
+	-- mtouch.setOnZoomOut( OnZoomOut  )
 
 	createSun()
 	addPlanets()
@@ -115,6 +115,7 @@ function scene:createScene( event )
 	timer.performWithDelay(10000, stardateGo, 0 )
 	timer.performWithDelay(5000, targetShips, 0 )
 	
+	timer.performWithDelay(500, battleShips, 0 )
 	timer.performWithDelay(5000, addAlienShip, 0 )
 
 	-- Frame handlers

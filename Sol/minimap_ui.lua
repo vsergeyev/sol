@@ -85,5 +85,5 @@ function gotoPlanet(e)
 			break
 		end
 	end
-	group.x, group.y = -planet.x + screenW/2, -planet.y + screenH/2
+	group.x, group.y = group.xScale*-planet.x + screenW/2, group.yScale*-planet.y + screenH/2
 end

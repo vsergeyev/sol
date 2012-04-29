@@ -89,15 +89,15 @@ function movePlanets( e )
 			if g.badgeDefence then
 				g.badgeDefence.x, g.badgeDefence.y = g.x + g.r, g.y - g.r
 			end
-		elseif g.nameType == "ship" and g.targetPlanet and g.targetReached then
+		elseif g.nameType == "ship" and g.targetPlanet and g.targetReached and not g.inBattle then
 			local p = g.targetPlanet
 			if not g.alphaR then
 				g.alphaR = 0
 			end
 			g.alphaR = g.alphaR + 0.01
 			g.rotation = math.deg(-g.alphaR)
-			g.x = p.x  + g.orbit*p.r * math.sin(g.alphaR)
-			g.y = p.y  + g.orbit*p.r/1.5 * math.cos(g.alphaR)
+			g.x = p.x + g.orbit*p.r * math.sin(g.alphaR)
+			g.y = p.y + g.orbit*p.r/1.5 * math.cos(g.alphaR)
 		end
 	end
 end
