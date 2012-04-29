@@ -293,6 +293,7 @@ function battleShips(e)
 						g.battleTarget = nil
 						g:setLinearVelocity(0, 0)
 						g.inBattle = false
+						g.targetReached = false
 					end
 				end
 			end
