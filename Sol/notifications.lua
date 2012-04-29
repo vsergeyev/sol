@@ -22,7 +22,7 @@ function showBaloon(text)
 	b:setStrokeColor(180, 180, 180)
 	baloonGroup:insert(b)
 
-	local t = display.newText(text, 10, 10, 180, 75, native.systemFont, 16)
+	local t = display.newText(text, 10, 10, 180, 76, native.systemFont, 16)
 	baloonGroup:insert(t)
 
 	baloonGroup.x, baloonGroup.y = screenW-200, screenH-300

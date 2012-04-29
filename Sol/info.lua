@@ -19,6 +19,7 @@ Chemically, about three quarters of the Sun's mass consists of hydrogen, while t
 	cruiser = [[Heavy gunship]],
 	explorer = [[Exploration vessel used to colonize planets]],
 	trade = [[Freighter to deliver goods and materials between planets]],
+	aliens = [[Aliens battleship]],
 }
 
 function showInfo( item )

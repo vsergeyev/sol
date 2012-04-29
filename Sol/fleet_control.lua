@@ -6,7 +6,7 @@
 
 require "notifications"
 require "economy"
--- require "battle"
+require "battle_ai"
 
 local baseImpulse = 150
 local maxImpulseMoveSize = 150
@@ -23,6 +23,7 @@ function buildShip(e)
 	ship.targetPlanet = selectedObject
 	ship.targetReached = true
 	ship.r = 75
+	ship.sensors = 300
 	ship.orbit = 3 + math.random(3)
 	ship.alphaR = 0
 	ship.fullName = e.target.fullName
@@ -30,13 +31,14 @@ function buildShip(e)
 	ship.res = e.target.res
 	ship.nameType = "ship"
 	ship.enemy = false
+	-- ship.enemies = {}
 	-- ship.imageRotation = 15 -- scout image now a little rotated
-	physics.addBody(ship, {radius=40, friction=0, filter=shipsCollisionFilter})
-	-- ship.linearDamping = 1
+	physics.addBody(ship, {radius=ship.sensors, filter=shipsCollisionFilter})
+	ship.isSensor = true
 	group:insert(ship)
 	ship:addEventListener('touch', selectShip)
 	ship:addEventListener('collision', collisionShip)
-	-- table.insert(ships, ship)
+	-- ship:addEventListener('postCollision', escapeShip)
 
 	showBaloon("Ship ready: \n"..ship.fullName)
 end
@@ -57,18 +59,6 @@ function onCompleteColonization(e)
             	planetToColonize = nil
             	colonizationShip:removeSelf()
             end
-        end
-    end
-end
-
------------------------------------------------------------------------------------------
-function onCompleteBattle(e)
-	if "clicked" == e.action then
-		local i = e.index
-        if 1 == i then
-            --
-        elseif 2 == i then
-        	--
         end
     end
 end
@@ -97,20 +87,29 @@ function collisionShip(e)
 		elseif t.nameType == "ship" and planet == t.targetPlanet and not t.targetReached then
 			showBaloon(t.fullName.."\n"..planet.fullName.." reached")
 			t.targetReached = true
-			local x, y = t:getLinearVelocity()
 			t:setLinearVelocity(0, 0)
 		end
-	elseif o.nameType == "ship" and not t.inBattle then
+	elseif o.nameType == "ship" then
 		if t.enemy ~= o.enemy then
 			t.inBattle = true
 			t.battleTarget = o
-			o.inBattle = true
-			o.battleTarget = t
+			-- table.insert(t.enemies, o)
 			showBaloon("Our ship engaged the enemy")
 			-- local alert = native.showAlert( "Encountered aliens battleship!", "Start battle or retreat to nearest planet?", { "Retreat", "Fight" }, onCompleteBattle )
 		end
 	end
 end
+
+-----------------------------------------------------------------------------------------
+-- function escapeShip(e)
+-- 	local t = e.target
+-- 	local o = e.other
+
+-- 	if t.enemies[o] then
+-- 		table.remove(t.enemies, o)
+-- 		print(t.enemies[1].fullName)
+-- 	end
+-- end
 
 -----------------------------------------------------------------------------------------
 function impulseShip(t, dx, dy, speed)
@@ -193,26 +192,12 @@ function selectShip( e )
 			-- print(t.rotation)
 		
 		elseif "ended" == phase or "cancelled" == phase then
-
-			-- arrows[e.id] = nil
+			arrows[e.id] = nil
 
 			t.isFocus = false
 			display.getCurrentStage():setFocus( t, e.id )
 	    	
 			impulseShip(t, dx, dy)
-
-	      --   local length = math.sqrt(dx*dx + dy*dy)
-	      --   if length > 0 then
-		     --    local xI = dx / length;
-		     --    local yI = dy / length;
-
-		     --    if length > maxImpulseMoveSize then
-		     --    	length = maxImpulseMoveSize
-		     --    end
-		     --    local k = length / maxImpulseMoveSize * baseImpulse
-
-		    	-- t:applyLinearImpulse(xI*k, yI*k, t.x, t.y)
-	      --   end
 		end
     end
 
@@ -245,74 +230,39 @@ function battleShips(e)
 				if g.battleTarget.alpha > 0 then
 					-- ship fighing
 					g.x0, g.y0 = g.battleTarget.x, g.battleTarget.y
-					
+
+					local length = 1 * math.sqrt((g.x0-g.x)*(g.x0-g.x) + (g.y0-g.y)*(g.y0-g.y))
+
 					-- Movement
 					if g.enemy then
-						if math.random(10) > 7 then
-							g.y0 = math.random(100)
-						end
-
-						g.alphaR = g.alphaR + 0.3*g.res.speed
-
-						local x = g.x0 + g.r*g.orbit * math.sin(g.alphaR)
-						local y = g.y0 + g.r*g.orbit/3 * math.cos(g.alphaR)
-
-						-- g.rotation = math.deg(math.atan2((g.y0 - g.y), (g.x0 - g.x)))
-						g.rotation = math.deg(math.atan2((y - g.y), (x - g.x)))
-
-						impulseShip(g, x-g.x, y-g.y, 0.2)
+						moveShipAI(g)
 					end
 
 					-- Attack
-					if g.res.attack and math.random(10) > 5 then
-						-- piu-piu
-						g.battleTarget.res.hp = g.battleTarget.res.hp - g.res.attack
-						-- blaster
-						local arrow = display.newLine(g.x,g.y, g.battleTarget.x, g.battleTarget.y )
-						arrow.width = 1
-						if g.enemy then
-							arrow:setColor(255, 0, 0)
-						else
-							arrow:setColor(0, 0, 255)
-						end
-						group:insert(arrow)
-						
-						transition.to(arrow, {time=500, alpha=0, onComplete=function ()
-							arrow:removeSelf()
-						end})
-
-						-- BOM!!!
-						local explosion = display.newImageRect("i/explosion.png", 130, 85)
-						explosion:scale(0.1, 0.1)
-						explosion.alpha = 0.1
-						explosion.x, explosion.y = g.battleTarget.x, g.battleTarget.y
-						
-						group:insert(explosion)
-
-						transition.to(explosion, {time=100, alpha=1, xScale=1, yScale=1, y=explosion.y-20})
-						transition.to(explosion, {delay=100, time=200, alpha=0.1, xScale=0.5, yScale=0.5, onComplete=function ()
-							explosion:removeSelf()
-						end})
-					end
+					attackShipAI(g)
 
 					-- Destroyed?
-					if g.battleTarget.res.hp < 0 then
+					if g.battleTarget.res.hp <= 0 then
 						g.battleTarget.alpha = 0
-						showBaloon(g.battleTarget.fullName.." destroyed")
+						if g == selectedObject then
+							selectedObject = nil
+						end
 					end
 
 					-- Update info
 					if g.battleTarget == selectedObject then
 						showInfo(selectedObject)
 					end
+
+					if length > g.sensors then
+						-- we have lost target
+						-- outOfBattle(g)
+					end
 				else
-					g.battleTarget.isBodyActive = false
-					g.battleTarget.alpha = 0
-					g.battleTarget.inBattle = false
-					g.battleTarget = nil
+					-- set alpha==0 ship as destroyed
+					destroyShip(g.battleTarget)
+					outOfBattle(g)
 					g:setLinearVelocity(0, 0)
-					g.inBattle = false
-					g.targetReached = false
 				end
 			end
 		end

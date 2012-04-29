@@ -26,9 +26,11 @@ function addAlienShip()
 	local ship = display.newImageRect("aliens/"..ship..".png", 100, 100)
 	ship.x, ship.y = x, y
 	ship.enemy = true
+	-- ship.enemies = {}
 	ship.targetPlanet = group.earth
 	ship.targetReached = false
 	ship.r = 75
+	ship.sensors = 300 -- how long it see Terran ships
 	ship.orbit = 3 + math.random(3)
 	ship.alphaR = 90
 	ship.fullName = "Aliens battleship"
@@ -39,11 +41,12 @@ function addAlienShip()
 		attack = 1,
 	}
 	ship.nameType = "ship"
-	physics.addBody(ship, {radius=300, friction=0, filter=aliensCollisionFilter})
+	physics.addBody(ship, {radius=ship.sensors, friction=0, filter=aliensCollisionFilter})
 	ship.isSensor = true
 	group:insert(ship)
 	ship:addEventListener('touch', selectShip)
 	ship:addEventListener('collision', collisionShip)
+	-- ship:addEventListener('postCollision', escapeShip)
 
 	showBaloon("Alien ship detected")
 end
