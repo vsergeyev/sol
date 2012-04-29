@@ -236,7 +236,7 @@ function battleShips(e)
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
 		if g.nameType == "ship" then
-			if g.inBattle and g.battleTarget then -- and g.enemy then
+			if g.inBattle and g.battleTarget and g.battleTarget.x then -- and g.enemy then
 				-- ship fighing
 				g.x0, g.y0 = g.battleTarget.x, g.battleTarget.y
 				
