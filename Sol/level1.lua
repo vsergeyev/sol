@@ -116,6 +116,8 @@ function scene:createScene( event )
 	timer.performWithDelay(5000, targetShips, 0 )
 	
 	timer.performWithDelay(1000, battleShips, 0 )
+
+	addAlienShip()
 	timer.performWithDelay(5000, addAlienShip, 0 )
 
 	-- Frame handlers

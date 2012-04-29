@@ -100,19 +100,20 @@ function collisionShip(e)
 			local x, y = t:getLinearVelocity()
 			t:setLinearVelocity(0, 0)
 		end
-	elseif o.nameType == "ship" then
+	elseif o.nameType == "ship" and not t.inBattle then
 		if t.enemy ~= o.enemy then
 			t.inBattle = true
 			t.battleTarget = o
 			o.inBattle = true
 			o.battleTarget = t
+			showBaloon("Our ship engaged the enemy")
 			-- local alert = native.showAlert( "Encountered aliens battleship!", "Start battle or retreat to nearest planet?", { "Retreat", "Fight" }, onCompleteBattle )
 		end
 	end
 end
 
 -----------------------------------------------------------------------------------------
-function impulseShip(t, dx, dy)
+function impulseShip(t, dx, dy, speed)
 	-- used in selectShip
 	local length = math.sqrt(dx*dx + dy*dy)
 
@@ -124,6 +125,10 @@ function impulseShip(t, dx, dy)
         	length = maxImpulseMoveSize
         end
         local k = length / maxImpulseMoveSize * baseImpulse * t.res.speed
+
+        if speed then
+        	k = k * speed
+        end
 
     	-- t:applyLinearImpulse(xI*k, yI*k, t.x, t.y)
     	-- print(xI*k)
@@ -180,7 +185,7 @@ function selectShip( e )
 			-- TODO: limit arrow length
 			-- TODO: fix target center
 			local arrow = display.newLine(t.x,t.y, e.xStart + dx - group.x, e.yStart + dy - group.y )
-			arrow.width = 3
+			-- arrow.width = 3
 			group:insert(arrow)
 			arrows[e.id] = arrow
 
@@ -236,65 +241,78 @@ function battleShips(e)
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
 		if g.nameType == "ship" then
-			if g.inBattle and g.battleTarget and g.battleTarget.x then -- and g.enemy then
-				-- ship fighing
-				g.x0, g.y0 = g.battleTarget.x, g.battleTarget.y
-				
-				if math.random(10) > 7 then
-					g.y0 = math.random(100)
-				end
-
-				g.alphaR = g.alphaR + 0.3*g.res.speed
-
-				local x = g.x0 + g.r*g.orbit * math.sin(g.alphaR)
-				local y = g.y0 + g.r*g.orbit/3 * math.cos(g.alphaR)
-
-				-- g.rotation = math.deg(math.atan2((g.y0 - g.y), (g.x0 - g.x)))
-				g.rotation = math.deg(math.atan2((y - g.y), (x - g.x)))
-
-				impulseShip(g, x-g.x, y-g.y)
-
-				if g.res.attack and math.random(10) > 5 then
-					-- piu-piu
-					g.battleTarget.res.hp = g.battleTarget.res.hp - g.res.attack
-					-- blaster
-					local arrow = display.newLine(g.x,g.y, g.battleTarget.x, g.battleTarget.y )
-					arrow.width = 1
+			if g.inBattle and g.battleTarget then
+				if g.battleTarget.alpha > 0 then
+					-- ship fighing
+					g.x0, g.y0 = g.battleTarget.x, g.battleTarget.y
+					
+					-- Movement
 					if g.enemy then
-						arrow:setColor(255, 0, 0)
-					else
-						arrow:setColor(0, 0, 255)
+						if math.random(10) > 7 then
+							g.y0 = math.random(100)
+						end
+
+						g.alphaR = g.alphaR + 0.3*g.res.speed
+
+						local x = g.x0 + g.r*g.orbit * math.sin(g.alphaR)
+						local y = g.y0 + g.r*g.orbit/3 * math.cos(g.alphaR)
+
+						-- g.rotation = math.deg(math.atan2((g.y0 - g.y), (g.x0 - g.x)))
+						g.rotation = math.deg(math.atan2((y - g.y), (x - g.x)))
+
+						impulseShip(g, x-g.x, y-g.y, 0.2)
 					end
-					group:insert(arrow)
-					
-					transition.to(arrow, {time=500, alpha=0, onComplete=function ()
-						arrow:removeSelf()
-					end})
 
-					-- BOM!!!
-					local explosion = display.newImageRect("i/explosion.png", 130, 85)
-					explosion:scale(0.1, 0.1)
-					explosion.alpha = 0.1
-					explosion.x, explosion.y = g.battleTarget.x, g.battleTarget.y
-					
-					group:insert(explosion)
+					-- Attack
+					if g.res.attack and math.random(10) > 5 then
+						-- piu-piu
+						g.battleTarget.res.hp = g.battleTarget.res.hp - g.res.attack
+						-- blaster
+						local arrow = display.newLine(g.x,g.y, g.battleTarget.x, g.battleTarget.y )
+						arrow.width = 1
+						if g.enemy then
+							arrow:setColor(255, 0, 0)
+						else
+							arrow:setColor(0, 0, 255)
+						end
+						group:insert(arrow)
+						
+						transition.to(arrow, {time=500, alpha=0, onComplete=function ()
+							arrow:removeSelf()
+						end})
 
-					transition.to(explosion, {time=100, alpha=1, xScale=1, yScale=1, y=explosion.y-20})
-					transition.to(explosion, {delay=100, time=200, alpha=0.1, xScale=0.5, yScale=0.5, onComplete=function ()
-						explosion:removeSelf()
-					end})
+						-- BOM!!!
+						local explosion = display.newImageRect("i/explosion.png", 130, 85)
+						explosion:scale(0.1, 0.1)
+						explosion.alpha = 0.1
+						explosion.x, explosion.y = g.battleTarget.x, g.battleTarget.y
+						
+						group:insert(explosion)
 
+						transition.to(explosion, {time=100, alpha=1, xScale=1, yScale=1, y=explosion.y-20})
+						transition.to(explosion, {delay=100, time=200, alpha=0.1, xScale=0.5, yScale=0.5, onComplete=function ()
+							explosion:removeSelf()
+						end})
+					end
+
+					-- Destroyed?
+					if g.battleTarget.res.hp < 0 then
+						g.battleTarget.alpha = 0
+						showBaloon(g.battleTarget.fullName.." destroyed")
+					end
+
+					-- Update info
 					if g.battleTarget == selectedObject then
 						showInfo(selectedObject)
 					end
-
-					if g.battleTarget.res.hp < 0 then
-						g.battleTarget:removeSelf()
-						g.battleTarget = nil
-						g:setLinearVelocity(0, 0)
-						g.inBattle = false
-						g.targetReached = false
-					end
+				else
+					g.battleTarget.isBodyActive = false
+					g.battleTarget.alpha = 0
+					g.battleTarget.inBattle = false
+					g.battleTarget = nil
+					g:setLinearVelocity(0, 0)
+					g.inBattle = false
+					g.targetReached = false
 				end
 			end
 		end

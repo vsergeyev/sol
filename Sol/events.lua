@@ -91,13 +91,17 @@ function movePlanets( e )
 			end
 		elseif g.nameType == "ship" and g.targetPlanet and g.targetReached and not g.inBattle then
 			local p = g.targetPlanet
-			if not g.alphaR then
-				g.alphaR = 0
+			g.alphaR = g.alphaR + 0.001
+			
+			if g.enemy then
+				g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
+				g.x = p.x + 1.5*g.orbit*p.r * math.sin(g.alphaR)
+				g.y = p.y + 1.5*g.orbit*p.r/1.5 * math.cos(g.alphaR)
+			else
+				g.rotation = math.deg(-g.alphaR)
+				g.x = p.x + g.orbit*p.r * math.sin(g.alphaR)
+				g.y = p.y + g.orbit*p.r/1.5 * math.cos(g.alphaR)
 			end
-			g.alphaR = g.alphaR + 0.01
-			g.rotation = math.deg(-g.alphaR)
-			g.x = p.x + g.orbit*p.r * math.sin(g.alphaR)
-			g.y = p.y + g.orbit*p.r/1.5 * math.cos(g.alphaR)
 		end
 	end
 end
@@ -168,6 +172,11 @@ function frameHandler( e )
 	local fast = 5
 
 	if s then
+		if s.nameType == "ship" and s.alpha == 0 then
+			-- remove alpha 0 defeated battleships
+			s:removeSelf()
+			s = nil
+		end
 		-- keep moving ship in bounds of screen
 		-- move screen instead
 		if false and s.nameType == "ship" then
