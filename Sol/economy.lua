@@ -11,6 +11,9 @@ require "notifications"
 function calcIncome()
 	-- calculates how much $ and E are added to balance
 	-- used per 10/secs
+	
+	if isPause then return end
+
 	local c = 0
 	local e = 0
 
@@ -52,6 +55,8 @@ end
 
 -----------------------------------------------------------------------------------------
 function stardateGo()
+	if isPause then return end
+	
 	stardate = stardate + 100.2
 	showInfo(selectedObject)
 end

@@ -56,6 +56,8 @@ function movePlanets( e )
 	-- Moons fly around planets
 	-- Ships targeted to planet and reached it fly around it too
 
+	if isPause then return end
+
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
 		if g.nameType == "planet" then
@@ -108,6 +110,8 @@ end
 
 -----------------------------------------------------------------------------------------
 function selectPlanet( e )
+	if isPause then return end
+
 	local t = e.target
 
 	if e.phase == "ended" then
@@ -131,6 +135,8 @@ end
 
 -----------------------------------------------------------------------------------------
 function moveBg( e )
+	if isPause then return end
+	
 	local sky = e.target
 
 	if e.phase == "began" then
@@ -170,6 +176,8 @@ function frameHandler( e )
 	local border = 300 -- keep moving ship inside this
 	local delta = 1
 	local fast = 5
+
+	if isPause then return end
 
 	if s then
 		if s.nameType == "ship" and s.alpha == 0 then

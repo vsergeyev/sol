@@ -206,6 +206,10 @@ end
 
 -----------------------------------------------------------------------------------------
 function targetShips(e)
+	-- Autopilot ships to target planets
+
+	if isPause then return end
+
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
 		if g.nameType == "ship" then
@@ -223,6 +227,10 @@ end
 
 -----------------------------------------------------------------------------------------
 function battleShips(e)
+	-- battle between our and alien ships
+	
+	if isPause then return end
+
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
 		if g.nameType == "ship" then

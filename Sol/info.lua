@@ -22,6 +22,8 @@ Chemically, about three quarters of the Sun's mass consists of hydrogen, while t
 	aliens = [[Aliens battleship]],
 }
 
+
+-----------------------------------------------------------------------------------------
 function showInfo( item )
 	-- groupHud.alpha = 0.5
 	groupHud.money.text = gold.."C "..energy.."E | Date: "..stardate

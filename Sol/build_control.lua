@@ -1,12 +1,13 @@
 -----------------------------------------------------------------------------------------
 --
--- build_cpntrol.lua
+-- build_control.lua
 --
 -----------------------------------------------------------------------------------------
 
 require "info"
 require "badges"
 require "notifications"
+require "planet_control"
 
 local techs = {
 	one = "Automated production of all goods",
@@ -24,7 +25,11 @@ function buildTech(e)
 	
 	if e.phase == "ended" then
 		if s then
-			if t.tech == "tech" then
+			if t.tech == "planet_control" then
+				isPause = true
+				physics.pause()
+				planetScreen()
+			elseif t.tech == "tech" then
 				s.res.techlevel = s.res.techlevel + 1
 				showBaloon(s.fullName.."\nTech level improved")
 			elseif t.tech == "energy" then
