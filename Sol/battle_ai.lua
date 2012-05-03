@@ -91,7 +91,7 @@ function attackShipAI(g)
 
 	if g.res.attack then -- and math.random(10) > 5 then
 		-- piu-piu
-		g.battleTarget.hp = t.hp - g.res.attack
+		t.hp = t.hp - g.res.attack
 		
 		-- blaster
 		local arrow = display.newLine(g.x,g.y, t.x, t.y )
