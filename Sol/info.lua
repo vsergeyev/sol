@@ -15,10 +15,11 @@ Chemically, about three quarters of the Sun's mass consists of hydrogen, while t
 	earth = [[The Earth is the third planet from the Sun, and the densest and fifth-largest of the eight planets in the Solar System. It is also the largest of the Solar System's four terrestrial planets. It is sometimes referred to as the world, the Blue Planet, or by its Latin name, Terra.]],
 	venus = [[Venus]],
 	mars = [[Mars]],
-	fighters = [[Fast fighters]],
-	cruiser = [[Heavy gunship]],
 	explorer = [[Exploration vessel used to colonize planets]],
 	trade = [[Freighter to deliver goods and materials between planets]],
+	fighter = [[Fast fighter]],
+	cruiser = [[Heavy gunship]],
+	carier = [[Carier]],
 	aliens = [[Aliens battleship]],
 }
 
@@ -60,9 +61,13 @@ function showInfo( item )
 			groupHud.build.alpha = 0
 			groupHud.planets.alpha = 0
 			groupHud.fleet.alpha = 1
+			groupHud.fleet.fighter.alpha = 0
+			if item.name == "carier" then
+				groupHud.fleet.fighter.alpha = 1
+			end
 			
 			-- Ship details
-			groupHud.text.text = "HP: "..item.res.hp.."\nAttack: "..item.res.attack.."\nWarp speed: "..item.res.speed
+			groupHud.text.text = "HP: "..item.hp.."/"..item.res.hp.."\nAttack: "..item.res.attack.."\nWarp speed: "..item.res.speed
 			groupHud.text.text = groupHud.text.text .. "\n\n" .. infoPedia[item.name]
 		else
 			groupHud.build.alpha = 0

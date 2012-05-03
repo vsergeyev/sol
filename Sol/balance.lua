@@ -16,7 +16,11 @@ shipsData = {
 			speed = 1,
 			attack = 0,
 			cost = 100,
-			e = 10
+			e = 10,
+			w = 100,
+			h = 100,
+			r = 0,
+			autofigth = false
 		}
 	},
 	{
@@ -27,18 +31,26 @@ shipsData = {
 			speed = 1,
 			attack = 0,
 			cost = 80,
-			e = 10
+			e = 10,
+			w = 100,
+			h = 100,
+			r = 0,
+			autofigth = false
 		}
 	},
 	{
-		fullName = "Fighters squadron",
-		ship = "fighters",
+		fullName = "Fighter",
+		ship = "fighter",
 		res = {
-			hp = 200,
+			hp = 20,
 			speed = 2,
-			attack = 10,
-			cost = 200,
-			e = 20
+			attack = 1,
+			cost = 20,
+			e = 2,
+			w = 30,
+			h = 30,
+			r = 0,
+			autofigth = true
 		}
 	},
 	{
@@ -49,8 +61,27 @@ shipsData = {
 			speed = 1,
 			attack = 20,
 			cost = 500,
-			e = 50
-		}
+			e = 50,
+			w = 100,
+			h = 100,
+			r = 0,
+			autofigth = true
+		},
+	},
+	{
+		fullName = "Carier",
+		ship = "carier",
+		res = {
+			hp = 2000,
+			speed = 0.3,
+			attack = 0,
+			cost = 5000,
+			e = 500,
+			w = 200,
+			h = 90,
+			r = 15,
+			autofigth = false
+		},
 	},
 }
 

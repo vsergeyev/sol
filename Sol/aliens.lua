@@ -26,7 +26,7 @@ function addAlienShip()
 	local ship = display.newImageRect("aliens/"..ship..".png", 100, 100)
 	ship.x, ship.y = x, y
 	ship.enemy = true
-	-- ship.enemies = {}
+	ship.enemies = {}
 	ship.targetPlanet = group.earth
 	ship.targetReached = false
 	ship.r = 75
@@ -40,6 +40,7 @@ function addAlienShip()
 		speed = 1.5,
 		attack = 1,
 	}
+	ship.hp = ship.res.hp
 	ship.nameType = "ship"
 	physics.addBody(ship, {radius=ship.sensors, friction=0, filter=aliensCollisionFilter})
 	ship.isSensor = true

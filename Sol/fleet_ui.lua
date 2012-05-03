@@ -25,4 +25,16 @@ function addFleetButtons(g)
 		b:addEventListener('touch', hudFleetControl)
 		g:insert(b)
 	end
+
+	-- build Fighter button for Carier
+	local s = shipsData[3]
+	local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
+	b:setReferencePoint(display.TopLeftReferencePoint)
+	b.x, b.y = 5 * 80, 0
+	b.fullName = s.fullName
+	b.ship = s.ship
+	b.res = s.res
+	b:addEventListener('touch', hudBuildShip)
+	g:insert(b)
+	g.fighter = b
 end

@@ -17,7 +17,9 @@ local shipsCollisionFilter = { groupIndex = -1 }
 -----------------------------------------------------------------------------------------
 function buildShip(e)
 	-- Builds ship on the planet
-	local ship = display.newImageRect("ships/"..e.target.ship..".png", 100, 100)
+	local t = e.target
+
+	local ship = display.newImageRect("ships/"..t.ship..".png", t.res.w, t.res.h)
 	ship.x, ship.y = selectedObject.x, selectedObject.y
 	ship.originPlanet = selectedObject
 	ship.targetPlanet = selectedObject
@@ -26,13 +28,14 @@ function buildShip(e)
 	ship.sensors = 300
 	ship.orbit = 3 + math.random(3)
 	ship.alphaR = 0
-	ship.fullName = e.target.fullName
-	ship.name = e.target.ship
-	ship.res = e.target.res
+	ship.fullName = t.fullName
+	ship.name = t.ship
+	ship.res = t.res
+	ship.hp = t.res.hp -- res.hp == max/normal/100% hp
 	ship.nameType = "ship"
 	ship.enemy = false
-	-- ship.enemies = {}
-	-- ship.imageRotation = 15 -- scout image now a little rotated
+	ship.enemies = {}
+	ship.imageRotation = t.r -- 15 -- scout image now a little rotated
 	physics.addBody(ship, {radius=ship.sensors, filter=shipsCollisionFilter})
 	ship.isSensor = true
 	group:insert(ship)
@@ -89,10 +92,23 @@ function collisionShip(e)
 			t.targetReached = true
 			t:setLinearVelocity(0, 0)
 		end
-	elseif o.nameType == "ship" then
+	elseif o.nameType == "ship" and t.res.attack > 0 then
 		if t.enemy ~= o.enemy then
-			t.inBattle = true
-			t.battleTarget = o
+			if not t.inBattle then
+				print(t.fullName.." collision")
+				t.inBattle = true
+				t.battleTarget = o
+				t.battleTimer = timer.performWithDelay(1000, function ()
+					print(t.fullName.." timer")
+					shipBattle(t)
+				end, 0 )
+			elseif not t.nextBattleTarget then
+				print(t.fullName.." next battle target")
+				t.nextBattleTarget = o
+			else
+				print(t.fullName.." next@2 battle target")
+				t.next2BattleTarget = o
+			end
 			-- table.insert(t.enemies, o)
 			showBaloon("Our ship engaged the enemy")
 			-- local alert = native.showAlert( "Encountered aliens battleship!", "Start battle or retreat to nearest planet?", { "Retreat", "Fight" }, onCompleteBattle )
@@ -188,7 +204,7 @@ function selectShip( e )
 			group:insert(arrow)
 			arrows[e.id] = arrow
 
-			t.rotation = math.deg(math.atan2((e.y - t.y - group.y), (e.x - t.x - group.x))) -- - t.imageRotation
+			t.rotation = - t.res.r + math.deg(math.atan2((e.y - t.y - group.y), (e.x - t.x - group.x))) -- - t.imageRotation
 			-- print(t.rotation)
 		
 		elseif "ended" == phase or "cancelled" == phase then
@@ -213,65 +229,16 @@ function targetShips(e)
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
 		if g.nameType == "ship" then
-			if g.inBattle and g.enemy then
-				--
-			elseif g.targetPlanet and not g.targetReached then
+			if not g.inBattle and g.targetPlanet and not g.targetReached then
 				-- ship auto-piloting to planet
 				local planet = g.targetPlanet
 				g.rotation = math.deg(math.atan2((planet.y - g.y), (planet.x - g.x)))
-				impulseShip(g, planet.x-g.x, planet.y-g.y)
-			end
-		end
-	end
-end
-
------------------------------------------------------------------------------------------
-function battleShips(e)
-	-- battle between our and alien ships
-	
-	if isPause then return end
-
-	for i = 1, group.numChildren, 1 do
-		local g = group[i]
-		if g.nameType == "ship" then
-			if g.inBattle and g.battleTarget then
-				if g.battleTarget.alpha > 0 then
-					-- ship fighing
-					g.x0, g.y0 = g.battleTarget.x, g.battleTarget.y
-
-					local length = 1 * math.sqrt((g.x0-g.x)*(g.x0-g.x) + (g.y0-g.y)*(g.y0-g.y))
-
-					-- Movement
-					if g.enemy then
-						moveShipAI(g)
-					end
-
-					-- Attack
-					attackShipAI(g)
-
-					-- Destroyed?
-					if g.battleTarget.res.hp <= 0 then
-						g.battleTarget.alpha = 0
-						if g == selectedObject then
-							selectedObject = nil
-						end
-					end
-
-					-- Update info
-					if g.battleTarget == selectedObject then
-						showInfo(selectedObject)
-					end
-
-					if length > g.sensors then
-						-- we have lost target
-						-- outOfBattle(g)
-					end
-				else
-					-- set alpha==0 ship as destroyed
-					destroyShip(g.battleTarget)
-					outOfBattle(g)
-					g:setLinearVelocity(0, 0)
+				local k = 1
+				if g.name == "fighter" then
+					k = 0.2
 				end
+				impulseShip(g, planet.x-g.x, planet.y-g.y, k)
+				print(g.fullName.." go to planet "..g.targetPlanet.fullName)
 			end
 		end
 	end
