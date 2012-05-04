@@ -81,7 +81,7 @@ function moveShipAI(g)
 	-- g.rotation = math.deg(math.atan2((g.y0 - g.y), (g.x0 - g.x)))
 	g.rotation = math.deg(math.atan2((y - g.y), (x - g.x)))
 
-	impulseShip(g, x-g.x, y-g.y, 0.2)
+	impulseShip(g, x-g.x, y-g.y, 0.3)
 end
 
 -----------------------------------------------------------------------------------------

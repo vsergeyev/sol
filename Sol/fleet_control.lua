@@ -27,7 +27,7 @@ function buildShip(e)
 	ship.r = 75
 	ship.sensors = 300
 	ship.orbit = 3 + math.random(3)
-	ship.alphaR = 0
+	ship.alphaR = 0 -- math.random(360)
 	ship.fullName = t.fullName
 	ship.name = t.ship
 	ship.res = t.res

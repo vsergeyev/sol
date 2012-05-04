@@ -23,7 +23,7 @@ function addAlienShip()
 	local x = planet.x - 250 + math.random(500)
 	local y = planet.y - 250 + math.random(500)
 
-	local ship = display.newImageRect("aliens/"..ship..".png", 100, 100)
+	local ship = display.newImageRect("aliens/"..ship..".png", 150, 53)
 	ship.x, ship.y = x, y
 	ship.enemy = true
 	ship.enemies = {}

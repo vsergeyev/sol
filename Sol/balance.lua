@@ -43,12 +43,12 @@ shipsData = {
 		ship = "fighter",
 		res = {
 			hp = 20,
-			speed = 2,
+			speed = 4,
 			attack = 1,
 			cost = 20,
 			e = 2,
 			w = 30,
-			h = 30,
+			h = 18,
 			r = 0,
 			autofigth = true
 		}
@@ -78,8 +78,8 @@ shipsData = {
 			cost = 5000,
 			e = 500,
 			w = 200,
-			h = 90,
-			r = 15,
+			h = 86,
+			r = 0,
 			autofigth = false
 		},
 	},
