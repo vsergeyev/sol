@@ -12,6 +12,7 @@ function createSun()
 	sun.x, sun.y = 100, screenH - 100
 	sun.r = 175
 	sun.name = "sun"
+	sun.nameType = "sun"
 	sun:addEventListener('touch', selectPlanet)
 	group:insert(sun)
 	sun:setSpeed(0.2)

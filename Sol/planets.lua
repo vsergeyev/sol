@@ -221,6 +221,7 @@ function addPlanets()
 	}
 	group:insert(p)
 	p:addEventListener('touch', selectPlanet)
+	group.neptune = p
 
 	-- Add gravitation fields for every planet
 	for i = 1, group.numChildren, 1 do

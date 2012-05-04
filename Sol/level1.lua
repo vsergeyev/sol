@@ -51,6 +51,7 @@ require "minimap_ui"
 require "economy"
 require "fleet_control"
 require "aliens"
+require "ai"
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -116,9 +117,12 @@ function scene:createScene( event )
 	timer.performWithDelay(20000, calcIncome, 0 )
 	timer.performWithDelay(10000, stardateGo, 0 )
 	timer.performWithDelay(5000, targetShips, 0 )
-	
+
+	math.randomseed( os.time() )
+	timer.performWithDelay(500, aiTurn, 0 )
+
 	-- addAlienShip()
-	timer.performWithDelay(4000, addAlienShip, 0 )
+	timer.performWithDelay(5000, addAlienShip, 0 )
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )

@@ -44,9 +44,24 @@ function buildShip(e)
 	-- ship:addEventListener('postCollision', escapeShip)
 
 	showBaloon("Ship ready: \n"..ship.fullName)
+
+	return ship
 end
 
 -----------------------------------------------------------------------------------------
+function colonizeIt()
+	if planetToColonize then
+    	planetToColonize.res.colonized = true
+    	planetToColonize.res.at = stardate
+    	planetToColonize.res.population = 1000
+    	showBaloon(planetToColonize.fullName.."\nHuman colony established")
+    	planetToColonize = nil
+    	timer.performWithDelay(50, function ()
+    		colonizationShip:removeSelf()
+    	end, 1 )
+    end
+end
+
 function onCompleteColonization(e)
 	if "clicked" == e.action then
 		local i = e.index
@@ -54,14 +69,7 @@ function onCompleteColonization(e)
             planetToColonize = nil
 			colonizationShip = nil
         elseif 2 == i then
-        	if planetToColonize then
-            	planetToColonize.res.colonized = true
-            	planetToColonize.res.at = stardate
-            	planetToColonize.res.population = 1000
-            	showBaloon(planetToColonize.fullName.."\nHuman colony established")
-            	planetToColonize = nil
-            	colonizationShip:removeSelf()
-            end
+        	colonizeIt()
         end
     end
 end
@@ -74,14 +82,15 @@ function collisionShip(e)
 	if o.name == "planet_field" then
 		-- if this is exploration ship and planet not colonized
 		local planet = o.planet
-		if t.name == "explorer" and not planet.res.colonized then
+		if t.name == "explorer" and planet.name ~= "sun" and not planet.res.colonized then
 			t:setLinearVelocity(0, 0)
 			t.targetPlanet = nil
 			planetToColonize = planet
 			colonizationShip = t
-			local alert = native.showAlert( planet.fullName, "Do you want to colonize this planet?", 
-                                        { "Not now", "Create colony" }, onCompleteColonization )
-		elseif t.name == "trade" and planet.res.colonized and planet == t.targetPlanet and not t.targetReached and t.targetPlanet ~= t.originPlanet then
+			colonizeIt()
+			-- local alert = native.showAlert( planet.fullName, "Do you want to colonize this planet?", 
+   --                                      { "Not now", "Create colony" }, onCompleteColonization )
+		elseif t.name == "trade" and planet.name ~= "sun" and planet.res.colonized and planet == t.targetPlanet and not t.targetReached and t.targetPlanet ~= t.originPlanet then
 			-- this is trader, so +1C and target him back to origin planet
 			tradeIncome()
 			t.targetPlanet = t.originPlanet
@@ -95,18 +104,18 @@ function collisionShip(e)
 	elseif o.nameType == "ship" and t.res.attack > 0 then
 		if t.enemy ~= o.enemy then
 			if not t.inBattle then
-				print(t.fullName.." collision")
+				-- print(t.fullName.." collision")
 				t.inBattle = true
 				t.battleTarget = o
 				t.battleTimer = timer.performWithDelay(1000, function ()
-					print(t.fullName.." timer")
+					-- print(t.fullName.." timer")
 					shipBattle(t)
 				end, 0 )
 			elseif not t.nextBattleTarget then
-				print(t.fullName.." next battle target")
+				-- print(t.fullName.." next battle target")
 				t.nextBattleTarget = o
 			else
-				print(t.fullName.." next@2 battle target")
+				-- print(t.fullName.." next@2 battle target")
 				t.next2BattleTarget = o
 			end
 			-- table.insert(t.enemies, o)
@@ -238,7 +247,7 @@ function targetShips(e)
 					k = 0.2
 				end
 				impulseShip(g, planet.x-g.x, planet.y-g.y, k)
-				print(g.fullName.." go to planet "..g.targetPlanet.fullName)
+				-- print(g.fullName.." go to planet "..g.targetPlanet.fullName)
 			end
 		end
 	end
