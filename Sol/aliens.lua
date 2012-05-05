@@ -36,9 +36,9 @@ function addAlienShip()
 	ship.fullName = "Aliens battleship"
 	ship.name = "aliens"
 	ship.res = {
-		hp = 80,
+		hp = 400,
 		speed = 1.5,
-		attack = 1,
+		attack = 10,
 	}
 	ship.hp = ship.res.hp
 	ship.nameType = "ship"
