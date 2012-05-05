@@ -58,12 +58,12 @@ shipsData = {
 		ship = "cruiser",
 		res = {
 			hp = 500,
-			speed = 1,
+			speed = 0.6,
 			attack = 20,
 			cost = 500,
 			e = 50,
-			w = 100,
-			h = 100,
+			w = 150,
+			h = 48,
 			r = 0,
 			autofigth = true
 		},

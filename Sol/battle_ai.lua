@@ -25,7 +25,8 @@ function outOfBattle(g)
 
 	g.inBattle = false
 	g.targetReached = false
-	g:setLinearVelocity(0, 0)
+	local vx, vy = g:getLinearVelocity()
+	g:setLinearVelocity(vx/5, vy/5)
 
 	if g.battleTimer then
 		timer.cancel( g.battleTimer )
