@@ -122,7 +122,7 @@ function aiTurn()
 		currentPlanet = nil
 		buildBattleShip(3)
 		print("Fighter")
-	elseif action < 12 then
+	elseif action < 11 then
 		-- build cruiser
 		currentCarier = nil
 		currentPlanet = nil
