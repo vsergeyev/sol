@@ -119,7 +119,7 @@ function scene:createScene( event )
 	timer.performWithDelay(5000, targetShips, 0 )
 
 	math.randomseed( os.time() )
-	timer.performWithDelay(500, aiTurn, 0 )
+	-- timer.performWithDelay(500, aiTurn, 0 )
 
 	-- addAlienShip()
 	timer.performWithDelay(5000, addAlienShip, 0 )
