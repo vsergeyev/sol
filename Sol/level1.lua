@@ -95,9 +95,9 @@ function scene:createScene( event )
 	-- group:insert(bg)
 	-- bg:addEventListener('touch', moveBg)
 
-	-- mtouch.setZoomObject( sky )
-	-- mtouch.setOnZoomIn( OnZoomIn  ) 
-	-- mtouch.setOnZoomOut( OnZoomOut  )
+	mtouch.setZoomObject( sky )
+	mtouch.setOnZoomIn( OnZoomIn  ) 
+	mtouch.setOnZoomOut( OnZoomOut  )
 
 	createSun()
 	addPlanets()
@@ -105,8 +105,8 @@ function scene:createScene( event )
 	refreshMinimap()
 
 	-- Test planets positions with smaller zoom
-	--group.xScale = 0.3
-	--group.yScale = 0.3
+	-- group.xScale = 0.7
+	-- group.yScale = 0.7
 
 	-- Timers
 	-- timer.performWithDelay(50, rotateSky, 0 )
@@ -119,10 +119,10 @@ function scene:createScene( event )
 	timer.performWithDelay(5000, targetShips, 0 )
 
 	math.randomseed( os.time() )
-	timer.performWithDelay(500, aiTurn, 0 )
+	-- timer.performWithDelay(500, aiTurn, 0 )
 
-	-- addAlienShip()
-	timer.performWithDelay(5000, addAlienShip, 0 )
+	addAlienStations()
+	timer.performWithDelay(2000, addAlienShip, 0 )
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )
@@ -132,6 +132,12 @@ function scene:createScene( event )
 	group.y = 300
 	--group.x =  100
 	--group.y = 200
+
+	-- build our Carrier
+	selectedObject = group.earth
+	local ship = buildShip({target=shipsData[5]})
+	ship.targetPlanet = group.earth
+	ship.targetReached = false
 end
 
 -- Called immediately after scene has moved onscreen:

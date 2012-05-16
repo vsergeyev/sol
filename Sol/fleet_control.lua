@@ -184,11 +184,18 @@ function selectShip( e )
 		-- t.overlay = selectOverlay
 
 		selectedObject = t
-		t.targetPlanet = nil
-		t.targetReached = false
 		showInfo(t)
 		--
 
+		if e.target.enemy then return true end
+		--
+
+		-- Stop ship
+		t.targetPlanet = nil
+		t.targetReached = false
+		--
+
+		-- Display line
 		display.getCurrentStage():setFocus( t, e.id )
 		t.isFocus = true
 		-- print(t:getLinearVelocity())
@@ -208,12 +215,12 @@ function selectShip( e )
 			-- TODO: draw arrow end
 			-- TODO: limit arrow length
 			-- TODO: fix target center
-			local arrow = display.newLine(t.x,t.y, e.xStart + dx - group.x, e.yStart + dy - group.y )
+			local arrow = display.newLine(t.x,t.y, (e.x - group.x)/group.xScale, (e.y - group.y)/group.yScale )
 			-- arrow.width = 3
 			group:insert(arrow)
 			arrows[e.id] = arrow
 
-			t.rotation = - t.res.r + math.deg(math.atan2((e.y - t.y - group.y), (e.x - t.x - group.x))) -- - t.imageRotation
+			t.rotation = - t.res.r + math.deg(math.atan2( -t.y + (e.y - group.y)/group.xScale, -t.x + (e.x - group.x)/group.yScale)) -- - t.imageRotation
 			-- print(t.rotation)
 		
 		elseif "ended" == phase or "cancelled" == phase then

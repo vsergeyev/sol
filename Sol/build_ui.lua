@@ -11,7 +11,7 @@ require "minimap_ui"
 -----------------------------------------------------------------------------------------
 function addBuildButtons(g)
 	-- Build ships buttons
-	for i = 1, #shipsData, 1 do
+	for i = 1, 2, 1 do
 		local s = shipsData[i]
 		local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
 		b:setReferencePoint(display.TopLeftReferencePoint)

@@ -19,7 +19,8 @@ Chemically, about three quarters of the Sun's mass consists of hydrogen, while t
 	trade = [[Freighter to deliver goods and materials between planets]],
 	fighter = [[Fast fighter]],
 	cruiser = [[Heavy gunship]],
-	carier = [[Carier]],
+	carier = [[Heavy fighters carrier USS "Discovery" is the flagship of Earth Alliance Fleet.
+It is the most advanced and biggest battleship in the Solar System. And it's under your command, Captain.]],
 	aliens = [[Aliens battleship]],
 }
 

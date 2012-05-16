@@ -18,13 +18,19 @@ function OnZoomIn( event )
 	if group.xScale < 3 then
 		group.xScale = group.xScale * 1.01
 		group.yScale = group.yScale * 1.01
+
+		group.x = group.x * 1.01 + (screenW/2 - 1.01*screenW/2)
+		group.y = group.y * 1.01 + (screenH/2 - 1.01*screenH/2)
 	end
 end
 
 function OnZoomOut( event )
-	if group.xScale > 0.3 then
+	if group.xScale > 0.2 then
 		group.xScale = group.xScale / 1.01
 		group.yScale = group.yScale / 1.01
+		
+		group.x = group.x / 1.01 + (screenW/2 - screenW/2.02)
+		group.y = group.y / 1.01 + (screenH/2 - screenH/2.02)
 	end
 end
 
@@ -96,7 +102,12 @@ function movePlanets( e )
 			g.alphaR = g.alphaR + 0.001
 			
 			if g.enemy then
-				g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
+				if g.is_station then
+					g.rotatio = 0
+				else
+					g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
+				end
+				
 				g.x = p.x + 1.5*g.orbit*p.r * math.sin(g.alphaR)
 				g.y = p.y + 1.5*g.orbit*p.r/1.5 * math.cos(g.alphaR)
 			else
@@ -140,6 +151,14 @@ function moveBg( e )
 	local sky = e.target
 
 	if e.phase == "began" then
+		local r = display.newCircle((e.x-group.x)/group.xScale, (e.y-group.y)/group.xScale, 30/group.xScale)
+		r.alpha = 0.1
+		group:insert(r)
+		transition.to(r, {time=200, alpha=0.5})
+		transition.to(r, {delay=200, time=200, alpha=0, onComplete=function ()
+			r:removeSelf()
+		end})
+
 		oneTouchBegan = true
 
 		if selectOverlay then

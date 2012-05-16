@@ -25,8 +25,8 @@ function outOfBattle(g)
 
 	g.inBattle = false
 	g.targetReached = false
-	local vx, vy = g:getLinearVelocity()
-	g:setLinearVelocity(vx/5, vy/5)
+	-- local vx, vy = g:getLinearVelocity()
+	-- g:setLinearVelocity(vx/5, vy/5)
 
 	if g.battleTimer then
 		timer.cancel( g.battleTimer )
@@ -40,7 +40,7 @@ end
 function destroyShip(g)
 	showBaloon(g.fullName.." destroyed")
 
-	if target == selectedObject then
+	if g == selectedObject then
 		selectedObject = nil
 	end
 
@@ -79,8 +79,12 @@ function moveShipAI(g)
 	local x = g.x0 + g.r*g.orbit * math.sin(g.alphaR)
 	local y = g.y0 + g.r*g.orbit/3 * math.cos(g.alphaR)
 
-	-- g.rotation = math.deg(math.atan2((g.y0 - g.y), (g.x0 - g.x)))
-	g.rotation = math.deg(math.atan2((y - g.y), (x - g.x)))
+	if g.is_station then
+		g.rotation = 0
+	else
+		-- g.rotation = math.deg(math.atan2((g.y0 - g.y), (g.x0 - g.x)))
+		g.rotation = math.deg(math.atan2((y - g.y), (x - g.x)))
+	end
 
 	impulseShip(g, x-g.x, y-g.y, 0.3)
 end
