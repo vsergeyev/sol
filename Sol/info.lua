@@ -12,7 +12,9 @@ It has a diameter of about 1,392,000 km, about 109 times that of Earth, and its 
 Chemically, about three quarters of the Sun's mass consists of hydrogen, while the rest is mostly helium.
 	]],
 	mercury = [[Mercury]],
-	earth = [[The Earth is the third planet from the Sun, and the densest and fifth-largest of the eight planets in the Solar System. It is also the largest of the Solar System's four terrestrial planets. It is sometimes referred to as the world, the Blue Planet, or by its Latin name, Terra.]],
+	earth = [[The Earth is the third planet from the Sun, and the densest and fifth-largest of the eight planets in the Solar System.
+It is also the largest of the Solar System's four terrestrial planets.]],
+	moon = [[The Moon is the only natural satellite of the Earth, and the fifth largest satellite in the Solar System.]],
 	venus = [[Venus]],
 	mars = [[Mars]],
 	explorer = [[Exploration vessel used to colonize planets]],

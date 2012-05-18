@@ -163,7 +163,7 @@ buildData = {
 		res = {
 			cost = 100,
 			e = 10
-	}
+		}
 	},
 	-- {
 	-- 	tech = "planet_control",
@@ -176,12 +176,36 @@ buildData = {
 
 -----------------------------------------------------------------------------------------
 planetsData = {
-	"mercury",
-	"venus",
-	"earth",
-	"mars",
-	"jupiter",
-	"saturn",
-	"uranus",
-	"neptune"
+	{
+		name = "mercury",
+		size = 20,
+	},
+	{
+		name = "venus",
+		size = 30,
+	},
+	{
+		name = "earth",
+		size = 35,
+	},
+	{
+		name = "mars",
+		size = 35,
+	},
+	{
+		name = "jupiter",
+		size = 60,
+	},
+	{
+		name = "saturn",
+		size = 100,
+	},
+	{
+		name = "uranus",
+		size = 35,
+	},
+	{
+		name = "neptune",
+		size = 25,
+	}
 }
