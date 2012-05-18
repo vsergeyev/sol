@@ -10,6 +10,7 @@ settings = {
 	
 	iphone = {
 		plist = {
+			UIApplicationExitsOnSuspend = true,
 			UIStatusBarHidden = false,
 			UIPrerenderedIcon = false, -- set to false for "shine" overlay
 			UIApplicationExitsOnSuspend = false,

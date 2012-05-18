@@ -22,6 +22,7 @@ physics.setGravity(0, 0)
 --------------------------------------------
 
 isPause = false
+oneTouchBegan = false
 
 -- forward declarations and other locals
 screenW, screenH, halfW = display.contentWidth, display.contentHeight, display.contentWidth*0.5
@@ -135,7 +136,7 @@ function scene:createScene( event )
 
 	-- build our Carrier
 	selectedObject = group.earth
-	local ship = buildShip({target=shipsData[5]})
+	local ship = buildShip({target=shipsData[6]})
 	ship.targetPlanet = group.earth
 	ship.targetReached = false
 end

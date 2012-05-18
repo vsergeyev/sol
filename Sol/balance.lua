@@ -39,6 +39,22 @@ shipsData = {
 		}
 	},
 	{
+		fullName = "Defence Station",
+		ship = "station",
+		res = {
+			hp = 2000,
+			speed = 0.01,
+			attack = 2,
+			cost = 200,
+			e = 20,
+			w = 50,
+			h = 50,
+			r = 0,
+			autofigth = true,
+			is_station = true
+		}
+	},
+	{
 		fullName = "Fighter",
 		ship = "fighter",
 		res = {

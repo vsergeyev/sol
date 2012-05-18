@@ -28,11 +28,12 @@ fictiveTouch.id = "QHHJGL10"
 -- counts a dictionary
 -----------------------------------------------
 local function CountDictionary(dict)
- local ret = 0
- for k, v in pairs(dict) do
-  ret = ret + 1
- end
- return ret
+    local ret = 0
+    for k, v in pairs(dict) do
+        ret = ret + 1
+    end
+    
+    return ret
 end
 
 -----------------------------------------------
@@ -55,14 +56,15 @@ end
 -- update x and y for a specific touch-event
 -----------------------------------------------
 local function UpdateTouch( event )
- local id  = event.id
- local obj = event.target
- local  x  = event.x
- local  y  = event.y
- if touches[id] then
-  touches[id].x = x
-  touches[id].y = y
- end
+    local id  = event.id
+    local obj = event.target
+    local  x  = event.x
+    local  y  = event.y
+    
+    if touches[id] then
+        touches[id].x = x
+        touches[id].y = y
+    end
 end
 
 -----------------------------------------------
@@ -79,7 +81,10 @@ end
 -- touch listener
 -----------------------------------------------
 function on_touch( event )
- local ret = false
+    local ret = false
+
+    -- if oneTouchBegan then return end
+
  if     event.phase == "began" then
   --register this touch
   touches[ event.id ] = event

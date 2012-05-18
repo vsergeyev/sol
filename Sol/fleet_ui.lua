@@ -27,7 +27,7 @@ function addFleetButtons(g)
 	end
 
 	-- build Fighter button for Carier
-	local s = shipsData[3]
+	local s = shipsData[4]
 	local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
 	b:setReferencePoint(display.TopLeftReferencePoint)
 	b.x, b.y = 5 * 80, 0

@@ -8,8 +8,6 @@ require "info"
 require "hud"
 
 
-local oneTouchBegan = false
-
 -----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------
 
@@ -125,7 +123,11 @@ function selectPlanet( e )
 
 	local t = e.target
 
-	if e.phase == "ended" then
+	oneTouchBegan = true
+
+	if e.phase == "ended" or e.phase == "cancelled" then
+		oneTouchBegan = false
+
 		if selectOverlay then
 			selectOverlay:removeSelf()
 			selectOverlay = nil

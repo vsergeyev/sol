@@ -43,6 +43,11 @@ function buildShip(e)
 	ship:addEventListener('collision', collisionShip)
 	-- ship:addEventListener('postCollision', escapeShip)
 
+	if t.is_station then
+		ship.is_station = true
+		ship.isFixedRotation = true
+	end
+
 	showBaloon("Ship ready: \n"..ship.fullName)
 
 	return ship
@@ -203,6 +208,7 @@ function selectShip( e )
 
         arrows[e.id] = nil
 
+        oneTouchBegan = true
     elseif t.isFocus then
     	local dx = e.x-e.xStart
 	    local dy = e.y-e.yStart
@@ -224,6 +230,8 @@ function selectShip( e )
 			-- print(t.rotation)
 		
 		elseif "ended" == phase or "cancelled" == phase then
+			oneTouchBegan = false
+
 			arrows[e.id] = nil
 
 			t.isFocus = false
@@ -231,6 +239,8 @@ function selectShip( e )
 	    	
 			impulseShip(t, dx, dy)
 		end
+	elseif "ended" == phase or "cancelled" == phase then
+		oneTouchBegan = false
     end
 
     return true

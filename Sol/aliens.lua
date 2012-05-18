@@ -70,7 +70,7 @@ function addAlienStations()
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
 		if g.nameType == "planet" and not g.res.colonized then
-			local ship = display.newImageRect("aliens/station.png", 100, 100)
+			local ship = display.newImageRect("aliens/station.png", 50, 50)
 			ship.x, ship.y = 0, 0
 			ship.enemy = true
 			ship.enemies = {}
@@ -78,7 +78,7 @@ function addAlienStations()
 			ship.targetReached = true
 			ship.r = 75
 			ship.sensors = 300 -- how long it see Terran ships
-			ship.orbit = 3 + math.random(3)
+			ship.orbit = 1 + math.random(3)
 			ship.alphaR = 90
 			ship.fullName = "Aliens battle station"
 			ship.name = "aliens"
@@ -92,6 +92,7 @@ function addAlienStations()
 			ship.nameType = "ship"
 			physics.addBody(ship, {radius=ship.sensors, friction=0, filter=aliensCollisionFilter})
 			ship.isSensor = true
+			ship.isFixedRotation = true
 			group:insert(ship)
 			ship:addEventListener('touch', selectShip)
 			ship:addEventListener('collision', collisionShip)
