@@ -50,9 +50,9 @@ shipsData = {
 			w = 50,
 			h = 50,
 			r = 0,
-			autofigth = true,
-			is_station = true
-		}
+			autofigth = true
+		},
+		is_station = true
 	},
 	{
 		fullName = "Fighter",
