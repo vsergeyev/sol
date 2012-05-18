@@ -101,17 +101,56 @@ function movePlanets( e )
 			
 			if g.enemy then
 				if g.is_station then
-					g.rotatio = 0
+					g.rotation = 0
 				else
 					g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
 				end
 				
 				g.x = p.x + 1.5*g.orbit*p.r * math.sin(g.alphaR)
 				g.y = p.y + 1.5*g.orbit*p.r/1.5 * math.cos(g.alphaR)
+			elseif g.on_carrier then
+				--
 			else
 				g.rotation = math.deg(-g.alphaR)
 				g.x = p.x + g.orbit*p.r * math.sin(g.alphaR)
 				g.y = p.y + g.orbit*p.r/1.5 * math.cos(g.alphaR)
+			end
+		end
+	end
+end
+
+function moveFighters( e )
+	-- Move fighters near carrier
+
+	if isPause then return end
+
+	for i = 1, group.numChildren, 1 do
+		local g = group[i]
+
+		if g.on_carrier and not g.inBattle then
+			local p = g.targetPlanet
+
+			-- g.x0, g.y0 = p.x, p.y
+			-- g.alphaR = g.alphaR + 0.3*g.res.speed
+
+			-- local x = g.x0 + g.r*g.orbit * math.sin(g.alphaR)
+			-- local y = g.y0 + g.r*g.orbit/3 * math.cos(g.alphaR)
+
+			-- g.rotation = math.deg(math.atan2((y - g.y), (x - g.x)))
+			-- impulseShip(g, x-g.x, y-g.y, 0.05 + math.random(2)/10)
+
+
+			g.alphaR = g.alphaR + 0.001
+
+			local dx = -400 + math.random(800)
+			local dy = -200 + math.random(400)
+
+			g.rotation = p.rotation  --math.deg(math.atan2((p.y+dy - g.y), (p.x+dx - g.x)))
+
+			if math.sqrt((p.y-g.y)*(p.y-g.y)+(p.x-g.x)*(p.x-g.x)) > 200 then
+				impulseShip(g, p.x-g.x, p.y-g.y, 0.2)
+			else
+				impulseShip(g, p.x+dx-g.x, p.y+dy-g.y, 0.05)
 			end
 		end
 	end

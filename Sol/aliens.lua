@@ -16,13 +16,7 @@ function addAlienShip()
 	local ship = "cruiser"
 	local shipData = aliensData[1]
 
-	local planet = nil
-	for i = 1, group.numChildren, 1 do
-		planet = group[i]
-		if planet.name == "neptune" then
-			break
-		end
-	end
+	local planet = group.neptune
 
 	local x = planet.x - 250 + math.random(500)
 	local y = planet.y - 250 + math.random(500)
@@ -39,6 +33,7 @@ function addAlienShip()
 	ship.name = shipData.ship
 	ship.res = shipData.res
 	ship.hp = ship.res.hp
+	ship.shield = ship.res.shield
 	ship.nameType = "ship"
 	physics.addBody(ship, {radius=ship.sensors, friction=0, filter=aliensCollisionFilter})
 	ship.isSensor = true
@@ -48,7 +43,7 @@ function addAlienShip()
 	-- ship:addEventListener('postCollision', escapeShip)
 
 	-- by default send aliens to Earth
-	ship.targetPlanet = group.earth
+	ship.targetPlanet =  group.planets[math.random(#group.planets)] --group.earth
 	ship.targetReached = false
 
 	for i = 1, group.numChildren, 1 do
@@ -85,10 +80,12 @@ function addAlienStations()
 			ship.is_station = true
 			ship.res = {
 				hp = 5000,
+				shield = 500,
 				attack = 2,
 				speed = 0.01
 			}
 			ship.hp = ship.res.hp
+			ship.shield = ship.res.shield
 			ship.nameType = "ship"
 			physics.addBody(ship, {radius=ship.sensors, friction=0, filter=aliensCollisionFilter})
 			ship.isSensor = true

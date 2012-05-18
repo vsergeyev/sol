@@ -17,12 +17,15 @@ local shipsCollisionFilter = { groupIndex = -1 }
 -----------------------------------------------------------------------------------------
 function buildShip(e)
 	-- Builds ship on the planet
+	-- or on Carrier
+
 	local t = e.target
+	local p = selectedObject
 
 	local ship = display.newImageRect("ships/"..t.ship..".png", t.res.w, t.res.h)
-	ship.x, ship.y = selectedObject.x, selectedObject.y
-	ship.originPlanet = selectedObject
-	ship.targetPlanet = selectedObject
+	ship.x, ship.y = p.x, p.y
+	ship.originPlanet = p
+	ship.targetPlanet = p
 	ship.targetReached = true
 	ship.r = 75
 	ship.sensors = 300
@@ -32,6 +35,7 @@ function buildShip(e)
 	ship.name = t.ship
 	ship.res = t.res
 	ship.hp = t.res.hp -- res.hp == max/normal/100% hp
+	ship.shield = t.res.shield
 	ship.nameType = "ship"
 	ship.enemy = false
 	ship.enemies = {}
@@ -46,6 +50,12 @@ function buildShip(e)
 	if t.is_station then
 		ship.is_station = true
 		ship.isFixedRotation = true
+	end
+
+	if t.on_carrier then
+		ship.on_carrier = true
+		ship.rotation = p.rotation
+		impulseShip(ship, 20, 10, 0.2)
 	end
 
 	showBaloon("Ship ready: \n"..ship.fullName)
@@ -193,6 +203,7 @@ function selectShip( e )
 		--
 
 		if e.target.enemy then return true end
+		if e.target.name == "fighter" then return true end
 		--
 
 		-- Stop ship
@@ -261,11 +272,32 @@ function targetShips(e)
 				g.rotation = math.deg(math.atan2((planet.y - g.y), (planet.x - g.x)))
 				local k = 1
 				if g.name == "fighter" then
-					k = 0.2
+					k = 0.1
 				end
 				impulseShip(g, planet.x-g.x, planet.y-g.y, k)
 				-- print(g.fullName.." go to planet "..g.targetPlanet.fullName)
 			end
+		end
+	end
+end
+
+function repairCarrier()
+	-- repair Carrier if it NOT in battle
+	local g = group.carrier
+	if not g.inBattle then
+		if g.shield < g.res.shield then
+			g.shield = g.shield + 10
+			if g.shield > g.res.shield then
+				g.shield = g.res.shield
+			end
+		end
+
+		if g.hp < g.res.hp then
+			g.hp = g.hp + 1
+		end
+
+		if selectedObject == g then
+			showInfo(g)
 		end
 	end
 end

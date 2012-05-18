@@ -20,7 +20,7 @@ settings = {
                     "Icon@2x.png" , 
                     "Icon-72.png" , 
             },
-            CFBundleDisplayName = "Solar control",
+            CFBundleDisplayName = "Sol control",
             CFBundleVersion = "1.0",
 		}
 	},

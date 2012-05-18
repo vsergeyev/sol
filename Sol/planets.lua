@@ -6,13 +6,10 @@
 
 require "badges"
 
--- local planetsDb = {
--- 	mercury = {
-		
--- 	}
--- }
-
 function addPlanets()
+	-- Adds planets and moons
+	group.planets = {}
+
 	-- Mercury
 	local p = display.newImageRect("i/mercury.png", 60, 60)
 	p.x, p.y = screenW/1.5, screenH/1.5
@@ -34,6 +31,7 @@ function addPlanets()
 	}
 	group:insert(p)
 	p:addEventListener('touch', selectPlanet)
+	table.insert(group.planets, p)
 
 
 	-- Venus
@@ -57,6 +55,7 @@ function addPlanets()
 	}
 	group:insert(p)
 	p:addEventListener('touch', selectPlanet)
+	table.insert(group.planets, p)
 
 
 	-- Earth
@@ -81,6 +80,7 @@ function addPlanets()
 	group:insert(earth)
 	group.earth = earth
 	earth:addEventListener('touch', selectPlanet)
+	table.insert(group.planets, earth)
 	addDefenceBadge(earth)
 
 	-- Moon
@@ -129,6 +129,7 @@ function addPlanets()
 	}
 	group:insert(p)
 	p:addEventListener('touch', selectPlanet)
+	table.insert(group.planets, p)
 
 
 	-- Jupiter
@@ -152,6 +153,7 @@ function addPlanets()
 	}
 	group:insert(p)
 	p:addEventListener('touch', selectPlanet)
+	table.insert(group.planets, p)
 
 
 	-- Saturn
@@ -175,6 +177,7 @@ function addPlanets()
 	}
 	group:insert(p)
 	p:addEventListener('touch', selectPlanet)
+	table.insert(group.planets, p)
 
 
 	-- Uranus
@@ -198,6 +201,7 @@ function addPlanets()
 	}
 	group:insert(p)
 	p:addEventListener('touch', selectPlanet)
+	table.insert(group.planets, p)
 
 
 	-- Neptune
@@ -221,6 +225,7 @@ function addPlanets()
 	}
 	group:insert(p)
 	p:addEventListener('touch', selectPlanet)
+	table.insert(group.planets, p)
 	group.neptune = p
 
 	-- Add gravitation fields for every planet

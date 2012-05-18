@@ -112,12 +112,14 @@ function scene:createScene( event )
 	-- Timers
 	-- timer.performWithDelay(50, rotateSky, 0 )
 	timer.performWithDelay(100, movePlanets, 0 )
+	timer.performWithDelay(4000, moveFighters, 0 )
 	timer.performWithDelay(6000, hightlightSun, 0 )
 	timer.performWithDelay(200, refreshMinimap, 1 )
 	timer.performWithDelay(5000, refreshMinimap, 0 )
 	timer.performWithDelay(20000, calcIncome, 0 )
 	timer.performWithDelay(10000, stardateGo, 0 )
 	timer.performWithDelay(5000, targetShips, 0 )
+	timer.performWithDelay(1000, repairCarrier, 0 )
 
 	math.randomseed( os.time() )
 	-- timer.performWithDelay(500, aiTurn, 0 )
@@ -139,6 +141,7 @@ function scene:createScene( event )
 	local ship = buildShip({target=shipsData[6]})
 	ship.targetPlanet = group.earth
 	ship.targetReached = false
+	group.carrier = ship
 end
 
 -- Called immediately after scene has moved onscreen:

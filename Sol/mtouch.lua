@@ -71,59 +71,77 @@ end
 -- calculate the distance between two touches 
 -----------------------------------------------
 local function DistanceBetween2T( t1, t2 )
- local ret = 0
- local deltax = t2.x - t1.x
- local deltay = t2.y - t1.y
- ret          = sqrt( deltax * deltax + deltay * deltay )
- return ret
+    local ret = 0
+    local deltax = t2.x - t1.x
+    local deltay = t2.y - t1.y
+    ret          = sqrt( deltax * deltax + deltay * deltay )
+    return ret
 end
 -----------------------------------------------
 -- touch listener
 -----------------------------------------------
 function on_touch( event )
     local ret = false
+    local t = event.target
 
     -- if oneTouchBegan then return end
 
- if     event.phase == "began" then
-  --register this touch
-  touches[ event.id ] = event
- elseif event.phase == "moved" then
-  UpdateTouch(event)
-  --verify if i have at least 2 touches
-  if( CountDictionary(touches) >= 2 ) then
-   zoomObject.touching = true
-   --gets the first 2 touches and calculate the distance between them
-   local touch1 = GetDictElAtIndex( touches, 0 )
-   local touch2 = GetDictElAtIndex( touches, 1 )
-   local dist   = DistanceBetween2T( touch1, touch2 )
-   --
-   local args        = {}
-   args.distance     = dist
-   args.lastdistance = lastDistance
-   args.difference   = abs( lastDistance - dist )
-   args.touch1       = touch1
-   args.touch2       = touch2
-   if lastDistance ~= -1 then
-    if dist < lastDistance then 
-     --zoom out
-     if OnZoomOut ~= nil then OnZoomOut( args ) end
-    else
-     --zoom in
-     if OnZoomIn  ~= nil then  OnZoomIn( args ) end
+    if event.phase == "began" then
+        --register this touch
+        touches[ event.id ] = event
+
+        if( CountDictionary(touches) >= 2 ) then
+            oneTouchBegan = false
+            display.getCurrentStage():setFocus( t )
+        end
+    elseif event.phase == "moved" then
+        UpdateTouch(event)
+        
+        --verify if i have at least 2 touches
+        if( CountDictionary(touches) >= 2 ) then
+            oneTouchBegan = false
+            zoomObject.touching = true
+            
+            --gets the first 2 touches and calculate the distance between them
+            local touch1 = GetDictElAtIndex( touches, 0 )
+            local touch2 = GetDictElAtIndex( touches, 1 )
+            local dist   = DistanceBetween2T( touch1, touch2 )
+            --
+            local args        = {}
+            args.distance     = dist
+            args.lastdistance = lastDistance
+            args.difference   = abs( lastDistance - dist )
+            args.touch1       = touch1
+            args.touch2       = touch2
+            
+            if lastDistance ~= -1 then
+                if dist < lastDistance then 
+                    --zoom out
+                    if OnZoomOut ~= nil then OnZoomOut( args ) end
+                else
+                    --zoom in
+                    if OnZoomIn  ~= nil then  OnZoomIn( args ) end
+                end
+                ret = true
+            end
+   
+            --save the lastdistance
+            lastDistance = dist
+        end
+ 
+    elseif event.phase == "ended" or event.phase == "cancelled" then
+        --remove this touch from list
+        touches[ event.id ]  = nil
+        lastDistance    = -1
+        zoomObject.touching = false
+
+        if( CountDictionary(touches) < 2 ) then
+            display.getCurrentStage():setFocus( nil )
+            return true
+        end
     end
-    ret = true
-   end
-   --save the lastdistance
-   lastDistance = dist
-  end
- elseif event.phase == "ended" then
-  --remove this touch from list
-  touches[ event.id ]  = nil
-  lastDistance    = -1
-  zoomObject.touching = false
- end
- return ret
+
+    return ret
 end
 
 -----------------------------------------------

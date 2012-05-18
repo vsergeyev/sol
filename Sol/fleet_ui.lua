@@ -37,6 +37,7 @@ function addFleetButtons(g)
 	b.fullName = s.fullName
 	b.ship = s.ship
 	b.res = s.res
+	b.on_carrier = true
 	b:addEventListener('touch', hudBuildShip)
 	g:insert(b)
 	g.fighter = b

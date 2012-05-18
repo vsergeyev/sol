@@ -24,6 +24,7 @@ It is also the largest of the Solar System's four terrestrial planets.]],
 	carier = [[Heavy fighters carrier USS "Discovery" is the flagship of Earth Alliance Fleet.
 It is the most advanced and biggest battleship in the Solar System. And it's under your command, Captain.]],
 	aliens = [[Aliens battleship]],
+	station = [[Space station with heavy lasers.]],
 }
 
 
@@ -70,7 +71,7 @@ function showInfo( item )
 			end
 			
 			-- Ship details
-			groupHud.text.text = "HP: "..item.hp.."/"..item.res.hp.."\nAttack: "..item.res.attack.."\nWarp speed: "..item.res.speed
+			groupHud.text.text = "HP: "..item.hp.."/"..item.res.hp.."\nShield: "..item.shield.."/"..item.res.shield.."\nAttack: "..item.res.attack.."\nWarp speed: "..item.res.speed
 			groupHud.text.text = groupHud.text.text .. "\n\n" .. infoPedia[item.name]
 		else
 			groupHud.build.alpha = 0
