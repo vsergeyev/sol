@@ -9,11 +9,13 @@ module(..., package.seeall)
 -- activate multitouch
 system.activate( "multitouch" )
 
+-- current touches
+-- touchesPinch = {}
+-- local touches = {}
+
 -- math helpers
 local sqrt         = math.sqrt
 local abs     = math.abs
--- current touches
-local touches      = {}
 -- last zoom distance - I use this to compare with current distance
 -- if its smaller then zoom out, else  zoom in
 local lastDistance = 0
@@ -61,9 +63,9 @@ local function UpdateTouch( event )
     local  x  = event.x
     local  y  = event.y
     
-    if touches[id] then
-        touches[id].x = x
-        touches[id].y = y
+    if touchesPinch[id] then
+        touchesPinch[id].x = x
+        touchesPinch[id].y = y
     end
 end
 
@@ -88,9 +90,9 @@ function on_touch( event )
 
     if event.phase == "began" then
         --register this touch
-        touches[ event.id ] = event
+        touchesPinch[ event.id ] = event
 
-        if( CountDictionary(touches) >= 2 ) then
+        if( CountDictionary(touchesPinch) >= 2 ) then
             oneTouchBegan = false
             display.getCurrentStage():setFocus( t )
         end
@@ -98,13 +100,13 @@ function on_touch( event )
         UpdateTouch(event)
         
         --verify if i have at least 2 touches
-        if( CountDictionary(touches) >= 2 ) then
+        if( CountDictionary(touchesPinch) >= 2 ) then
             oneTouchBegan = false
             zoomObject.touching = true
             
             --gets the first 2 touches and calculate the distance between them
-            local touch1 = GetDictElAtIndex( touches, 0 )
-            local touch2 = GetDictElAtIndex( touches, 1 )
+            local touch1 = GetDictElAtIndex( touchesPinch, 0 )
+            local touch2 = GetDictElAtIndex( touchesPinch, 1 )
             local dist   = DistanceBetween2T( touch1, touch2 )
             --
             local args        = {}
@@ -131,13 +133,13 @@ function on_touch( event )
  
     elseif event.phase == "ended" or event.phase == "cancelled" then
         --remove this touch from list
-        touches[ event.id ]  = nil
+        touchesPinch[ event.id ]  = nil
         lastDistance    = -1
         zoomObject.touching = false
 
-        if( CountDictionary(touches) < 2 ) then
+        if( CountDictionary(touchesPinch) < 2 ) then
             display.getCurrentStage():setFocus( nil )
-            return true
+            -- return true
         end
     end
 

@@ -162,6 +162,8 @@ function selectPlanet( e )
 
 	local t = e.target
 
+	touchesPinch[ e.id ]  = nil
+
 	oneTouchBegan = true
 
 	if e.phase == "ended" or e.phase == "cancelled" then
@@ -183,6 +185,8 @@ function selectPlanet( e )
 
 		showInfo(t)
 	end
+
+	return true
 end
 
 -----------------------------------------------------------------------------------------

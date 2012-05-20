@@ -91,8 +91,14 @@ end
 
 -----------------------------------------------------------------------------------------
 function attackShipAI(g)
-	-- attack
+	-- Attack ship
+	--   animated explosion if shield == 0
+	--   or animated shield splash, if ship has shield points
+	-- Drawn blaster line: blue - ours, red - enemies
+
 	local t = g.battleTarget
+	local shieldAttacked = false
+	local dx, dy = 0, 0 -- point on ship, where atack made
 
 	if g.res.attack then -- and math.random(10) > 5 then
 		-- piu-piu
@@ -101,6 +107,8 @@ function attackShipAI(g)
 			if t.shield < 0 then
 				t.shield = 0
 			end
+			-- specify kind of attack animation
+			shieldAttacked = true
 		else
 			t.hp = t.hp - g.res.attack
 			if t.hp < 0 then
@@ -108,8 +116,11 @@ function attackShipAI(g)
 			end
 		end
 		
-		-- blaster
-		local arrow = display.newLine(g.x,g.y, t.x, t.y )
+		dx = - 30 + math.random(60)
+		dy = - 30 + math.random(60)
+
+		-- blaster line
+		local arrow = display.newLine(g.x,g.y, t.x + dx, t.y + dy )
 		arrow.width = 1
 		if g.enemy then
 			arrow:setColor(255, 0, 0)
@@ -123,17 +134,32 @@ function attackShipAI(g)
 		end})
 
 		-- BOM!!!
-		local explosion = display.newImageRect("i/explosion.png", 130, 85)
-		explosion:scale(0.1, 0.1)
-		explosion.alpha = 0.1
-		explosion.x, explosion.y = t.x - 30 + math.random(60), t.y - 30 + math.random(60)
-		
-		group:insert(explosion)
+		local explosion = nil
+		if shieldAttacked then -- Shield splash animation
+			explosion = display.newImageRect("i/shield.png", t.res.w*1.1, t.res.h*1.1)
+			explosion.x, explosion.y = t.x, t.y
+			explosion.rotation = t.rotation
+			explosion.alpha = 0.1
 
-		transition.to(explosion, {time=100, alpha=1, xScale=0.5, yScale=0.5, y=explosion.y-20})
-		transition.to(explosion, {delay=100, time=200, alpha=0.1, xScale=0.1, yScale=0.1, onComplete=function ()
-			explosion:removeSelf()
-		end})
+			group:insert(explosion)
+
+			transition.to(explosion, {time=100, alpha=0.3})
+			transition.to(explosion, {delay=100, time=200, alpha=0, onComplete=function ()
+				explosion:removeSelf()
+			end})
+		else -- Explosion, ship hul
+			explosion = display.newImageRect("i/explosion.png", 130, 85)
+			explosion:scale(0.1, 0.1)
+			explosion.alpha = 0.1
+			explosion.x, explosion.y = t.x + dx, t.y + dy
+
+			group:insert(explosion)
+
+			transition.to(explosion, {time=100, alpha=1, xScale=0.5, yScale=0.5, y=explosion.y-20})
+			transition.to(explosion, {delay=100, time=200, alpha=0.1, xScale=0.1, yScale=0.1, onComplete=function ()
+				explosion:removeSelf()
+			end})
+		end
 	end
 end
 

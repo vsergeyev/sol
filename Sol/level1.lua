@@ -23,6 +23,7 @@ physics.setGravity(0, 0)
 
 isPause = false
 oneTouchBegan = false
+touchesPinch = {}
 
 -- forward declarations and other locals
 screenW, screenH, halfW = display.contentWidth, display.contentHeight, display.contentWidth*0.5
@@ -68,6 +69,7 @@ function scene:createScene( event )
 	group = display.newGroup() -- self.view
 	groupHud = display.newGroup()
 	groupNotifications = display.newGroup()
+	groupPinch = display.newGroup()
 
 	local sky = display.newImageRect("bg/bg3.png", 1700, 1200)
 	sky:setReferencePoint( display.CenterReferencePoint )
@@ -96,14 +98,19 @@ function scene:createScene( event )
 	-- group:insert(bg)
 	-- bg:addEventListener('touch', moveBg)
 
-	mtouch.setZoomObject( sky )
-	mtouch.setOnZoomIn( OnZoomIn  ) 
-	mtouch.setOnZoomOut( OnZoomOut  )
-
 	createSun()
 	addPlanets()
 	addHud()
 	refreshMinimap()
+
+	local pinch_overlay = display.newRect(0, 0, screenW, screenH)
+	pinch_overlay:setFillColor( 0 )
+	pinch_overlay.alpha = 0.01
+	groupPinch:insert(pinch_overlay)
+
+	mtouch.setZoomObject( pinch_overlay )
+	mtouch.setOnZoomIn( OnZoomIn  ) 
+	mtouch.setOnZoomOut( OnZoomOut  )
 
 	-- Test planets positions with smaller zoom
 	-- group.xScale = 0.7

@@ -184,6 +184,8 @@ function selectShip( e )
 
 	local arrow = arrows[e.id]
 
+	touchesPinch[ e.id ]  = nil
+
 	if phase == 'began' then
 		-- Shine overlay
 		if selectOverlay then
