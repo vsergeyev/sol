@@ -110,6 +110,23 @@ shipsData = {
 			autofigth = false
 		},
 	},
+	{
+		fullName = 'Repair droid R2D2',
+		ship = "droid",
+		res = {
+			class = "Droid",
+			hp = 50,
+			shield = 20,
+			speed = 2,
+			attack = 0,
+			cost = 50,
+			e = 5,
+			w = 15,
+			h = 15,
+			r = 0,
+			autofigth = false
+		},
+	},
 }
 
 aliensData = {

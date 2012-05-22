@@ -82,6 +82,7 @@ function addPlanets()
 	earth:addEventListener('touch', selectPlanet)
 	table.insert(group.planets, earth)
 	addDefenceBadge(earth)
+	addHumanBadge(earth)
 
 	-- Moon
 	local moon = display.newImageRect("i/moon.png", 30, 30)

@@ -4,6 +4,7 @@
 --
 -----------------------------------------------------------------------------------------
 
+require "badges"
 require "notifications"
 require "economy"
 require "battle_ai"
@@ -69,6 +70,7 @@ function colonizeIt()
     	planetToColonize.res.colonized = true
     	planetToColonize.res.at = stardate
     	planetToColonize.res.population = 1000
+    	addHumanBadge(planetToColonize)
     	showBaloon(planetToColonize.fullName.."\nHuman colony established")
     	planetToColonize = nil
     	timer.performWithDelay(50, function ()

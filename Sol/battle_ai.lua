@@ -136,7 +136,7 @@ function attackShipAI(g)
 		-- BOM!!!
 		local explosion = nil
 		if shieldAttacked then -- Shield splash animation
-			explosion = display.newImageRect("i/shield.png", t.res.w*1.1, t.res.h*1.1)
+			explosion = display.newImageRect("i/shield.png", t.res.w*1.3, t.res.h*1.3)
 			explosion.x, explosion.y = t.x, t.y
 			explosion.rotation = t.rotation
 			explosion.alpha = 0.1

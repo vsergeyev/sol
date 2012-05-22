@@ -12,7 +12,7 @@ require "minimap_ui"
 function addBuildButtons(g)
 	-- Planet control
 
-	local b = display.newText("Planet control:", 0, 0, native.systemFont, 16)
+	local b = display.newText("Planet control:", 0, 80, native.systemFont, 16)
 	g:insert(b)
 
 	-- Build ships buttons
@@ -20,7 +20,7 @@ function addBuildButtons(g)
 		local s = shipsData[i]
 		local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
 		b:setReferencePoint(display.TopLeftReferencePoint)
-		b.x, b.y = (i-1)*80, 100
+		b.x, b.y = (i-1)*80, 110
 		b.fullName = s.fullName
 		b.ship = s.ship
 		b.res = s.res
@@ -33,7 +33,7 @@ function addBuildButtons(g)
 		local s = buildData[i]
 		local b = display.newImageRect("ui/build/"..s.tech..".png", 70, 70)
 		b:setReferencePoint(display.TopLeftReferencePoint)
-		b.x, b.y = 240 + (i-1)*80, 100
+		b.x, b.y = 240 + (i-1)*80, 110
 		b.tech = s.tech
 		b.res = s.res
 		b:addEventListener('touch', buildTech)
@@ -44,13 +44,13 @@ end
 function addPlanetsButtons(g)
 	-- Goto planet buttons
 
-	local b = display.newText("Select planet:", 0, 0, native.systemFont, 16)
+	local b = display.newText("Select planet:", 0, 80, native.systemFont, 16)
 	g:insert(b)
 
 	for i = 1, #planetsData, 1 do
 		local planet = planetsData[i]
 		local b = display.newImageRect("i/"..planet.name..".png", planet.size, planet.size)
-		b.y = 50
+		b.y = 150
 		if i < 5 then
 			b.x = i*55-40
 		elseif i == 5 then

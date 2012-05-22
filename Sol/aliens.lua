@@ -82,7 +82,9 @@ function addAlienStations()
 				hp = 5000,
 				shield = 500,
 				attack = 2,
-				speed = 0.01
+				speed = 0.01,
+				w = 50,
+				h = 50
 			}
 			ship.hp = ship.res.hp
 			ship.shield = ship.res.shield

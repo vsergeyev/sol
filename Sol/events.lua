@@ -92,8 +92,12 @@ function movePlanets( e )
 			end
 
 			-- badges
+			if g.badgeHuman then
+				g.badgeHuman.x, g.badgeHuman.y = g.x + g.r, g.y - g.r
+			end
+
 			if g.badgeDefence then
-				g.badgeDefence.x, g.badgeDefence.y = g.x + g.r, g.y - g.r
+				g.badgeDefence.x, g.badgeDefence.y = g.x + g.r + 30, g.y - g.r
 			end
 		elseif g.nameType == "ship" and g.targetPlanet and g.targetReached and not g.inBattle then
 			local p = g.targetPlanet
@@ -145,7 +149,13 @@ function moveFighters( e )
 			local dx = -400 + math.random(800)
 			local dy = -200 + math.random(400)
 
+			if g.ship == "droid" then
+				dx = -200 + math.random(400)
+				dy = -100 + math.random(200)
+			end
+
 			g.rotation = p.rotation  --math.deg(math.atan2((p.y+dy - g.y), (p.x+dx - g.x)))
+			-- g.rotation = math.deg(math.atan2((p.y+dy - g.y), (p.x+dx - g.x)))
 
 			if math.sqrt((p.y-g.y)*(p.y-g.y)+(p.x-g.x)*(p.x-g.x)) > 200 then
 				impulseShip(g, p.x-g.x, p.y-g.y, 0.2)
