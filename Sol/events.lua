@@ -231,10 +231,10 @@ function moveBg( e )
 			group.x = groupX + (e.x - e.xStart)
 			group.y = groupY + (e.y - e.yStart)
 			
-			groupSky.sky.x = sky.x0 + (e.x - e.xStart) / 30
-			groupSky.sky.y = sky.y0 + (e.y - e.yStart) / 30
-			sky.x = sky.x0 + (e.x - e.xStart) / 100
-			sky.y = sky.y0 + (e.y - e.yStart) / 100
+			groupSky.sky.x = sky.x0 + (e.x - e.xStart) / 20
+			groupSky.sky.y = sky.y0 + (e.y - e.yStart) / 20
+			sky.x = sky.x0 + (e.x - e.xStart) / 60
+			sky.y = sky.y0 + (e.y - e.yStart) / 60
 		end
 	elseif e.phase == "ended" or e.phase == "cancelled" then
 		groupX, groupY = 0, 0
@@ -259,36 +259,38 @@ function frameHandler( e )
 			s:removeSelf()
 			s = nil
 		end
+
 		-- keep moving ship in bounds of screen
 		-- move screen instead
-		if false and s.nameType == "ship" then
-			if s.x + group.x < border then
-				group.x = group.x + delta
-			end
-			if s.x + group.x < border/2 then
-				group.x = group.x + fast*delta
-			end
 
-			if s.x + group.x > screenW - border then
-				group.x = group.x - delta
-			end
-			if s.x + group.x > screenW - border/2 then
-				group.x = group.x - fast*delta
-			end
+		-- if s.nameType == "ship" then
+		-- 	if s.x + group.x < border then
+		-- 		group.x = group.x + delta
+		-- 	end
+		-- 	if s.x + group.x < border/2 then
+		-- 		group.x = group.x + fast*delta
+		-- 	end
 
-			if s.y + group.y < border then
-				group.y = group.y + delta
-			end
-			if s.y + group.y < border/2 then
-				group.y = group.y + fast*delta
-			end
+		-- 	if s.x + group.x > screenW - border then
+		-- 		group.x = group.x - delta
+		-- 	end
+		-- 	if s.x + group.x > screenW - border/2 then
+		-- 		group.x = group.x - fast*delta
+		-- 	end
 
-			if s.y + group.y > screenH - border then
-				group.y = group.y - delta
-			end
-			if s.y + group.y > screenH - border/2 then
-				group.y = group.y - fast*delta
-			end
-		end
+		-- 	if s.y + group.y < border then
+		-- 		group.y = group.y + delta
+		-- 	end
+		-- 	if s.y + group.y < border/2 then
+		-- 		group.y = group.y + fast*delta
+		-- 	end
+
+		-- 	if s.y + group.y > screenH - border then
+		-- 		group.y = group.y - delta
+		-- 	end
+		-- 	if s.y + group.y > screenH - border/2 then
+		-- 		group.y = group.y - fast*delta
+		-- 	end
+		-- end
 	end
 end

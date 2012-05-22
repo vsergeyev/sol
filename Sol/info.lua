@@ -4,7 +4,7 @@
 --
 -----------------------------------------------------------------------------------------
 
-local infoPedia = {
+infoPedia = {
 	sun = [[The Sun is the star at the center of the Solar System. It is almost perfectly spherical and consists of hot plasma interwoven with magnetic fields.
 
 It has a diameter of about 1,392,000 km, about 109 times that of Earth, and its mass (about 2×1030 kilograms, 330,000 times that of Earth) accounts for about 99.86% of the total mass of the Solar System.
@@ -66,7 +66,16 @@ function showInfo( item )
 			groupHud.planets.alpha = 0
 			groupHud.fleet.alpha = 1
 			groupHud.fleet.fighter.alpha = 0
+			groupHud.fleet.droid.alpha = 0
+			groupHud.fleet.details.alpha = 0
+
 			if item.name == "carier" then
+				-- Carrier can build fighters/droids
+				groupHud.fleet.fighter.alpha = 1
+				groupHud.fleet.droid.alpha = 1
+				groupHud.fleet.details.alpha = 1
+			elseif item.name == "station" then
+				-- Battle station can build fighters
 				groupHud.fleet.fighter.alpha = 1
 			end
 			

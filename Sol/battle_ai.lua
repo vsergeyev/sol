@@ -96,6 +96,8 @@ function attackShipAI(g)
 	--   or animated shield splash, if ship has shield points
 	-- Drawn blaster line: blue - ours, red - enemies
 
+	if isPause then return end
+
 	local t = g.battleTarget
 	local shieldAttacked = false
 	local dx, dy = 0, 0 -- point on ship, where atack made

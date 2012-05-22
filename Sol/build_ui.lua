@@ -7,6 +7,7 @@
 require "build_control"
 require "balance"
 require "minimap_ui"
+require "game_ui"
 
 -----------------------------------------------------------------------------------------
 function addBuildButtons(g)
@@ -41,6 +42,7 @@ function addBuildButtons(g)
 	end
 end
 
+-----------------------------------------------------------------------------------------
 function addPlanetsButtons(g)
 	-- Goto planet buttons
 
@@ -63,4 +65,27 @@ function addPlanetsButtons(g)
 		b:addEventListener('touch', gotoPlanet)
 		g:insert(b)
 	end
+end
+
+-----------------------------------------------------------------------------------------
+function addGameButtons(g)
+	-- Pause, Menu, etc
+
+	local b = display.newImageRect("ui/buttons/pause.png", 70, 70)
+	b:setReferencePoint(display.TopLeftReferencePoint)
+	b.x, b.y = 0, 0
+	b:addEventListener('touch', gamePause)
+	g:insert(b)
+
+	local b = display.newImageRect("ui/buttons/menu.png", 70, 70)
+	b:setReferencePoint(display.TopLeftReferencePoint)
+	b.x, b.y = 80, 0
+	b:addEventListener('touch', gameMenu)
+	g:insert(b)
+
+	-- local b = display.newImageRect("ui/buttons/restart.png", 70, 70)
+	-- b:setReferencePoint(display.TopLeftReferencePoint)
+	-- b.x, b.y = 160, 0
+	-- b:addEventListener('touch', gameRestart)
+	-- g:insert(b)
 end

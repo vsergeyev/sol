@@ -76,6 +76,7 @@ function refreshMinimap(e)
 	end
 end
 
+-----------------------------------------------------------------------------------------
 function gotoPlanet(e)
 	local planet_name = e.target.fleetTarget
 

@@ -54,5 +54,13 @@ function addFleetButtons(g)
 	b.on_carrier = true
 	b:addEventListener('touch', hudBuildShip)
 	g:insert(b)
-	g.fighter = b
+	g.droid = b
+
+	-- show details
+	local b = display.newImageRect("ui/buttons/details.png", 70, 70)
+	b:setReferencePoint(display.TopLeftReferencePoint)
+	b.x, b.y = 440, 0
+	b:addEventListener('touch', hudDetails)
+	g:insert(b)
+	g.details = b
 end

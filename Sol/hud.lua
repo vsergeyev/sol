@@ -9,6 +9,7 @@ require "build_ui"
 require "fleet_control"
 require "fleet_ui"
 require "minimap_ui"
+require "discovery_detail"
 
 -----------------------------------------------------------------------------------------
 function addHud()
@@ -38,6 +39,7 @@ function addHud()
 	local planets = display.newGroup()
 	groupHud:insert(planets)
 	addPlanetsButtons(planets)
+	addGameButtons(planets)
 	planets.x, planets.y = 310, 10
 	groupHud.planets = planets
 	planets.alpha = 0
@@ -107,6 +109,17 @@ function hudFleetControl( e )
 				impulseShip(g, planet.x-g.x, planet.y-g.y)
 			end
 		end
+	end
+
+	return true
+end
+
+-----------------------------------------------------------------------------------------
+function hudDetails(e)
+	-- show Details window for selected object
+	if e.phase == 'ended' then
+		gamePause(e)
+		detailScreen()
 	end
 
 	return true

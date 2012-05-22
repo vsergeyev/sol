@@ -47,10 +47,10 @@ end
 
 -----------------------------------------------------------------------------------------
 function tradeIncome()
-	gold = gold + 1
+	gold = gold + 10
 
 	showInfo(selectedObject)
-	showBaloon("Trade income: \n1 Megacredits")
+	showBaloon("Trade income: \n10 Megacredits")
 end
 
 -----------------------------------------------------------------------------------------
@@ -59,4 +59,7 @@ function stardateGo()
 	
 	stardate = stardate + 100.2
 	showInfo(selectedObject)
+
+	print(string.format( "memUsage = %.3f KB", collectgarbage( "count" ) ))
+	-- print(system.getInfo( "textureMemoryUse" ))
 end

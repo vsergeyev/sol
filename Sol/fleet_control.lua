@@ -18,7 +18,9 @@ local shipsCollisionFilter = { groupIndex = -1 }
 -----------------------------------------------------------------------------------------
 function buildShip(e)
 	-- Builds ship on the planet
-	-- or on Carrier
+	-- or on Carrier / Station
+
+	if isPause then return end
 
 	local t = e.target
 	local p = selectedObject
@@ -181,6 +183,8 @@ end
 -----------------------------------------------------------------------------------------
 local arrows = {}
 function selectShip( e )
+	if isPause then return end
+
 	local t = e.target
 	local phase = e.phase
 
@@ -287,6 +291,9 @@ end
 
 function repairCarrier()
 	-- repair Carrier if it NOT in battle
+
+	if isPause then return end
+
 	local g = group.carrier
 	if not g.inBattle then
 		if g.shield < g.res.shield then
