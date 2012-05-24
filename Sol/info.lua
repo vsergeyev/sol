@@ -56,11 +56,12 @@ function showInfo( item )
 				end
 
 				groupHud.build.alpha = 1
-				groupHud.text.text = "Colonized in: "..item.res.at.."\nPopulation: "..p.."\nTech. level: "..item.res.techlevel.."\nEnergy: "..item.res.generators.."\nDefence: "..item.res.defence
+				groupHud.text.text = "Population: "..p.."\nTech. level: "..item.res.techlevel.."\nEnergy: "..item.res.generators.."\nDefence: "..item.res.defence
+				-- groupHud.text.text = "Colonized in: "..item.res.at.."\nPopulation: "..p.."\nTech. level: "..item.res.techlevel.."\nEnergy: "..item.res.generators.."\nDefence: "..item.res.defence
 			else
 				groupHud.text.text = "Bonus resources: "..item.res.supplies.."\n\nNOT COLONIZED"
 			end
-			groupHud.text.text = groupHud.text.text .. "\n\n" .. infoPedia[item.name]
+			-- groupHud.text.text = groupHud.text.text .. "\n\n" .. infoPedia[item.name]
 		elseif item.nameType == "ship" then
 			groupHud.build.alpha = 0
 			groupHud.planets.alpha = 0
@@ -80,8 +81,9 @@ function showInfo( item )
 			end
 			
 			-- Ship details
-			groupHud.text.text = "HP: "..item.hp.."/"..item.res.hp.."\nShield: "..item.shield.."/"..item.res.shield.."\nAttack: "..item.res.attack.."\nWarp speed: "..item.res.speed
-			groupHud.text.text = groupHud.text.text .. "\n\n" .. infoPedia[item.name]
+			groupHud.text.text = "HP: "..item.hp.."/"..item.res.hp.."\nShield: "..item.shield.."/"..item.res.shield
+			-- groupHud.text.text = "HP: "..item.hp.."/"..item.res.hp.."\nShield: "..item.shield.."/"..item.res.shield.."\nAttack: "..item.res.attack.."\nWarp speed: "..item.res.speed
+			-- groupHud.text.text = groupHud.text.text .. "\n\n" .. infoPedia[item.name]
 		else
 			groupHud.build.alpha = 0
 			groupHud.fleet.alpha = 0

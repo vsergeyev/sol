@@ -231,10 +231,24 @@ function moveBg( e )
 			group.x = groupX + (e.x - e.xStart)
 			group.y = groupY + (e.y - e.yStart)
 			
-			groupSky.sky.x = sky.x0 + (e.x - e.xStart) / 20
-			groupSky.sky.y = sky.y0 + (e.y - e.yStart) / 20
-			sky.x = sky.x0 + (e.x - e.xStart) / 60
-			sky.y = sky.y0 + (e.y - e.yStart) / 60
+			-- groupSky.sky.x = sky.x0 + (e.x - e.xStart) / 20
+			-- groupSky.sky.y = sky.y0 + (e.y - e.yStart) / 20
+
+			sky.x = sky.x0 + (e.x - e.xStart) / 5
+			sky.y = sky.y0 + (e.y - e.yStart) / 10
+
+			if (sky.x > sky.width/2) then
+				sky.x = sky.width/2
+			end
+			if (sky.x < screenW-sky.width/2) then
+				sky.x = screenW-sky.width/2
+			end
+			if (sky.y > sky.height/2) then
+				sky.y = sky.height/2
+			end
+			if (sky.y < screenH-sky.height/2) then
+				sky.y = screenH-sky.height/2
+			end
 		end
 	elseif e.phase == "ended" or e.phase == "cancelled" then
 		groupX, groupY = 0, 0

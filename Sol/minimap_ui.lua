@@ -6,7 +6,8 @@
 
 require "info"
 
-local mapW, mapH = 180, 135
+local mdx, mdy = 5, 5
+local mapW, mapH = 180*1.4, 135*1.4
 local systemSizeX, systemSizeY = 20, 20 -- Sol system size in screenW/H
 local zx, zy = mapW/(screenW*systemSizeX), mapH/(screenH*systemSizeY) -- zoom of map
 local halfW, halfH = mapW/2, mapH/2
@@ -18,8 +19,12 @@ function gotoMinimap( e )
 		showInfo(nil)
 	end
 	-- center Solar system to the point on minimap
-	group.x = (halfW - e.x + 15 + minimap.x) * 120
-	group.y = (halfH - e.y + 52 + groupHud.y) * 120
+	group.x = ((halfW - e.x + mdx + 5 + minimap.x) * 80) / group.xScale
+	group.y = ((halfH - e.y + mdy + 7 + groupHud.y) * 80) / group.yScale
+
+	--if e.phase == "moved" then
+	refreshMinimap(e)
+	--end
 
 	return true
 end
@@ -27,15 +32,15 @@ end
 -----------------------------------------------------------------------------------------
 function addMinimap()
 	-- dirty way to make map bg non-transparent on semitransparent group
-	local map = display.newRect(10, 45, mapW, mapH)
+	local map = display.newRect(mdx, mdy, mapW, mapH)
 	map.name = "map"
 	map:setFillColor(0)
 	minimap:insert(map)
-	local map = display.newRect(10, 45, mapW, mapH)
+	local map = display.newRect(mdx, mdy, mapW, mapH)
 	map.name = "map"
 	map:setFillColor(0)
 	minimap:insert(map)
-	local map = display.newRect(10, 45, mapW, mapH)
+	local map = display.newRect(mdx, mdy, mapW, mapH)
 	map.name = "map"
 	map:setFillColor(0)
 	minimap:insert(map)
@@ -54,8 +59,8 @@ function refreshMinimap(e)
 
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
-		local x = g.x*zx + 5 + halfW
-		local y = g.y*zy + 35 + halfH
+		local x = g.x*zx + mdx - 5 + halfW
+		local y = g.y*zy + mdy - 10 + halfH
 		local obj = nil
 
 		if g.name == "sun" then
@@ -74,6 +79,12 @@ function refreshMinimap(e)
 			minimap:insert(obj)
 		end
 	end
+
+	local x = -group.x*zx + mdx - 20 + halfW
+	local y = -group.y*zy + mdy - 20 + halfH
+	local f = display.newRect(x, y, screenW/systemSizeX, screenH/systemSizeY)
+	f.alpha=0.5
+	minimap:insert(f)
 end
 
 -----------------------------------------------------------------------------------------
@@ -87,4 +98,6 @@ function gotoPlanet(e)
 		end
 	end
 	group.x, group.y = group.xScale*-planet.x + screenW/2, group.yScale*-planet.y + screenH/2
+
+	refreshMinimap(e)
 end

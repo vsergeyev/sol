@@ -17,11 +17,12 @@ function addHud()
 	infoPanel:setFillColor( 127 )
 	infoPanel:addEventListener('touch', function() return true end)
 
-	local infoTitle = display.newText("", 10, 10, 180, 20, native.systemFont, 16)
-	local infoText = display.newText("", 10, 40, 280, 200, native.systemFont, 12)
+	-- Selected object info
+	local infoTitle = display.newText("", 280, 10, 180, 20, native.systemFont, 16)
+	local infoText = display.newText("", 280, 40, 480, 200, native.systemFont, 12)
 
 	-- Resources
-	local infoMoney = display.newText("", screenW-190, 10, 220, 20, native.systemFont, 12)
+	local infoMoney = display.newText("", screenW-220, 200-screenH, 220, 20, native.systemFont, 12)
 	infoMoney:setTextColor(200, 200, 80)
 
 	groupHud:insert(infoPanel)
@@ -35,12 +36,19 @@ function addHud()
 	groupHud.text = infoText
 	groupHud.money = infoMoney
 
+	-- Minimap
+	minimap = display.newGroup()
+	groupHud:insert(minimap)
+	addMinimap()
+	minimap.x, minimap.y = 0, 0
+	minimap.alpha = 1
+
 	-- Planets fast buttons
 	local planets = display.newGroup()
 	groupHud:insert(planets)
 	addPlanetsButtons(planets)
 	addGameButtons(planets)
-	planets.x, planets.y = 310, 10
+	planets.x, planets.y = 280, 10
 	groupHud.planets = planets
 	planets.alpha = 0
 
@@ -48,7 +56,7 @@ function addHud()
 	local build = display.newGroup()
 	groupHud:insert(build)
 	addBuildButtons(build)
-	build.x, build.y = 310, 10
+	build.x, build.y = 780, 10
 	groupHud.build = build
 	build.alpha = 0
 
@@ -56,16 +64,9 @@ function addHud()
 	local fleet = display.newGroup()
 	groupHud:insert(fleet)
 	addFleetButtons(fleet)
-	fleet.x, fleet.y = 310, 10
+	fleet.x, fleet.y = 280, 10
 	groupHud.fleet = fleet
 	fleet.alpha = 0
-
-	-- Minimap
-	minimap = display.newGroup()
-	groupHud:insert(minimap)
-	addMinimap()
-	minimap.x, minimap.y = screenW-200, 10
-	minimap.alpha = 1
 
 	-- Main Hud Alpha
 	groupHud.alpha = 0.5	

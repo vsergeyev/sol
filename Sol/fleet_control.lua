@@ -138,7 +138,7 @@ function collisionShip(e)
 				t.next2BattleTarget = o
 			end
 			-- table.insert(t.enemies, o)
-			showBaloon("Our ship engaged the enemy")
+			-- showBaloon("Our ship engaged the enemy")
 			-- local alert = native.showAlert( "Encountered aliens battleship!", "Start battle or retreat to nearest planet?", { "Retreat", "Fight" }, onCompleteBattle )
 		end
 	end

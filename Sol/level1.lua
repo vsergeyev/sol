@@ -122,7 +122,7 @@ function scene:createScene( event )
 	timer.performWithDelay(4000, moveFighters, 0 )
 	timer.performWithDelay(6000, hightlightSun, 0 )
 	timer.performWithDelay(200, refreshMinimap, 1 )
-	timer.performWithDelay(5000, refreshMinimap, 0 )
+	timer.performWithDelay(3000, refreshMinimap, 0 )
 	timer.performWithDelay(20000, calcIncome, 0 )
 	timer.performWithDelay(10000, stardateGo, 0 )
 	timer.performWithDelay(5000, targetShips, 0 )
@@ -139,7 +139,7 @@ function scene:createScene( event )
 
 	-- Position camera on Earth
 	group.x = -1350
-	group.y = 300
+	group.y = 250
 	--group.x =  100
 	--group.y = 200
 

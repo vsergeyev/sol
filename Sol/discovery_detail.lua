@@ -28,7 +28,7 @@ function detailScreen()
 	e.x, e.y = screenW-item.res.w, dy + item.res.h
 	p:insert(e)
 
-	local infoText = display.newText("Origin: Earth\n\n"..infoPedia[item.name], dx + 20, dy + 60, 600, 400, native.systemFont, 12)
+	local infoText = display.newText("Origin: Earth\n\n"..infoPedia[item.name], dx + 20, dy + 60, 600, 400, native.systemFont, 14)
 	p:insert(infoText)
 
 	infoText.text = infoText.text .. "\n\nStaff: "..item.res.staff.."\n\nHP: "..item.hp.."/"..item.res.hp.."\nShield: "..item.shield.."/"..item.res.shield.."\nAttack: "..item.res.attack.."\nWarp speed: "..item.res.speed.."\n\nLoad maximum: \nFighters: "..item.res.fighters_max.."\nRepair droids: "..item.res.droids_max

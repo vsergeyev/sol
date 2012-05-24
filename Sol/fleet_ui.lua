@@ -30,11 +30,13 @@ function addFleetButtons(g)
 	end
 
 	-- Carrirer UI buttons
+	local b = display.newText("Ship control:", 500, 0, native.systemFont, 16)
+	g:insert(b)
 	-- build Fighter button for Carrier
 	local s = shipsData[4]
 	local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
 	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 0, 0
+	b.x, b.y = 500, 30
 	b.fullName = s.fullName
 	b.ship = s.ship
 	b.res = s.res
@@ -47,7 +49,7 @@ function addFleetButtons(g)
 	local s = shipsData[7]
 	local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
 	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 80, 0
+	b.x, b.y = 580, 30
 	b.fullName = s.fullName
 	b.ship = s.ship
 	b.res = s.res
@@ -59,7 +61,7 @@ function addFleetButtons(g)
 	-- show details
 	local b = display.newImageRect("ui/buttons/details.png", 70, 70)
 	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 440, 0
+	b.x, b.y = 660, 30
 	b:addEventListener('touch', hudDetails)
 	g:insert(b)
 	g.details = b

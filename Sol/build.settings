@@ -22,6 +22,7 @@ settings = {
             },
             CFBundleDisplayName = "Sol control",
             CFBundleVersion = "1.0",
+            CFBundleIdentifier = "G7VEJ27EVV.com.pythondevside.Sol"
 		}
 	},
 	
