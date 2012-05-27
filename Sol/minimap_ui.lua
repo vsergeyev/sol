@@ -19,8 +19,8 @@ function gotoMinimap( e )
 		showInfo(nil)
 	end
 	-- center Solar system to the point on minimap
-	group.x = ((halfW - e.x + mdx + 5 + minimap.x) * 80) / group.xScale
-	group.y = ((halfH - e.y + mdy + 7 + groupHud.y) * 80) / group.yScale
+	group.x = ((halfW - e.x + mdx + 5 + minimap.x) * 80) * group.xScale
+	group.y = ((halfH - e.y + mdy + 7 + groupHud.y) * 80) * group.yScale
 
 	--if e.phase == "moved" then
 	refreshMinimap(e)
@@ -80,8 +80,8 @@ function refreshMinimap(e)
 		end
 	end
 
-	local x = -group.x*zx + mdx - 20 + halfW
-	local y = -group.y*zy + mdy - 20 + halfH
+	local x = -group.x*zx*group.xScale + mdx - 20 + halfW
+	local y = -group.y*zy*group.yScale + mdy - 20 + halfH
 	local f = display.newRect(x, y, screenW/systemSizeX, screenH/systemSizeY)
 	f.alpha=0.5
 	minimap:insert(f)
