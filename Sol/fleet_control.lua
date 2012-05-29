@@ -9,6 +9,8 @@ require "notifications"
 require "economy"
 require "battle_ai"
 
+local movieclip = require "movieclip"
+
 local baseImpulse = 150
 local maxImpulseMoveSize = 150
 local rand = math.random
@@ -24,16 +26,32 @@ function buildShip(e)
 
 	local t = e.target
 	local p = selectedObject
+	local ship = nil
 
-	local ship = display.newImageRect("ships/"..t.ship..".png", t.res.w, t.res.h)
+	if t.ship == "fighter" then
+		ship = movieclip.newAnim({"ships/"..t.ship..".png", "ships/"..t.ship.."2.png"})
+		ship:setSpeed(0.2)
+		ship:play()
+	elseif t.ship == "carier" then
+		ship = movieclip.newAnim({"ships/"..t.ship..".png", "ships/"..t.ship.."2.png"})
+		ship:setSpeed(0.02)
+		ship:play()
+	else
+		ship = display.newImageRect("ships/"..t.ship..".png", t.res.w, t.res.h)
+	end
+
 	ship.x, ship.y = p.x, p.y
 	ship.originPlanet = p
 	ship.targetPlanet = p
 	ship.targetReached = true
 	ship.r = 75
-	ship.sensors = 300
-	ship.orbit = 3 + math.random(3)
-	ship.alphaR = 0 -- math.random(360)
+	if t.ship == "trade" then
+		ship.sensors = 100
+	else
+		ship.sensors = 300
+	end
+	ship.orbit = math.random(3)
+	ship.alphaR = 1 -- math.random(360)
 	ship.fullName = t.fullName
 	ship.name = t.ship
 	ship.res = t.res
@@ -116,7 +134,7 @@ function collisionShip(e)
 			t.originPlanet = planet
 			t.targetReached = false
 		elseif t.nameType == "ship" and planet == t.targetPlanet and not t.targetReached then
-			showBaloon(t.fullName.."\n"..planet.fullName.." reached")
+			-- showBaloon(t.fullName.."\n"..planet.fullName.." reached")
 			t.targetReached = true
 			t:setLinearVelocity(0, 0)
 		end
@@ -240,10 +258,10 @@ function selectShip( e )
 			-- TODO: draw arrow end
 			-- TODO: limit arrow length
 			-- TODO: fix target center
-			local arrow = display.newLine(t.x,t.y, (e.x - group.x)/group.xScale, (e.y - group.y)/group.yScale )
+			-- local arrow = display.newLine(t.x,t.y, (e.x - group.x)/group.xScale, (e.y - group.y)/group.yScale )
 			-- arrow.width = 3
-			group:insert(arrow)
-			arrows[e.id] = arrow
+			-- group:insert(arrow)
+			-- arrows[e.id] = arrow
 
 			t.rotation = - t.res.r + math.deg(math.atan2( -t.y + (e.y - group.y)/group.xScale, -t.x + (e.x - group.x)/group.yScale)) -- - t.imageRotation
 			-- print(t.rotation)
@@ -251,7 +269,7 @@ function selectShip( e )
 		elseif "ended" == phase or "cancelled" == phase then
 			oneTouchBegan = false
 
-			arrows[e.id] = nil
+			-- arrows[e.id] = nil
 
 			t.isFocus = false
 			display.getCurrentStage():setFocus( t, e.id )
@@ -290,25 +308,31 @@ function targetShips(e)
 end
 
 function repairCarrier()
-	-- repair Carrier if it NOT in battle
+	-- repair ships if it NOT in battle
 
 	if isPause then return end
 
-	local g = group.carrier
-	if not g.inBattle then
-		if g.shield < g.res.shield then
-			g.shield = g.shield + 10
-			if g.shield > g.res.shield then
-				g.shield = g.res.shield
+	-- local g = group.carrier
+
+	for i = 1, group.numChildren, 1 do
+		local g = group[i]
+		if g.nameType == "ship" then
+			if not g.inBattle then
+				if g.shield < g.res.shield then
+					g.shield = g.shield + 10
+					if g.shield > g.res.shield then
+						g.shield = g.res.shield
+					end
+				end
+
+				if g.hp < g.res.hp then
+					g.hp = g.hp + 1
+				end
+
+				if selectedObject == g then
+					showInfo(g)
+				end
 			end
-		end
-
-		if g.hp < g.res.hp then
-			g.hp = g.hp + 1
-		end
-
-		if selectedObject == g then
-			showInfo(g)
 		end
 	end
 end

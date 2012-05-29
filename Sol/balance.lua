@@ -25,7 +25,7 @@ shipsData = {
 		}
 	},
 	{
-		fullName = "Trade ship",
+		fullName = "Resource harvester",
 		ship = "trade",
 		res = {
 			hp = 80,
@@ -34,8 +34,8 @@ shipsData = {
 			attack = 0,
 			cost = 80,
 			e = 10,
-			w = 150,
-			h = 45,
+			w = 75,
+			h = 22,
 			r = 0,
 			autofigth = false
 		}
@@ -46,7 +46,7 @@ shipsData = {
 		res = {
 			hp = 2000,
 			shield = 500,
-			speed = 0.01,
+			speed = 0.05,
 			attack = 5,
 			cost = 200,
 			e = 20,
@@ -90,7 +90,7 @@ shipsData = {
 		},
 	},
 	{
-		fullName = 'USS "Discovery"',
+		fullName =  'Carrier', --'USS "Discovery"',
 		ship = "carier",
 		res = {
 			class = "Carrier",
@@ -202,34 +202,38 @@ buildData = {
 planetsData = {
 	{
 		name = "mercury",
-		size = 20,
-	},
-	{
-		name = "venus",
-		size = 30,
-	},
-	{
-		name = "earth",
-		size = 35,
-	},
-	{
-		name = "mars",
-		size = 35,
-	},
-	{
-		name = "jupiter",
 		size = 60,
 	},
 	{
-		name = "saturn",
-		size = 100,
+		name = "venus",
+		size = 60,
 	},
 	{
-		name = "uranus",
-		size = 35,
+		name = "earth",
+		size = 60,
 	},
 	{
-		name = "neptune",
-		size = 25,
-	}
+		name = "moon",
+		size = 60,
+	},
+	-- {
+	-- 	name = "mars",
+	-- 	size = 35,
+	-- },
+	-- {
+	-- 	name = "jupiter",
+	-- 	size = 60,
+	-- },
+	-- {
+	-- 	name = "saturn",
+	-- 	size = 100,
+	-- },
+	-- {
+	-- 	name = "uranus",
+	-- 	size = 35,
+	-- },
+	-- {
+	-- 	name = "neptune",
+	-- 	size = 25,
+	-- }
 }

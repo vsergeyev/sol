@@ -14,18 +14,19 @@ function showBaloon(text)
 	end
 
 	local baloonGroup = display.newGroup()
-	baloonGroup.alpha = 0.5
+	baloonGroup.alpha = 0.7
 
 	local b = display.newRoundedRect(0, 0, 200, 95, 5)
 	b.strokeWidth = 3
-	b:setFillColor(140, 140, 140)
-	b:setStrokeColor(180, 180, 180)
+	b:setFillColor(0)
+	b:setStrokeColor(10, 0, 150)
 	baloonGroup:insert(b)
 
 	local t = display.newText(text, 10, 10, 180, 76, native.systemFont, 16)
+	t:setTextColor(0, 200, 100)
 	baloonGroup:insert(t)
 
-	baloonGroup.x, baloonGroup.y = screenW-200, screenH-300
+	baloonGroup.x, baloonGroup.y = screenW-203, screenH-190
 	groupNotifications.baloon = baloonGroup
 	groupNotifications:insert(baloonGroup)
 

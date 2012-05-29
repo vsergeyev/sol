@@ -55,7 +55,7 @@ function addAlienShip()
 		end
 	end
 
-	showBaloon("Alien ship detected")
+	-- showBaloon("Alien ship detected")
 end
 
 -----------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ function addAlienStations()
 			ship.name = "aliens"
 			ship.is_station = true
 			ship.res = {
-				hp = 5000,
+				hp = 1000,
 				shield = 500,
 				attack = 2,
 				speed = 0.01,

@@ -38,11 +38,11 @@ function calcIncome()
 		end
 	end
 
-	gold = gold + c
-	energy = energy + e
+	-- gold = gold + c
+	-- energy = energy + e
 
 	showInfo(selectedObject)
-	showBaloon("Income: \n+"..c.."Megacredits \n+"..e.."Energy")
+	-- showBaloon("Income: \n+"..c.."Megacredits \n+"..e.."Energy")
 end
 
 -----------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ function tradeIncome()
 	gold = gold + 10
 
 	showInfo(selectedObject)
-	showBaloon("Trade income: \n10 Megacredits")
+	showBaloon("Harvested resources: \n10 MC")
 end
 
 -----------------------------------------------------------------------------------------

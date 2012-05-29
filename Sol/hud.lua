@@ -13,16 +13,20 @@ require "discovery_detail"
 
 -----------------------------------------------------------------------------------------
 function addHud()
-	local infoPanel = display.newRect(0, 0, screenW, 200)
+	local infoPanel = display.newImageRect("ui/hud.png", screenW, 200)
+	infoPanel:setReferencePoint(display.TopLeftReferencePoint)
+	infoPanel.x, infoPanel.y = 0, -110
 	infoPanel:setFillColor( 127 )
-	infoPanel:addEventListener('touch', function() return true end)
+	-- infoPanel:addEventListener('touch', function() return true end)
 
 	-- Selected object info
 	local infoTitle = display.newText("", 280, 10, 180, 20, native.systemFont, 16)
-	local infoText = display.newText("", 280, 40, 480, 200, native.systemFont, 12)
+	infoTitle:setTextColor(0, 200, 100)
+	local infoText = display.newText("", 280, 40, 300, 200, native.systemFont, 12)
+	infoText:setTextColor(0, 200, 100)
 
 	-- Resources
-	local infoMoney = display.newText("", screenW-220, 200-screenH, 220, 20, native.systemFont, 12)
+	local infoMoney = display.newText("", screenW-100, 100-screenH, 220, 20, native.systemFont, 12)
 	infoMoney:setTextColor(200, 200, 80)
 
 	groupHud:insert(infoPanel)
@@ -31,7 +35,7 @@ function addHud()
 	groupHud:insert(infoMoney)
 
 	groupHud.x = 0
-	groupHud.y = screenH-200
+	groupHud.y = screenH-90
 	groupHud.title = infoTitle
 	groupHud.text = infoText
 	groupHud.money = infoMoney
@@ -40,7 +44,7 @@ function addHud()
 	minimap = display.newGroup()
 	groupHud:insert(minimap)
 	addMinimap()
-	minimap.x, minimap.y = 0, 0
+	minimap.x, minimap.y = 0, -110
 	minimap.alpha = 1
 
 	-- Planets fast buttons
@@ -69,7 +73,7 @@ function addHud()
 	fleet.alpha = 0
 
 	-- Main Hud Alpha
-	groupHud.alpha = 0.5	
+	groupHud.alpha = 0.8	
 end
 
 -----------------------------------------------------------------------------------------

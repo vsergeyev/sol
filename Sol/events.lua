@@ -99,7 +99,19 @@ function movePlanets( e )
 			if g.badgeDefence then
 				g.badgeDefence.x, g.badgeDefence.y = g.x + g.r + 30, g.y - g.r
 			end
-		elseif g.nameType == "ship" and g.targetPlanet and g.targetReached and not g.inBattle then
+		end
+	end
+end
+
+-----------------------------------------------------------------------------------------
+function moveAutopilot( e )
+	-- Ships targeted to planet and reached it fly around it too
+
+	if isPause then return end
+
+	for i = 1, group.numChildren, 1 do
+		local g = group[i]
+		if g.nameType == "ship" and g.targetPlanet and g.targetReached and not g.inBattle then
 			local p = g.targetPlanet
 			g.alphaR = g.alphaR + 0.001
 			
@@ -123,6 +135,7 @@ function movePlanets( e )
 	end
 end
 
+-----------------------------------------------------------------------------------------
 function moveFighters( e )
 	-- Move fighters near carrier
 

@@ -20,7 +20,7 @@ function gotoMinimap( e )
 	end
 	-- center Solar system to the point on minimap
 	group.x = ((halfW - e.x + mdx + 5 + minimap.x) * 80) * group.xScale
-	group.y = ((halfH - e.y + mdy + 7 + groupHud.y) * 80) * group.yScale
+	group.y = ((halfH - e.y + mdy + 7 + groupHud.y - 110) * 80) * group.yScale
 
 	--if e.phase == "moved" then
 	refreshMinimap(e)
@@ -35,14 +35,7 @@ function addMinimap()
 	local map = display.newRect(mdx, mdy, mapW, mapH)
 	map.name = "map"
 	map:setFillColor(0)
-	minimap:insert(map)
-	local map = display.newRect(mdx, mdy, mapW, mapH)
-	map.name = "map"
-	map:setFillColor(0)
-	minimap:insert(map)
-	local map = display.newRect(mdx, mdy, mapW, mapH)
-	map.name = "map"
-	map:setFillColor(0)
+	map.alpha = 0.1
 	minimap:insert(map)
 
 	map:addEventListener('touch', gotoMinimap)
@@ -65,10 +58,11 @@ function refreshMinimap(e)
 
 		if g.name == "sun" then
 			obj = display.newRect(x, y, 10, 10)
-			obj:setFillColor(255)
+			--obj:setFillColor(255)
+			obj:setFillColor(0, 200, 100)
 		elseif g.nameType == "planet" then
 			obj = display.newRect(x, y, 6, 6)
-			obj:setFillColor(0, 0, 200)
+			obj:setFillColor(0, 200, 100)
 		elseif g.enemy then
 			obj = display.newRect(x, y, 3, 3)
 			obj:setFillColor(255, 0, 0)
@@ -83,6 +77,7 @@ function refreshMinimap(e)
 	local x = -group.x*zx*group.xScale + mdx - 20 + halfW
 	local y = -group.y*zy*group.yScale + mdy - 20 + halfH
 	local f = display.newRect(x, y, screenW/systemSizeX, screenH/systemSizeY)
+	f:setFillColor(0, 255, 0)
 	f.alpha=0.5
 	minimap:insert(f)
 end
