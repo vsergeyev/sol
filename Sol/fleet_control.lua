@@ -28,58 +28,66 @@ function buildShip(e)
 	local p = selectedObject
 	local ship = nil
 
-	if t.ship == "fighter" then
-		ship = movieclip.newAnim({"ships/"..t.ship..".png", "ships/"..t.ship.."2.png"})
-		ship:setSpeed(0.2)
-		ship:play()
-	elseif t.ship == "carier" then
-		ship = movieclip.newAnim({"ships/"..t.ship..".png", "ships/"..t.ship.."2.png"})
-		ship:setSpeed(0.02)
-		ship:play()
+	if t.res.cost <= gold then
+		-- build ship
+		if t.ship == "fighter" then
+			ship = movieclip.newAnim({"ships/"..t.ship..".png", "ships/"..t.ship.."2.png"})
+			ship:setSpeed(0.2)
+			ship:play()
+		elseif t.ship == "carier" then
+			ship = movieclip.newAnim({"ships/"..t.ship..".png", "ships/"..t.ship.."2.png"})
+			ship:setSpeed(0.02)
+			ship:play()
+		else
+			ship = display.newImageRect("ships/"..t.ship..".png", t.res.w, t.res.h)
+		end
+
+		ship.x, ship.y = p.x, p.y
+		ship.originPlanet = p
+		ship.targetPlanet = p
+		ship.targetReached = true
+		ship.r = 75
+		if (t.ship == "trade") or (t.ship == "explorer") then
+			ship.sensors = 100
+		else
+			ship.sensors = 300
+		end
+		ship.orbit = math.random(3)
+		ship.alphaR = 1 -- math.random(360)
+		ship.fullName = t.fullName
+		ship.name = t.ship
+		ship.res = t.res
+		ship.hp = t.res.hp -- res.hp == max/normal/100% hp
+		ship.shield = t.res.shield
+		ship.nameType = "ship"
+		ship.enemy = false
+		ship.enemies = {}
+		ship.imageRotation = t.r -- 15 -- scout image now a little rotated
+		physics.addBody(ship, {radius=ship.sensors, filter=shipsCollisionFilter})
+		ship.isSensor = true
+		group:insert(ship)
+		ship:addEventListener('touch', selectShip)
+		ship:addEventListener('collision', collisionShip)
+		-- ship:addEventListener('postCollision', escapeShip)
+
+		if t.is_station then
+			ship.is_station = true
+			ship.isFixedRotation = true
+		end
+
+		if t.on_carrier then
+			ship.on_carrier = true
+			ship.rotation = p.rotation
+			impulseShip(ship, 20, 10, 0.2)
+		end
+
+		gold = gold - ship.res.cost
+		groupHud.money.text = gold.." MC"
+
+		showBaloon("Ship ready: \n"..ship.fullName)
 	else
-		ship = display.newImageRect("ships/"..t.ship..".png", t.res.w, t.res.h)
+		showBaloon("Need more resources: \n"..t.res.cost.." MC")
 	end
-
-	ship.x, ship.y = p.x, p.y
-	ship.originPlanet = p
-	ship.targetPlanet = p
-	ship.targetReached = true
-	ship.r = 75
-	if t.ship == "trade" then
-		ship.sensors = 100
-	else
-		ship.sensors = 300
-	end
-	ship.orbit = math.random(3)
-	ship.alphaR = 1 -- math.random(360)
-	ship.fullName = t.fullName
-	ship.name = t.ship
-	ship.res = t.res
-	ship.hp = t.res.hp -- res.hp == max/normal/100% hp
-	ship.shield = t.res.shield
-	ship.nameType = "ship"
-	ship.enemy = false
-	ship.enemies = {}
-	ship.imageRotation = t.r -- 15 -- scout image now a little rotated
-	physics.addBody(ship, {radius=ship.sensors, filter=shipsCollisionFilter})
-	ship.isSensor = true
-	group:insert(ship)
-	ship:addEventListener('touch', selectShip)
-	ship:addEventListener('collision', collisionShip)
-	-- ship:addEventListener('postCollision', escapeShip)
-
-	if t.is_station then
-		ship.is_station = true
-		ship.isFixedRotation = true
-	end
-
-	if t.on_carrier then
-		ship.on_carrier = true
-		ship.rotation = p.rotation
-		impulseShip(ship, 20, 10, 0.2)
-	end
-
-	showBaloon("Ship ready: \n"..ship.fullName)
 
 	return ship
 end
@@ -94,6 +102,19 @@ function colonizeIt()
     	showBaloon(planetToColonize.fullName.."\nHuman colony established")
     	planetToColonize = nil
     	timer.performWithDelay(50, function ()
+    		-- clear target on linked ships
+			for i = 1, group.numChildren, 1 do
+				local g0 = group[i]
+				if g0.nextBattleTarget == colonizationShip then
+					g0.nextBattleTarget = nil
+				end
+				if g0.next2BattleTarget == colonizationShip then
+					g0.next2BattleTarget = nil
+				end
+				if g0.battleTarget == colonizationShip then
+					outOfBattle(g0)
+				end
+			end
     		colonizationShip:removeSelf()
     	end, 1 )
     end
@@ -316,7 +337,7 @@ function repairCarrier()
 
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
-		if g.nameType == "ship" then
+		if g.nameType == "ship" and g.res.attack > 0 then
 			if not g.inBattle then
 				if g.shield < g.res.shield then
 					g.shield = g.shield + 10

@@ -10,7 +10,7 @@ require "balance"
 local aliensCollisionFilter = { groupIndex = -2 }
 
 -----------------------------------------------------------------------------------------
-function addAlienShip()
+function addAlienShip(target)
 	-- adds alien warship
 
 	local ship = "cruiser"
@@ -31,6 +31,7 @@ function addAlienShip()
 	ship.alphaR = 90
 	ship.fullName = shipData.fullName
 	ship.name = shipData.ship
+	ship.name2 = shipData.name
 	ship.res = shipData.res
 	ship.hp = ship.res.hp
 	ship.shield = ship.res.shield
@@ -43,7 +44,11 @@ function addAlienShip()
 	-- ship:addEventListener('postCollision', escapeShip)
 
 	-- by default send aliens to Earth
-	ship.targetPlanet =  group.planets[math.random(#group.planets)] --group.earth
+	if target then
+		ship.targetPlanet = target
+	else	
+		ship.targetPlanet =  group.planets[math.random(#group.planets)] --group.earth
+	end
 	ship.targetReached = false
 
 	for i = 1, group.numChildren, 1 do
@@ -64,7 +69,7 @@ function addAlienStations()
 
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
-		if g.nameType == "planet" and not g.res.colonized then
+		if (g.nameType == "planet" and not g.res.colonized) and (g.name ~= "moon") then
 			local ship = display.newImageRect("aliens/station.png", 50, 50)
 			ship.x, ship.y = 0, 0
 			ship.enemy = true
@@ -79,9 +84,9 @@ function addAlienStations()
 			ship.name = "aliens"
 			ship.is_station = true
 			ship.res = {
-				hp = 1000,
+				hp = 500,
 				shield = 500,
-				attack = 2,
+				attack = 10,
 				speed = 0.01,
 				w = 50,
 				h = 50

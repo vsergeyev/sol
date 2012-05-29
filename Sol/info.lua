@@ -26,7 +26,7 @@ It is the most advanced and biggest battleship in the Solar System. And it's und
 -----------------------------------------------------------------------------------------
 function showInfo( item )
 	-- groupHud.alpha = 0.5
-	groupHud.money.text = "" -- gold.."C " --..energy.."E | Date: "..stardate
+	groupHud.money.text = gold.." MC" --..energy.."E | Date: "..stardate
 
 	if item then
 		if item.fullName then
@@ -88,7 +88,7 @@ function showInfo( item )
 			groupHud.text.text = infoPedia[item.name]
 		end
 	else
-		groupHud.title.text = "Resources: "..gold.." MC"  --"Solar system"
+		groupHud.title.text = "" -- "Resources: "..gold.." MC"  --"Solar system"
 		groupHud.text.text = "" -- [[The Solar System consists of the Sun and the astronomical objects gravitationally bound in orbit around it, all of which formed from the collapse of a giant molecular cloud approximately 4.6 billion years ago.]]
 		groupHud.build.alpha = 0
 		groupHud.fleet.alpha = 0

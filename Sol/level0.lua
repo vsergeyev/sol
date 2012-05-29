@@ -30,6 +30,7 @@ require "economy"
 require "fleet_control"
 require "aliens"
 require "ai"
+require "levels_control"
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -94,7 +95,7 @@ function scene:createScene( event )
 
 	-- Timers
 	-- timer.performWithDelay(50, rotateSky, 0 )
-	timer.performWithDelay(100, movePlanets, 1 )
+	-- timer.performWithDelay(100, movePlanets, 1 )
 	timer.performWithDelay(100, moveAutopilot, 0 )
 	timer.performWithDelay(4000, moveFighters, 0 )
 	timer.performWithDelay(6000, hightlightSun, 0 )
@@ -108,8 +109,13 @@ function scene:createScene( event )
 	math.randomseed( os.time() )
 	-- timer.performWithDelay(500, aiTurn, 0 )
 
+	movePlanets()
 	addAlienStations()
-	timer.performWithDelay(5000, addAlienShip, 0 )
+	-- timer.performWithDelay(5000, addAlienShip, 0 )
+
+	startLevel(levelNow)
+	-- check victory or loose in level
+	timer.performWithDelay(1000, levelCondition, 0 )
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )
@@ -119,11 +125,11 @@ function scene:createScene( event )
 	group.y = 250
 	
 	-- build our Carrier
-	selectedObject = group.earth
-	local ship = buildShip({target=shipsData[6]})
-	ship.targetPlanet = group.earth
-	ship.targetReached = false
-	group.carrier = ship
+	-- selectedObject = group.earth
+	-- local ship = buildShip({target=shipsData[6]})
+	-- ship.targetPlanet = group.earth
+	-- ship.targetReached = false
+	-- group.carrier = ship
 
 	-- build fighters
 	-- selectedObject = ship

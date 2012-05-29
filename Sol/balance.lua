@@ -9,14 +9,14 @@
 -----------------------------------------------------------------------------------------
 shipsData = {
 	{
-		fullName = "Colonization ship",
+		fullName = 'USS "E.S.C." colonists ship',
 		ship = "explorer",
 		res = {
-			hp = 50,
+			hp = 20,
 			shield = 20,
 			speed = 0.5,
 			attack = 0,
-			cost = 100,
+			cost = 20,
 			e = 10,
 			w = 111,
 			h = 40,
@@ -25,14 +25,14 @@ shipsData = {
 		}
 	},
 	{
-		fullName = "Resource harvester",
+		fullName = 'USS "Harvester" freighter',
 		ship = "trade",
 		res = {
 			hp = 80,
 			shield = 20,
 			speed = 0.5,
 			attack = 0,
-			cost = 80,
+			cost = 50,
 			e = 10,
 			w = 75,
 			h = 22,
@@ -41,7 +41,7 @@ shipsData = {
 		}
 	},
 	{
-		fullName = "Defence Station",
+		fullName = 'Defence Starbase "Norad"',
 		ship = "station",
 		res = {
 			hp = 2000,
@@ -65,7 +65,7 @@ shipsData = {
 			shield = 20,
 			speed = 4,
 			attack = 5,
-			cost = 20,
+			cost = 10,
 			e = 2,
 			w = 30,
 			h = 18,
@@ -90,7 +90,7 @@ shipsData = {
 		},
 	},
 	{
-		fullName =  'Carrier', --'USS "Discovery"',
+		fullName =  'USS "Discovery" carrier', --'USS "Discovery"',
 		ship = "carier",
 		res = {
 			class = "Carrier",
@@ -102,7 +102,7 @@ shipsData = {
 			droids_max = 2,
 			speed = 0.5,
 			attack = 10,
-			cost = 5000,
+			cost = 500,
 			e = 500,
 			w = 248,
 			h = 50,

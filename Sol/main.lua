@@ -21,9 +21,10 @@ groupX, groupY = 0, 0
 sun = nil
 ships = {}
 
-gold = 400
+gold = 100
 energy = 50
 stardate = 48315.6
+levelNow = 1
 
 planetGravitationFieldRadius = 1.1
 planetGraviationDamping = 1

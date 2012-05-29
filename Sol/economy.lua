@@ -50,7 +50,7 @@ function tradeIncome()
 	gold = gold + 10
 
 	showInfo(selectedObject)
-	showBaloon("Harvested resources: \n10 MC")
+	showBaloon("+10 MC")
 end
 
 -----------------------------------------------------------------------------------------

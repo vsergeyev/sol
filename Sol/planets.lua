@@ -97,10 +97,10 @@ function addPlanets()
 	moon.nameType = "planet" -- moon" -- "planet"
 	moon.res = {
 		supplies = 0,
-		colonized = true,
-		population = 30000,
+		colonized = false, -- true,
+		population = 0, -- 30000,
 		techlevel = 0,
-		defence = 1,
+		defence = 0,
 		generators = 0
 	}
 	group:insert(moon)

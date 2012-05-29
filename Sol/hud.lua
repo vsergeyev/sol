@@ -20,14 +20,14 @@ function addHud()
 	-- infoPanel:addEventListener('touch', function() return true end)
 
 	-- Selected object info
-	local infoTitle = display.newText("", 280, 10, 180, 20, native.systemFont, 16)
+	local infoTitle = display.newText("", 280, 10, 252, 20, native.systemFont, 16)
 	infoTitle:setTextColor(0, 200, 100)
 	local infoText = display.newText("", 280, 40, 300, 200, native.systemFont, 12)
 	infoText:setTextColor(0, 200, 100)
 
 	-- Resources
-	local infoMoney = display.newText("", screenW-100, 100-screenH, 220, 20, native.systemFont, 12)
-	infoMoney:setTextColor(200, 200, 80)
+	local infoMoney = display.newText("", screenW-100, -40, 220, 20, native.systemFont, 16)
+	infoMoney:setTextColor(0 , 200, 100)
 
 	groupHud:insert(infoPanel)
 	groupHud:insert(infoTitle)
