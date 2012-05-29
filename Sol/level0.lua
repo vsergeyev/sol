@@ -58,7 +58,7 @@ function scene:createScene( event )
 	local sky = display.newImageRect("bg/bg2.png", 1280, 852)	
 	sky:setReferencePoint( display.CenterReferencePoint )
 	sky.x, sky.y = screenW/2, screenH/2
-	sky.alpha = 0.3
+	sky.alpha = 0.1
 	groupSky:insert(sky)
 	groupSky.sky = sky
 

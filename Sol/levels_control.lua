@@ -13,16 +13,17 @@ levelsData = {
 		title = "Mission 1: Ticket To The Moon",
 		task = [[Establish colony on the Moon.
 
-Build USS "E.S.C" class ship and use it to colonize Earth's satelite.
+Build USS "E.C.S." class ship and use it to colonize Earth's satelite.
 
-Once colony established, build USS "Harvester" class space ships to transport resources from the Moon to the Earth.
+Once colony established, build USS "Minecrafter" class space ships to transport rare minerals from the Moon to Earth and equipment & supplies back to colonists.
 
 Victory condition: gain 200 MC]],
 		goal = 200, -- resources, victory condition
+		sound = "level1.m4a"
 	},
 	{
 		title = "Mission 2: Be My Baby",
-		task = [[Good to go, Captain,
+		task = [[Good to go, Admiral,
 
 Our colonists work hard on the Moon to supply our fleet with rare minerals. We should protect them from any treat from outer space.
 
@@ -35,7 +36,7 @@ Victory condition: Defence Starbase + 2 fighters.
 	},
 	{
 		title = "Mission 3: First Contact",
-		task = [[Captain, today is great day for all Humanity,
+		task = [[Admiral, today is great day for all Humanity,
 
 We have received incoming signatures. Scanners shows objects, very similar to space crafts and they approaching to our planet.
 
@@ -49,13 +50,13 @@ Victory condition: meet alien fleet]],
 	},
 	{
 		title = "Mission 4: First Contact War",
-		task = [[Captain, our new "friends" show themselfs not so friendly.
+		task = [[Admiral, our new "friends" show themselfs not so friendly.
 
 The High Command ordered us to expand our military presence in Solar System. Build USS "Discovery" class carrier and escort colonists ships to Mercury and Venus.
 
 USS "Discovery" class warships designed to bring our fighters in the heart of battle. Those massive spacecrafts carry heavy fazers artillery and powerful shield generators. Every carrier has repair droids and can fix most of damages while out of battle.
 
-Victory condition: USS "Discovery" carrier + colonized Marcury and Venus.]],
+Victory condition: USS "Discovery" carrier + colony on Mercury and Venus.]],
 		spawn = {
 			aliens = 20,
 			times = 10
@@ -95,6 +96,10 @@ function levelScreen(item)
 		if e.phase == 'ended' then
 			gamePause(e)
 			p:removeSelf()
+			if item.sound then
+				local sound = audio.loadStream("sounds/"..item.sound)
+				audio.play(sound)
+			end
 		end
 
 		return true

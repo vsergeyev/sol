@@ -9,7 +9,7 @@
 -----------------------------------------------------------------------------------------
 shipsData = {
 	{
-		fullName = 'USS "E.S.C." colonists ship',
+		fullName = 'USS "E.C.S." colonists ship',
 		ship = "explorer",
 		res = {
 			hp = 20,
@@ -25,7 +25,7 @@ shipsData = {
 		}
 	},
 	{
-		fullName = 'USS "Harvester" freighter',
+		fullName = 'USS "Minecrafter" freighter',
 		ship = "trade",
 		res = {
 			hp = 80,

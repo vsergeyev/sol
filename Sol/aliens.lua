@@ -84,7 +84,7 @@ function addAlienStations()
 			ship.name = "aliens"
 			ship.is_station = true
 			ship.res = {
-				hp = 500,
+				hp = 1000,
 				shield = 500,
 				attack = 10,
 				speed = 0.01,

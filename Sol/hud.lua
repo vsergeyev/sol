@@ -73,7 +73,7 @@ function addHud()
 	fleet.alpha = 0
 
 	-- Main Hud Alpha
-	groupHud.alpha = 0.8	
+	-- groupHud.alpha = 0.8	
 end
 
 -----------------------------------------------------------------------------------------
