@@ -38,4 +38,4 @@ display.setStatusBar( display.HiddenStatusBar )
 local storyboard = require "storyboard"
 
 -- load menu screen
-storyboard.gotoScene( "level0" )
+storyboard.gotoScene( "menu" )

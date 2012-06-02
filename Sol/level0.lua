@@ -96,6 +96,7 @@ function scene:createScene( event )
 	-- Timers
 	-- timer.performWithDelay(50, rotateSky, 0 )
 	-- timer.performWithDelay(100, movePlanets, 1 )
+	timer.performWithDelay(1000, animatePlanets, 0 )
 	timer.performWithDelay(100, moveAutopilot, 0 )
 	timer.performWithDelay(4000, moveFighters, 0 )
 	timer.performWithDelay(6000, hightlightSun, 0 )

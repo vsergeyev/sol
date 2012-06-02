@@ -234,8 +234,9 @@ function addPlanets()
 		local g = group[i]
 		if g.nameType == "planet" or g.name == "sun" then
 			local gr = display.newCircle(g.x, g.y, g.r*planetGravitationFieldRadius)
+			-- local gr = display.newImageRect("i/shield.png", 2*g.r*planetGravitationFieldRadius, 2*g.r*planetGravitationFieldRadius)
 			gr.name = "planet_field"
-			gr.alpha = 0.1
+			gr.alpha = 0.01
 			group:insert(gr)
 			-- physics.addBody(gr, {friction=planetGraviationDamping, radius=planetGravitationFieldRadius})
 			physics.addBody(gr, {radius=g.r*planetGravitationFieldRadius})
@@ -244,4 +245,13 @@ function addPlanets()
 			g.field = gr
 		end
 	end
+end
+
+function animatePlanets(e)
+	-- for i = 1, group.numChildren, 1 do
+	-- 	local g = group[i]
+	-- 	if g.name == "planet_field" then
+	-- 		g.rotation = g.rotation + 1
+	-- 	end
+	-- end
 end

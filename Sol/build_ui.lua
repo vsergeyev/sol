@@ -21,7 +21,7 @@ function addBuildButtons(g)
 		local s = shipsData[i]
 		local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
 		b:setReferencePoint(display.TopLeftReferencePoint)
-		b.x, b.y = (i-2)*80, 0
+		b.x, b.y = 2 + (i-2)*73, 3
 		b.fullName = s.fullName
 		b.ship = s.ship
 		b.res = s.res
@@ -32,7 +32,7 @@ function addBuildButtons(g)
 	local s = shipsData[6]
 	local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
 	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 160, 0
+	b.x, b.y = 150, 3
 	b.fullName = s.fullName
 	b.ship = s.ship
 	b.res = s.res
@@ -62,9 +62,9 @@ function addPlanetsButtons(g)
 	for i = 1, #planetsData, 1 do
 		local planet = planetsData[i]
 		local b = display.newImageRect("i/"..planet.name..".png", planet.size, planet.size)
-		b.y = 35
+		b.y = 38
 		if i < 5 then
-			b.x = 200 + i*80
+			b.x = 238 + i*74
 		elseif i == 5 then
 			b.x = i*55-20
 		else
@@ -86,13 +86,13 @@ function addGameButtons(g)
 
 	local b = display.newImageRect("ui/buttons/pause.png", 70, 70)
 	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 580, 0
+	b.x, b.y = 575, 3
 	b:addEventListener('touch', gamePause)
 	g:insert(b)
 
 	local b = display.newImageRect("ui/buttons/menu.png", 70, 70)
 	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 660, 0
+	b.x, b.y = 650, 3
 	b:addEventListener('touch', gameMenu)
 	g:insert(b)
 

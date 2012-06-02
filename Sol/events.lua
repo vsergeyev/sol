@@ -69,8 +69,10 @@ function movePlanets( e )
 			g.x = g.x0  + g.orbit * math.sin(g.alphaR)
 			g.y = g.y0  + g.orbit/1.5 * math.cos(g.alphaR)
 			-- move gravitation fields with their planets
-			g.field.x = g.x
-			g.field.y = g.y
+			if g.field then
+				g.field.x = g.x
+				g.field.y = g.y
+			end
 			-- move overlay if planet selected
 			if g.overlay then
 				g.overlay.x = g.x
@@ -115,13 +117,14 @@ function moveAutopilot( e )
 			local p = g.targetPlanet
 			g.alphaR = g.alphaR + 0.001
 			
-			if g.enemy then
-				if g.is_station then
-					g.rotation = 0
-				else
-					g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
-				end
-				
+			if g.is_station then
+				g.rotation = 0
+
+				g.x = p.x + g.orbit*p.r * math.sin(g.alphaR)
+				g.y = p.y + g.orbit*p.r/1.5 * math.cos(g.alphaR)
+			elseif g.enemy then
+				g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
+
 				g.x = p.x + 1.5*g.orbit*p.r * math.sin(g.alphaR)
 				g.y = p.y + 1.5*g.orbit*p.r/1.5 * math.cos(g.alphaR)
 			elseif g.on_carrier then

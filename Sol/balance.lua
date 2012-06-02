@@ -18,7 +18,7 @@ shipsData = {
 			attack = 0,
 			cost = 20,
 			e = 10,
-			w = 111,
+			w = 110,
 			h = 40,
 			r = 0,
 			autofigth = false
@@ -50,12 +50,12 @@ shipsData = {
 			attack = 5,
 			cost = 200,
 			e = 20,
-			w = 50,
-			h = 50,
+			w = 110,
+			h = 130,
 			r = 0,
-			autofigth = true
-		},
-		is_station = true
+			autofigth = true,
+			is_station = true
+		}
 	},
 	{
 		fullName = "Fighter",
@@ -141,15 +141,15 @@ aliensData = {
 			attack = 3,
 			cost = 20,
 			e = 2,
-			w = 30,
-			h = 18,
+			w = 20,
+			h = 20,
 			r = 0,
 			autofigth = true
 		}
 	},
 	{
-		fullName = "Alien cruiser",
-		name = "cruiser",
+		fullName = "Alien frigate",
+		name = "frigate",
 		ship = "aliens",
 		res = {
 			hp = 200,
@@ -158,8 +158,8 @@ aliensData = {
 			attack = 10,
 			cost = 200,
 			e = 20,
-			w = 150,
-			h = 53,
+			w = 50,
+			h = 50,
 			r = 0,
 			autofigth = true
 		}

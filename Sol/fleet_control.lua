@@ -38,6 +38,11 @@ function buildShip(e)
 			ship = movieclip.newAnim({"ships/"..t.ship..".png", "ships/"..t.ship.."2.png"})
 			ship:setSpeed(0.02)
 			ship:play()
+		elseif t.ship == "station" then
+			local p = "ships/station/"
+			ship = movieclip.newAnim({p.."1.png", p.."2.png", p.."3.png", p.."4.png", p.."5.png", p.."6.png", p.."7.png", p.."8.png", p.."9.png", p.."10.png", p.."11.png", p.."12.png", p.."13.png", p.."17.png", p.."18.png"})
+			ship:setSpeed(0.2)
+			ship:play()
 		else
 			ship = display.newImageRect("ships/"..t.ship..".png", t.res.w, t.res.h)
 		end
@@ -70,7 +75,7 @@ function buildShip(e)
 		ship:addEventListener('collision', collisionShip)
 		-- ship:addEventListener('postCollision', escapeShip)
 
-		if t.is_station then
+		if t.res.is_station then
 			ship.is_station = true
 			ship.isFixedRotation = true
 		end
@@ -251,6 +256,7 @@ function selectShip( e )
 
 		if e.target.enemy then return true end
 		if e.target.name == "fighter" then return true end
+		if e.target.is_station then return true end
 		--
 
 		-- Stop ship

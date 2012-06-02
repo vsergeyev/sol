@@ -59,6 +59,7 @@ USS "Discovery" class warships designed to bring our fighters in the heart of ba
 Victory condition: USS "Discovery" carrier + colony on Mercury and Venus.]],
 		spawn = {
 			aliens = 20,
+			frigates = 2,
 			times = 10
 		}
 	},
@@ -148,10 +149,18 @@ end
 
 -----------------------------------------------------------------------------------------
 local function spawnAliens(e)
+	if isPause then return true end
+
 	local l = levelsData[levelNow]
 
 	for i=1, l.spawn.aliens, 1 do
 		addAlienShip()
+	end
+
+	if l.spawn.frigates then
+		for i=1, l.spawn.frigates, 1 do
+			addAlienShip(nil, 2)
+		end
 	end
 end
 

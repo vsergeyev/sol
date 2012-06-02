@@ -21,29 +21,7 @@ physics.setGravity(0, 0)
 
 --------------------------------------------
 
-isPause = false
-oneTouchBegan = false
-touchesPinch = {}
-
--- forward declarations and other locals
-screenW, screenH, halfW = display.contentWidth, display.contentHeight, display.contentWidth*0.5
-selectedObject = nil
-selectOverlay = nil
-groupSky = nil
-group = nil
-groupHud = nil
-groupNotifications = nil
-minimap = nil
-groupX, groupY = 0, 0
-sun = nil
-ships = {}
-
-gold = 400
-energy = 50
-stardate = 48315.6
-
-planetGravitationFieldRadius = 2
-planetGraviationDamping = 1
+gold = 500
 
 require "events"
 require "planets"
@@ -117,22 +95,24 @@ function scene:createScene( event )
 	-- group.yScale = 0.7
 
 	-- Timers
-	-- timer.performWithDelay(50, rotateSky, 0 )
-	timer.performWithDelay(100, movePlanets, 0 )
+	timer.performWithDelay(1000, animatePlanets, 0 )
+	timer.performWithDelay(100, moveAutopilot, 0 )
 	timer.performWithDelay(4000, moveFighters, 0 )
 	timer.performWithDelay(6000, hightlightSun, 0 )
 	timer.performWithDelay(200, refreshMinimap, 1 )
 	timer.performWithDelay(3000, refreshMinimap, 0 )
 	timer.performWithDelay(20000, calcIncome, 0 )
-	timer.performWithDelay(10000, stardateGo, 0 )
+	-- timer.performWithDelay(10000, stardateGo, 0 )
 	timer.performWithDelay(5000, targetShips, 0 )
 	timer.performWithDelay(1000, repairCarrier, 0 )
 
 	math.randomseed( os.time() )
 	-- timer.performWithDelay(500, aiTurn, 0 )
 
+	movePlanets()
 	addAlienStations()
-	timer.performWithDelay(2000, addAlienShip, 0 )
+
+	timer.performWithDelay(5000, addAlienShip, 0 )
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )
@@ -140,15 +120,6 @@ function scene:createScene( event )
 	-- Position camera on Earth
 	group.x = -1350
 	group.y = 250
-	--group.x =  100
-	--group.y = 200
-
-	-- build our Carrier
-	selectedObject = group.earth
-	local ship = buildShip({target=shipsData[6]})
-	ship.targetPlanet = group.earth
-	ship.targetReached = false
-	group.carrier = ship
 end
 
 -- Called immediately after scene has moved onscreen:

@@ -15,9 +15,9 @@ function addFleetButtons(g)
 	for i = 1, #planetsData, 1 do
 		local planet = planetsData[i]
 		local b = display.newImageRect("i/"..planet.name..".png", planet.size, planet.size)
-		b.y = 35
+		b.y = 38
 		if i < 5 then
-			b.x = 280 + i*80
+			b.x = 238 + i*74
 		elseif i == 5 then
 			b.x = i*55-20
 		else
@@ -36,7 +36,7 @@ function addFleetButtons(g)
 	local s = shipsData[4]
 	local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
 	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 660, 0
+	b.x, b.y = 650, 3
 	b.fullName = s.fullName
 	b.ship = s.ship
 	b.res = s.res

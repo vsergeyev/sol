@@ -7,21 +7,34 @@
 require "notifications"
 require "balance"
 
+local movieclip = require "movieclip"
+
 local aliensCollisionFilter = { groupIndex = -2 }
 
 -----------------------------------------------------------------------------------------
-function addAlienShip(target)
+function addAlienShip(target, shipKind)
 	-- adds alien warship
 
-	local ship = "cruiser"
-	local shipData = aliensData[1]
+	local shipData = nil
+	if shipKind then
+		shipData = aliensData[shipKind]
+	else
+		shipData = aliensData[1]
+	end
 
 	local planet = group.neptune
 
 	local x = planet.x - 250 + math.random(500)
 	local y = planet.y - 250 + math.random(500)
+	local ship = nil
 
-	local ship = display.newImageRect("aliens/"..shipData.name..".png", shipData.res.w, shipData.res.h)
+	if shipData.name == "fighter" or shipData.name == "frigate" then
+		ship = movieclip.newAnim({"aliens/"..shipData.name..".png", "aliens/"..shipData.name.."2.png"})
+		ship:setSpeed(0.01)
+		ship:play()
+	else
+		ship = display.newImageRect("aliens/"..shipData.name..".png", shipData.res.w, shipData.res.h)
+	end
 	ship.x, ship.y = x, y
 	ship.enemy = true
 	ship.enemies = {}

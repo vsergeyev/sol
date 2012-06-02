@@ -7,22 +7,9 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
--- include Corona's "widget" library
-local widget = require "widget"
+require "events"
 
 --------------------------------------------
-
--- forward declarations and other locals
-local playBtn
-
--- 'onRelease' event listener for playBtn
-local function onPlayBtnRelease()
-	
-	-- go to level1.lua scene
-	storyboard.gotoScene( "level1", "fade", 500 )
-	
-	return true	-- indicates successful touch
-end
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -34,36 +21,59 @@ end
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
-	local group = self.view
+	-- local group = self.view
+	group = self.view --display.newGroup()
 
 	-- display a background image
-	local background = display.newImageRect( "background.jpg", display.contentWidth, display.contentHeight )
-	background:setReferencePoint( display.TopLeftReferencePoint )
-	background.x, background.y = 0, 0
+	local sky = display.newImageRect("bg/bg3.png", 1700, 1200)
+	sky:setReferencePoint( display.CenterReferencePoint )
+	sky.x, sky.y = screenW/2, screenH/2
+	sky.alpha = 0.8
+	group:insert(sky)
 	
-	-- create/position logo/title image on upper-half of the screen
-	local titleLogo = display.newImageRect( "logo.png", 264, 42 )
-	titleLogo:setReferencePoint( display.CenterReferencePoint )
-	titleLogo.x = display.contentWidth * 0.5
-	titleLogo.y = 100
+	-- Earth
+	local earth = display.newImageRect("i/earth.png", 300, 300)
+	earth.x, earth.y = 200, screenH-200
+	group:insert(earth)
 	
-	-- create a widget button (which will loads level1.lua on release)
-	playBtn = widget.newButton{
-		label="Play Now",
-		labelColor = { default={255}, over={128} },
-		default="button.png",
-		over="button-over.png",
-		width=154, height=40,
-		onRelease = onPlayBtnRelease	-- event listener function
-	}
-	playBtn.view:setReferencePoint( display.CenterReferencePoint )
-	playBtn.view.x = display.contentWidth*0.5
-	playBtn.view.y = display.contentHeight - 125
+	-- Moon
+	local moon = display.newImageRect("i/moon.png", 80, 80)
+	moon.x, moon.y = screenW-100, 200
+	moon.nameType = "planet"
+	moon.x0, moon.y0 = earth.x, earth.y
+	moon.orbit = 800
+	moon.alphaR = 90
+	moon.speed = 10
+	group:insert(moon)
 	
-	-- all display objects must be inserted into group
-	group:insert( background )
-	group:insert( titleLogo )
-	group:insert( playBtn.view )	-- you must insert .view property for widgets
+	-- Buttons
+	local cButton = display.newText("[  Campaign  ]", screenW-300, screenH-240, 300, 60, native.systemFont, 36)
+	cButton:setTextColor(0, 200, 100)
+	group:insert(cButton)
+	cButton:addEventListener('touch', function (e)
+		storyboard.gotoScene( "level0", "fade", 500 )
+		return true
+	end)
+
+	local sButton = display.newText("[   Skirmish   ]", screenW-300, screenH-160, 300, 60, native.systemFont, 36)
+	sButton:setTextColor(0, 200, 100)
+	group:insert(sButton)
+	sButton:addEventListener('touch', function (e)
+		storyboard.gotoScene( "level1", "fade", 500 )
+		return true
+	end)
+
+	local aButton = display.newText("[    Credits    ]", screenW-300, screenH-80, 300, 60, native.systemFont, 36)
+	aButton:setTextColor(0, 200, 100)
+	group:insert(aButton)
+	aButton:addEventListener('touch', function (e)
+		storyboard.purgeScene( "about" )
+		storyboard.gotoScene( "about", "fade", 500 )
+		return true
+	end)
+
+	-- Timers
+	timer.performWithDelay(100, movePlanets, 0 )
 end
 
 -- Called immediately after scene has moved onscreen:
@@ -85,11 +95,6 @@ end
 -- If scene's view is removed, scene:destroyScene() will be called just prior to:
 function scene:destroyScene( event )
 	local group = self.view
-	
-	if playBtn then
-		playBtn:removeSelf()	-- widgets must be manually removed
-		playBtn = nil
-	end
 end
 
 -----------------------------------------------------------------------------------------
