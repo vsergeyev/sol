@@ -216,6 +216,7 @@ function addPlanets()
 	p.fullName = "Neptune"
 	p.name = "neptune"
 	p.nameType = "planet"
+	p.enemy = true
 	p.res = {
 		supplies = 300,
 		colonized = false,

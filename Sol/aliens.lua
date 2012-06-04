@@ -57,11 +57,12 @@ function addAlienShip(target, shipKind)
 	-- ship:addEventListener('postCollision', escapeShip)
 
 	-- by default send aliens to Earth
-	if target then
+	if target and target.fullName then
 		ship.targetPlanet = target
 	else	
 		ship.targetPlanet =  group.planets[math.random(#group.planets)] --group.earth
 	end
+	print(ship.targetPlanet.fullName)
 	ship.targetReached = false
 
 	for i = 1, group.numChildren, 1 do
@@ -79,11 +80,12 @@ end
 -----------------------------------------------------------------------------------------
 function addAlienStations()
 	-- adds alien battle stations to all planets except Earth
+	shipData = aliensData[3]
 
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
 		if (g.nameType == "planet" and not g.res.colonized) and (g.name ~= "moon") then
-			local ship = display.newImageRect("aliens/station.png", 50, 50)
+			local ship = display.newImageRect("aliens/station.png", shipData.res.w, shipData.res.h)
 			ship.x, ship.y = 0, 0
 			ship.enemy = true
 			ship.enemies = {}
@@ -93,20 +95,15 @@ function addAlienStations()
 			ship.sensors = 300 -- how long it see Terran ships
 			ship.orbit = 1 + math.random(3)
 			ship.alphaR = 90
-			ship.fullName = "Aliens battle station"
-			ship.name = "aliens"
+			ship.fullName = shipData.fullName
+			ship.nameType = "ship"
+			ship.name = shipData.ship
+			ship.name2 = shipData.name
 			ship.is_station = true
-			ship.res = {
-				hp = 1000,
-				shield = 500,
-				attack = 10,
-				speed = 0.01,
-				w = 50,
-				h = 50
-			}
+			ship.res = shipData.res
 			ship.hp = ship.res.hp
 			ship.shield = ship.res.shield
-			ship.nameType = "ship"
+			
 			physics.addBody(ship, {radius=ship.sensors, friction=0, filter=aliensCollisionFilter})
 			ship.isSensor = true
 			ship.isFixedRotation = true

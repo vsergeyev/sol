@@ -6,9 +6,12 @@
 
 require "aliens"
 
+local initialSpawn = false
+
 -----------------------------------------------------------------------------------------
 
 levelsData = {
+-- MISSION 1
 	{
 		title = "Mission 1: Ticket To The Moon",
 		task = [[Establish colony on the Moon.
@@ -21,6 +24,8 @@ Victory condition: gain 200 MC]],
 		goal = 200, -- resources, victory condition
 		sound = "level1.m4a"
 	},
+
+-- MISSION 2
 	{
 		title = "Mission 2: Be My Baby",
 		task = [[Good to go, Admiral,
@@ -34,20 +39,27 @@ Victory condition: Defence Starbase + 2 fighters.
 		base = true,
 		fighters = 2
 	},
+
+-- MISSION 3
 	{
 		title = "Mission 3: First Contact",
 		task = [[Admiral, today is great day for all Humanity,
 
-We have received incoming signatures. Scanners shows objects, very similar to space crafts and they approaching to our planet.
+We have received incoming signatures. Scanners shows objects, similar to space crafts and they approaching to our planet. We are about to establish contact with alien civilization.
 
-Prepare fleets to meet our new friends and escort their ships safely to the Earth.
+From other hand we don't know their goals. Prepare our battle ships to meet incoming fleet and stay alerted.
 
-Victory condition: meet alien fleet]],
+[Moon outpost]: They don't responding to our welcome transmissions. Oh shi....]],
 		spawn = {
-			aliens = 5
+			aliens = 5,
+			times = 1,
+			delay = 0,
+			target = "earth"
 		},
 		destroy_fighters = true
 	},
+
+-- MISSION 4
 	{
 		title = "Mission 4: First Contact War",
 		task = [[Admiral, our new "friends" show themselfs not so friendly.
@@ -60,8 +72,31 @@ Victory condition: USS "Discovery" carrier + colony on Mercury and Venus.]],
 		spawn = {
 			aliens = 20,
 			frigates = 2,
-			times = 10
-		}
+			times = 10,
+			delay = 30000
+		},
+		colonize_all = true
+	},
+
+-- MISSION 5
+	{
+		title = "Mission 5: Protect Earth",
+		task = [[Admiral, our sensors detected big alien vessel approaching to Earth.
+
+Our experts believe it is some sort of mothership. This spacecraft has size bigger than Manhattan. Imagine how powerful weapons it can carry.
+
+Stop this mothership at any cost, Admiral.
+We will pray for you, good luck!
+
+Victory condition: Earth must be saved.]],
+		spawn = {
+			aliens = 20,
+			frigates = 4,
+			ms = 1,
+			times = 1,
+			delay = 1000
+		},
+		destroy_ms = true
 	},
 }
 
@@ -149,17 +184,33 @@ end
 
 -----------------------------------------------------------------------------------------
 local function spawnAliens(e)
-	if isPause then return true end
+	if isPause and not initialSpawn then return true end
+
+	initialSpawn = false
 
 	local l = levelsData[levelNow]
+	local target = nil
 
-	for i=1, l.spawn.aliens, 1 do
-		addAlienShip()
+	if l.spawn.target == "earth" then
+		target = group.earth
 	end
 
+	-- spawn fighter
+	for i=1, l.spawn.aliens, 1 do
+		addAlienShip(target, 1)
+	end
+
+	-- spawn frigate
 	if l.spawn.frigates then
 		for i=1, l.spawn.frigates, 1 do
-			addAlienShip(nil, 2)
+			addAlienShip(target, 2)
+		end
+	end
+
+	-- spawn mothership
+	if l.spawn.ms then
+		for i=1, l.spawn.ms, 1 do
+			addAlienShip(group.earth, 4)
 		end
 	end
 end
@@ -170,15 +221,8 @@ function startLevel(level)
 	
 	-- spawn enemies
 	if l.spawn then
-		if l.spawn.aliens then
-			if l.spawn.times then
-				timer.performWithDelay(30000, spawnAliens, 0 )
-			else
-				for i=1, l.spawn.aliens, 1 do
-					addAlienShip(group.earth)
-				end
-			end
-		end
+		initialSpawn = true
+		timer.performWithDelay(l.spawn.delay, spawnAliens, l.spawn.times )
 	end
 
 	levelScreen(l)
@@ -190,9 +234,11 @@ function levelCondition(e)
 
 	local l = levelsData[levelNow]
 
+	-- mission 1
 	if l.goal and l.goal <= gold then
 		-- victory
 		victoryScreen(l)
+	-- mission 2
 	elseif l.base and l.fighters then
 		local has_base, num_fighters = false, 0
 
@@ -208,6 +254,7 @@ function levelCondition(e)
 		if has_base and num_fighters >= l.fighters then
 			victoryScreen(l)
 		end
+	-- mission 3
 	elseif l.destroy_fighters then
 		local num_fighters = 0
 		for i = 1, group.numChildren, 1 do
@@ -220,5 +267,22 @@ function levelCondition(e)
 		if num_fighters == 0 then
 			victoryScreen(l)
 		end
+	-- mission 4
+	elseif l.colonize_all then
+		local all_colonized = true
+		for i = 1, group.numChildren, 1 do
+			local g = group[i]
+			if g.nameType == "planet" and not g.res.colonized and not g.enemy then
+				print(g.name)
+				all_colonized = false
+			end
+		end
+		
+		if all_colonized then
+			victoryScreen(l)
+		end
+	-- mission 5
+	elseif l.destroy_ms then
+		--
 	end
 end

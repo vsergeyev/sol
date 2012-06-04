@@ -43,7 +43,7 @@ Programming:
 Volodymyr Sergeyev
 
 Design:
-Vlad Stepanjuk
+Vlad Stepaniuk
 
 Q&A:
 Nazar Leush

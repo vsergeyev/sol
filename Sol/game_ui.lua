@@ -24,7 +24,8 @@ end
 -----------------------------------------------------------------------------------------
 function gameMenu(e)
 	if e.phase == "ended" then
-		gamePause(e)
+		storyboard.gotoScene( "menu", "fade", 500 )
+		-- gamePause(e)
 
 		-- show menu
 	end

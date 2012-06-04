@@ -107,6 +107,7 @@ end
 
 -----------------------------------------------------------------------------------------
 function moveAutopilot( e )
+	-- SHIP ON PLANET
 	-- Ships targeted to planet and reached it fly around it too
 
 	if isPause then return end
@@ -125,8 +126,8 @@ function moveAutopilot( e )
 			elseif g.enemy then
 				g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
 
-				g.x = p.x + 1.5*g.orbit*p.r * math.sin(g.alphaR)
-				g.y = p.y + 1.5*g.orbit*p.r/1.5 * math.cos(g.alphaR)
+				g.x = p.x + 1.2*g.orbit*p.r * math.sin(g.alphaR)
+				g.y = p.y + 1.2*g.orbit*p.r/1.5 * math.cos(g.alphaR)
 			elseif g.on_carrier then
 				--
 			else

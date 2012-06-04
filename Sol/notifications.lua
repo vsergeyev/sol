@@ -19,7 +19,7 @@ function showBaloon(text)
 	local b = display.newRoundedRect(0, 0, 200, 95, 5)
 	b.strokeWidth = 3
 	b:setFillColor(0)
-	b:setStrokeColor(10, 0, 150)
+	b:setStrokeColor(0, 200, 100)
 	baloonGroup:insert(b)
 
 	local t = display.newText(text, 10, 10, 180, 76, native.systemFont, 16)

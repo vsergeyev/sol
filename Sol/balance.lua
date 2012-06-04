@@ -18,8 +18,8 @@ shipsData = {
 			attack = 0,
 			cost = 20,
 			e = 10,
-			w = 110,
-			h = 40,
+			w = 150,
+			h = 50,
 			r = 0,
 			autofigth = false
 		}
@@ -34,8 +34,8 @@ shipsData = {
 			attack = 0,
 			cost = 50,
 			e = 10,
-			w = 75,
-			h = 22,
+			w = 90,
+			h = 24,
 			r = 0,
 			autofigth = false
 		}
@@ -67,8 +67,8 @@ shipsData = {
 			attack = 5,
 			cost = 10,
 			e = 2,
-			w = 30,
-			h = 18,
+			w = 42,
+			h = 24,
 			r = 0,
 			autofigth = true
 		}
@@ -102,10 +102,10 @@ shipsData = {
 			droids_max = 2,
 			speed = 0.5,
 			attack = 10,
-			cost = 500,
+			cost = 400,
 			e = 500,
-			w = 248,
-			h = 50,
+			w = 210,
+			h = 102,
 			r = 0,
 			autofigth = false
 		},
@@ -162,6 +162,39 @@ aliensData = {
 			h = 50,
 			r = 0,
 			autofigth = true
+		}
+	},
+	{
+		fullName = "Alien battle station",
+		name = "bs",
+		ship = "aliens",
+		res = {
+			hp = 2000,
+			shield = 500,
+			attack = 10,
+			speed = 0.01,
+			w = 50,
+			h = 50,
+			autofigth = true,
+			is_station = true
+		}
+	},
+	{
+		fullName = "Alien mothership",
+		name = "ms",
+		ship = "aliens",
+		res = {
+			hp = 5000,
+			shield = 1000,
+			speed = 0.5,
+			attack = 10,
+			cost = 200,
+			e = 20,
+			w = 200,
+			h = 200,
+			r = 0,
+			autofigth = true,
+			max_fighters = 20
 		}
 	},
 }

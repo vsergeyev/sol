@@ -30,13 +30,10 @@ function buildShip(e)
 
 	if t.res.cost <= gold then
 		-- build ship
-		if t.ship == "fighter" then
-			ship = movieclip.newAnim({"ships/"..t.ship..".png", "ships/"..t.ship.."2.png"})
-			ship:setSpeed(0.2)
-			ship:play()
-		elseif t.ship == "carier" then
-			ship = movieclip.newAnim({"ships/"..t.ship..".png", "ships/"..t.ship.."2.png"})
-			ship:setSpeed(0.02)
+		if (t.ship == "carier") or (t.ship == "fighter") or (t.ship == "trade") or (t.ship == "explorer") then
+			local p = "ships/"..t.ship.."/"
+			ship = movieclip.newAnim({p.."1.png", p.."2.png", p.."3.png", p.."3.png", p.."3.png", p.."3.png", p.."3.png"})
+			ship:setSpeed(0.15)
 			ship:play()
 		elseif t.ship == "station" then
 			local p = "ships/station/"
@@ -52,6 +49,8 @@ function buildShip(e)
 		ship.targetPlanet = p
 		ship.targetReached = true
 		ship.r = 75
+
+		-- ship.sensors = 100
 		if (t.ship == "trade") or (t.ship == "explorer") then
 			ship.sensors = 100
 		else
@@ -322,13 +321,21 @@ function targetShips(e)
 			if not g.inBattle and g.targetPlanet and not g.targetReached then
 				-- ship auto-piloting to planet
 				local planet = g.targetPlanet
-				g.rotation = math.deg(math.atan2((planet.y - g.y), (planet.x - g.x)))
+				if not g.res.is_station then
+					g.rotation = math.deg(math.atan2((planet.y - g.y), (planet.x - g.x)))
+				end
 				local k = 1
 				if g.name == "fighter" then
 					k = 0.1
 				end
 				impulseShip(g, planet.x-g.x, planet.y-g.y, k)
 				-- print(g.fullName.." go to planet "..g.targetPlanet.fullName)
+			end
+
+			-- alien mothership
+			-- build fighters every 5 secs
+			if g.name2 == "ms" then
+				addAlienShip(g, 1)
 			end
 		end
 	end

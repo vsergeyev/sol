@@ -43,7 +43,7 @@ require "ai"
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
-	groupSky = display.newGroup()
+	groupSky = self.view -- display.newGroup()
 	group = display.newGroup() -- self.view
 	groupHud = display.newGroup()
 	groupNotifications = display.newGroup()

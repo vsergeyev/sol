@@ -79,7 +79,7 @@ function moveShipAI(g)
 	local x = g.x0 + g.r*g.orbit * math.sin(g.alphaR)
 	local y = g.y0 + g.r*g.orbit/3 * math.cos(g.alphaR)
 
-	if g.is_station then
+	if g.is_station or g.res.is_station then
 		g.rotation = 0
 	else
 		-- g.rotation = math.deg(math.atan2((g.y0 - g.y), (g.x0 - g.x)))
