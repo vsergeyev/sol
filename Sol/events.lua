@@ -64,7 +64,7 @@ function movePlanets( e )
 
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
-		if g.nameType == "planet" then
+		if (g.nameType == "planet") or (g.nameType == "asteroid") then
 			g.alphaR = g.alphaR + 0.0002 * g.speed
 			g.x = g.x0  + g.orbit * math.sin(g.alphaR)
 			g.y = g.y0  + g.orbit/1.5 * math.cos(g.alphaR)
@@ -100,6 +100,10 @@ function movePlanets( e )
 
 			if g.badgeDefence then
 				g.badgeDefence.x, g.badgeDefence.y = g.x + g.r + 30, g.y - g.r
+			end
+
+			if g.nameType == "asteroid" then
+				g.rotation = g.rotation + 1
 			end
 		end
 	end
@@ -290,38 +294,5 @@ function frameHandler( e )
 			s:removeSelf()
 			s = nil
 		end
-
-		-- keep moving ship in bounds of screen
-		-- move screen instead
-
-		-- if s.nameType == "ship" then
-		-- 	if s.x + group.x < border then
-		-- 		group.x = group.x + delta
-		-- 	end
-		-- 	if s.x + group.x < border/2 then
-		-- 		group.x = group.x + fast*delta
-		-- 	end
-
-		-- 	if s.x + group.x > screenW - border then
-		-- 		group.x = group.x - delta
-		-- 	end
-		-- 	if s.x + group.x > screenW - border/2 then
-		-- 		group.x = group.x - fast*delta
-		-- 	end
-
-		-- 	if s.y + group.y < border then
-		-- 		group.y = group.y + delta
-		-- 	end
-		-- 	if s.y + group.y < border/2 then
-		-- 		group.y = group.y + fast*delta
-		-- 	end
-
-		-- 	if s.y + group.y > screenH - border then
-		-- 		group.y = group.y - delta
-		-- 	end
-		-- 	if s.y + group.y > screenH - border/2 then
-		-- 		group.y = group.y - fast*delta
-		-- 	end
-		-- end
 	end
 end

@@ -246,6 +246,66 @@ function addPlanets()
 			g.field = gr
 		end
 	end
+
+	local a = display.newImageRect("i/asteroid.png", 50, 50)
+	a.x, a.y = 1000, 500
+	a.r = 50
+	a.speed = 5
+	a.x0, a.y0 = 100, screenH - 100
+	a.orbit = 800
+	a.alphaR = 90
+	a.fullName = "Asteroid K23L2"
+	a.name = "asteroid"
+	a.nameType = "asteroid"
+	group:insert(a)
+	a:addEventListener('touch', selectPlanet)
+	physics.addBody(a, {radius=a.r})
+	a.isSensor = true
+
+	local a = display.newImageRect("i/asteroid.png", 50, 50)
+	a.x, a.y = 1000, 500
+	a.r = 50
+	a.speed = 7
+	a.x0, a.y0 = 100, screenH - 100
+	a.orbit = 2600
+	a.alphaR = 60
+	a.fullName = "Asteroid K23L3"
+	a.name = "asteroid"
+	a.nameType = "asteroid"
+	group:insert(a)
+	a:addEventListener('touch', selectPlanet)
+	physics.addBody(a, {radius=a.r})
+	a.isSensor = true
+
+	local a = display.newImageRect("i/asteroid.png", 50, 50)
+	a.x, a.y = 1000, 500
+	a.r = 50
+	a.speed = 8
+	a.x0, a.y0 = 100, screenH - 100
+	a.orbit = 3200
+	a.alphaR = 150
+	a.fullName = "Asteroid K23L4"
+	a.name = "asteroid"
+	a.nameType = "asteroid"
+	group:insert(a)
+	a:addEventListener('touch', selectPlanet)
+	physics.addBody(a, {radius=a.r})
+	a.isSensor = true
+
+	local a = display.newImageRect("i/asteroid.png", 50, 50)
+	a.x, a.y = 1000, 500
+	a.r = 50
+	a.speed = 10
+	a.x0, a.y0 = 100, screenH - 100
+	a.orbit = 4000
+	a.alphaR = 30
+	a.fullName = "Asteroid K23L1"
+	a.name = "asteroid"
+	a.nameType = "asteroid"
+	group:insert(a)
+	a:addEventListener('touch', selectPlanet)
+	physics.addBody(a, {radius=a.r})
+	a.isSensor = true
 end
 
 function animatePlanets(e)

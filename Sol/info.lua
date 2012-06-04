@@ -57,6 +57,13 @@ function showInfo( item )
 				groupHud.text.text = "" -- "Bonus resources: "..item.res.supplies.."\n\nNOT COLONIZED"
 			end
 			-- groupHud.text.text = groupHud.text.text .. "\n\n" .. infoPedia[item.name]
+		elseif item.nameType == "asteroid" then
+			groupHud.fleet.alpha = 0
+			groupHud.planets.alpha = 0
+			groupHud.text.text = ""
+			if item.explored then
+				groupHud.text.text = "[Already explored]"
+			end
 		elseif item.nameType == "ship" then
 			groupHud.build.alpha = 0
 			groupHud.planets.alpha = 0

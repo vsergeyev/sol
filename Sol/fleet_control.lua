@@ -163,6 +163,13 @@ function collisionShip(e)
 			t.targetReached = true
 			t:setLinearVelocity(0, 0)
 		end
+	elseif o.nameType == "asteroid" and not o.explored and t.name == "explorer" then
+		-- bonus for reserching asteroids
+		t:setLinearVelocity(0, 0)
+		gold = gold + 100
+		o.explored = true
+		showInfo(selectedObject)
+		showBaloon(o.fullName.." explored: \n+100 MC")
 	elseif o.nameType == "ship" and t.res.attack > 0 then
 		if t.enemy ~= o.enemy then
 			if not t.inBattle then
@@ -333,8 +340,9 @@ function targetShips(e)
 			end
 
 			-- alien mothership
-			-- build fighters every 5 secs
+			-- build 2 fighters every 5 secs
 			if g.name2 == "ms" then
+				addAlienShip(g, 1)
 				addAlienShip(g, 1)
 			end
 		end

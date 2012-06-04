@@ -50,7 +50,7 @@ function tradeIncome()
 	gold = gold + 10
 
 	showInfo(selectedObject)
-	showBaloon("+10 MC")
+	showBaloon("Minecrafter: \n+10 MC")
 end
 
 -----------------------------------------------------------------------------------------
