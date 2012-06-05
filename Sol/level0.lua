@@ -90,8 +90,8 @@ function scene:createScene( event )
 	mtouch.setOnZoomOut( OnZoomOut  )
 
 	-- Test planets positions with smaller zoom
-	group.xScale = 0.3
-	group.yScale = 0.3
+	--  group.xScale = 0.3
+	-- group.yScale = 0.3
 
 	-- Timers
 	-- timer.performWithDelay(50, rotateSky, 0 )
