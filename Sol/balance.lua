@@ -141,8 +141,8 @@ aliensData = {
 			attack = 3,
 			cost = 20,
 			e = 2,
-			w = 20,
-			h = 20,
+			w = 35,
+			h = 30,
 			r = 0,
 			autofigth = true
 		}

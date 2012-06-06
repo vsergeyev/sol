@@ -19,7 +19,7 @@ function addAlienShip(target, shipKind)
 	if shipKind then
 		shipData = aliensData[shipKind]
 	else
-		shipData = aliensData[1]
+		shipData = aliensData[2]
 	end
 
 	local planet = group.neptune
@@ -28,9 +28,15 @@ function addAlienShip(target, shipKind)
 	local y = planet.y - 250 + math.random(500)
 	local ship = nil
 
-	if shipData.name == "fighter" or shipData.name == "frigate" then
-		ship = movieclip.newAnim({"aliens/"..shipData.name..".png", "aliens/"..shipData.name.."2.png"})
-		ship:setSpeed(0.01)
+	if shipData.name == "fighter" then
+		local p = "aliens/"..shipData.name.."/"
+		ship = movieclip.newAnim({p.."1.png", p.."3.png", p.."4.png"})
+		ship:setSpeed(0.15)
+		ship:play()
+	elseif shipData.name == "frigate" then
+		local p = "aliens/"..shipData.name.."/"
+		ship = movieclip.newAnim({p.."1.png", p.."2.png", p.."3.png", p.."4.png"})
+		ship:setSpeed(0.15)
 		ship:play()
 	else
 		ship = display.newImageRect("aliens/"..shipData.name..".png", shipData.res.w, shipData.res.h)
