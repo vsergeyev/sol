@@ -129,7 +129,7 @@ function levelScreen(item)
 	infoText:setTextColor(0, 200, 100)
 	p:insert(infoText)
 
-	local closeButton = display.newText("[ Start mission ]", screenW-350, screenH-200, 200, 40, native.systemFont, 24)
+	local closeButton = display.newText("[ Start mission ]", screenW-310, screenH-200, 200, 40, native.systemFont, 24)
 	closeButton:setTextColor(0, 200, 100)
 	p:insert(closeButton)
 	closeButton:addEventListener('touch', function (e)
@@ -162,16 +162,20 @@ function victoryScreen(item)
 	dlg:setFillColor(0)
 	dlg.alpha = 0.9
 	p:insert(dlg)
+	
+	local ea = display.newImageRect("/ui/alliance.png", 100, 101)
+	ea.x, ea.y = screenW-200, dy + 50
+	p:insert(ea)
 
-	local infoTitle = display.newText("Victory!", dx + 20, dy + 20, 600, 40, native.systemFont, 24)
+	local infoTitle = display.newText(item.title, dx + 20, dy + 20, 600, 40, native.systemFont, 24)
 	infoTitle:setTextColor(0, 200, 100)
 	p:insert(infoTitle)
 
-	local infoText = display.newText(item.title, dx + 20, dy + 100, 600, 400, native.systemFont, 18)
+	local infoText = display.newText("Victory!", dx + 250, dy + 200, 400, 200, native.systemFont, 48)
 	infoText:setTextColor(0, 200, 100)
 	p:insert(infoText)
 
-	local closeButton = display.newText("[ Next mission ]", screenW-350, screenH-200, 200, 40, native.systemFont, 24)
+	local closeButton = display.newText("[ Next mission ]", screenW-310, screenH-200, 200, 40, native.systemFont, 24)
 	closeButton:setTextColor(0, 200, 100)
 	p:insert(closeButton)
 	closeButton:addEventListener('touch', function (e)
@@ -184,6 +188,9 @@ function victoryScreen(item)
 
 		return true
 	end)
+	
+	local sound = audio.loadStream("sounds/victory.mp3")
+	audio.play(sound)
 end
 
 -----------------------------------------------------------------------------------------
