@@ -117,7 +117,7 @@ function levelScreen(item)
 	dlg.alpha = 0.9
 	p:insert(dlg)
 
-	local ea = display.newImageRect("/ui/alliance.png", 100, 101)
+	local ea = display.newImageRect("ui/alliance.png", 100, 101)
 	ea.x, ea.y = screenW-200, dy + 50
 	p:insert(ea)
 
@@ -163,7 +163,7 @@ function victoryScreen(item)
 	dlg.alpha = 0.9
 	p:insert(dlg)
 	
-	local ea = display.newImageRect("/ui/alliance.png", 100, 101)
+	local ea = display.newImageRect("ui/alliance.png", 100, 101)
 	ea.x, ea.y = screenW-200, dy + 50
 	p:insert(ea)
 

@@ -32,6 +32,9 @@ require "economy"
 require "fleet_control"
 require "aliens"
 require "ai"
+require "notifications"
+
+local skirmishLevel = 1
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -40,6 +43,40 @@ require "ai"
 --		 unless storyboard.removeScene() is called.
 -- 
 -----------------------------------------------------------------------------------------
+
+function skirmishBattle( e )
+	showBaloon("ALERT! ALERT! ALERT!\n\nFleet #"..skirmishLevel.." incoming")
+
+	if skirmishLevel == 1 then
+		for i=1, 5, 1 do
+			addAlienShip(group.earth, 1)
+		end
+	elseif skirmishLevel < 6 then
+		local count = 5 * skirmishLevel
+		for i=1, count, 1 do
+			addAlienShip(group.earth, 1)
+		end
+	elseif skirmishLevel < 10 then
+		local count = 3 * skirmishLevel
+		for i=1, count, 1 do
+			addAlienShip(nil, 1)
+		end
+		for i=1, skirmishLevel, 1 do
+			addAlienShip(nil, 2)
+		end
+	else
+		for i=1, 20, 1 do
+			addAlienShip(nil, 1)
+		end
+		for i=1, 5, 1 do
+			addAlienShip(nil, 2)
+		end
+
+		addAlienShip(group.earth, 4)
+	end
+
+	skirmishLevel = skirmishLevel + 1
+end
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
@@ -119,7 +156,7 @@ function scene:createScene( event )
 	movePlanets()
 	addAlienStations()
 
-	table.insert(gameTimers, timer.performWithDelay(5000, addAlienShip, 0 ))
+	table.insert(gameTimers, timer.performWithDelay(20000, skirmishBattle, 0 ))
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )

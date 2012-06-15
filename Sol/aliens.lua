@@ -19,7 +19,7 @@ function addAlienShip(target, shipKind)
 	if shipKind then
 		shipData = aliensData[shipKind]
 	else
-		shipData = aliensData[2]
+		shipData = aliensData[math.random(4)]
 	end
 
 	local planet = group.neptune
@@ -37,6 +37,11 @@ function addAlienShip(target, shipKind)
 		local p = "aliens/"..shipData.name.."/"
 		ship = movieclip.newAnim({p.."1.png", p.."2.png", p.."3.png", p.."4.png"})
 		ship:setSpeed(0.15)
+		ship:play()
+	elseif shipData.name == "bs" then
+		local p = "aliens/bs/"
+		ship = movieclip.newAnim({p.."1.png", p.."1.png", p.."1.png", p.."1.png", p.."1.png", p.."2.png", p.."3.png", p.."4.png", p.."3.png", p.."2.png"})
+		ship:setSpeed(0.12)
 		ship:play()
 	else
 		ship = display.newImageRect("aliens/"..shipData.name..".png", shipData.res.w, shipData.res.h)
@@ -91,7 +96,12 @@ function addAlienStations()
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
 		if (g.nameType == "planet" and not g.res.colonized) and (g.name ~= "moon") then
-			local ship = display.newImageRect("aliens/station.png", shipData.res.w, shipData.res.h)
+			-- local ship = display.newImageRect("aliens/bs.png", shipData.res.w, shipData.res.h)
+			local p = "aliens/bs/"
+			ship = movieclip.newAnim({p.."1.png", p.."1.png", p.."1.png", p.."1.png", p.."1.png", p.."2.png", p.."3.png", p.."4.png", p.."3.png", p.."2.png"})
+			ship:setSpeed(0.12)
+			ship:play()
+
 			ship.x, ship.y = 0, 0
 			ship.enemy = true
 			ship.enemies = {}
