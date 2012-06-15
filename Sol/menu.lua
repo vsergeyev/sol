@@ -55,6 +55,7 @@ function scene:createScene( event )
 	cButton:addEventListener('touch', function (e)
 		purgeTimers()
 		isPause = false
+		storyboard.removeScene( "level0" )
 		storyboard.gotoScene( "level0", "fade", 500 )
 		return true
 	end)
@@ -65,6 +66,7 @@ function scene:createScene( event )
 	sButton:addEventListener('touch', function (e)
 		purgeTimers()
 		isPause = false
+		storyboard.removeScene( "level1" )
 		storyboard.gotoScene( "level1", "fade", 500 )
 		return true
 	end)
@@ -74,14 +76,11 @@ function scene:createScene( event )
 	group:insert(aButton)
 	aButton:addEventListener('touch', function (e)
 		purgeTimers()
-		storyboard.purgeScene( "about" )
+		isPause = false
+		storyboard.removeScene( "about" )
 		storyboard.gotoScene( "about", "fade", 500 )
 		return true
 	end)
-
-	-- purge prev. active level
-	storyboard.purgeScene( "level0" )
-	storyboard.purgeScene( "level1" )
 
 	-- Timers
 	table.insert(gameTimers, timer.performWithDelay(100, movePlanets, 0 ))

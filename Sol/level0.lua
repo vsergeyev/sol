@@ -19,6 +19,8 @@ physics.start(); physics.pause()
 -- physics.setDrawMode('hybrid')
 physics.setGravity(0, 0)
 
+gold = 100
+
 --------------------------------------------
 
 require "events"
