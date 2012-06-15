@@ -21,6 +21,8 @@ require "events"
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
+	isPause = true
+
 	-- local group = self.view
 	group = self.view --display.newGroup()
 
@@ -51,6 +53,8 @@ function scene:createScene( event )
 	cButton:setTextColor(0, 200, 100)
 	group:insert(cButton)
 	cButton:addEventListener('touch', function (e)
+		purgeTimers()
+		isPause = false
 		storyboard.gotoScene( "level0", "fade", 500 )
 		return true
 	end)
@@ -59,6 +63,8 @@ function scene:createScene( event )
 	sButton:setTextColor(0, 200, 100)
 	group:insert(sButton)
 	sButton:addEventListener('touch', function (e)
+		purgeTimers()
+		isPause = false
 		storyboard.gotoScene( "level1", "fade", 500 )
 		return true
 	end)
@@ -67,13 +73,18 @@ function scene:createScene( event )
 	aButton:setTextColor(0, 200, 100)
 	group:insert(aButton)
 	aButton:addEventListener('touch', function (e)
+		purgeTimers()
 		storyboard.purgeScene( "about" )
 		storyboard.gotoScene( "about", "fade", 500 )
 		return true
 	end)
 
+	-- purge prev. active level
+	storyboard.purgeScene( "level0" )
+	storyboard.purgeScene( "level1" )
+
 	-- Timers
-	timer.performWithDelay(100, movePlanets, 0 )
+	table.insert(gameTimers, timer.performWithDelay(100, movePlanets, 0 ))
 end
 
 -- Called immediately after scene has moved onscreen:

@@ -42,11 +42,18 @@ require "levels_control"
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
+	local group0 = self.view
 	groupSky = display.newGroup()
 	group = display.newGroup() -- self.view
 	groupHud = display.newGroup()
 	groupNotifications = display.newGroup()
 	groupPinch = display.newGroup()
+
+	group0:insert(groupSky)
+	group0:insert(group)
+	group0:insert(groupHud)
+	group0:insert(groupNotifications)
+	group0:insert(groupPinch)
 
 	local sky = display.newImageRect("bg/bg3.png", 1700, 1200)
 	sky:setReferencePoint( display.CenterReferencePoint )
@@ -96,16 +103,16 @@ function scene:createScene( event )
 	-- Timers
 	-- timer.performWithDelay(50, rotateSky, 0 )
 	-- timer.performWithDelay(100, movePlanets, 1 )
-	timer.performWithDelay(1000, animatePlanets, 0 )
-	timer.performWithDelay(100, moveAutopilot, 0 )
-	timer.performWithDelay(4000, moveFighters, 0 )
-	timer.performWithDelay(6000, hightlightSun, 0 )
-	timer.performWithDelay(200, refreshMinimap, 1 )
-	timer.performWithDelay(3000, refreshMinimap, 0 )
-	timer.performWithDelay(20000, calcIncome, 0 )
+	table.insert(gameTimers, timer.performWithDelay(1000, animatePlanets, 0 ))
+	table.insert(gameTimers, timer.performWithDelay(100, moveAutopilot, 0 ))
+	table.insert(gameTimers, timer.performWithDelay(4000, moveFighters, 0 ))
+	table.insert(gameTimers, timer.performWithDelay(6000, hightlightSun, 0 ))
+	table.insert(gameTimers, timer.performWithDelay(200, refreshMinimap, 1 ))
+	table.insert(gameTimers, timer.performWithDelay(3000, refreshMinimap, 0 ))
+	table.insert(gameTimers, timer.performWithDelay(20000, calcIncome, 0 ))
 	-- timer.performWithDelay(10000, stardateGo, 0 )
-	timer.performWithDelay(5000, targetShips, 0 )
-	timer.performWithDelay(1000, repairCarrier, 0 )
+	table.insert(gameTimers, timer.performWithDelay(5000, targetShips, 0 ))
+	table.insert(gameTimers, timer.performWithDelay(1000, repairCarrier, 0 ))
 
 	math.randomseed( os.time() )
 	-- timer.performWithDelay(500, aiTurn, 0 )
@@ -116,7 +123,7 @@ function scene:createScene( event )
 
 	startLevel(levelNow)
 	-- check victory or loose in level
-	timer.performWithDelay(1000, levelCondition, 0 )
+	table.insert(gameTimers, timer.performWithDelay(1000, levelCondition, 0 ))
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )

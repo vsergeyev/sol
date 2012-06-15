@@ -29,6 +29,19 @@ levelNow = 1
 planetGravitationFieldRadius = 1.1
 planetGraviationDamping = 1
 
+gameTimers = {}
+
+-----------------------------------------------------------------------------------------
+
+function purgeTimers()
+	-- remove all previously set timers
+	for i=1, #gameTimers, 1 do
+		-- print(gameTimers[i])
+		timer.cancel(gameTimers[i])
+	end
+end
+
+
 -----------------------------------------------------------------------------------------
 
 -- hide the status bar

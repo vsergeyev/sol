@@ -24,6 +24,7 @@ end
 -----------------------------------------------------------------------------------------
 function gameMenu(e)
 	if e.phase == "ended" then
+		purgeTimers()
 		storyboard.gotoScene( "menu", "fade", 500 )
 		-- gamePause(e)
 
@@ -36,6 +37,7 @@ end
 -----------------------------------------------------------------------------------------
 function gameRestart(e)
 	if e.phase == "ended" then
+		purgeTimers()
 		storyboard.reloadScene()
 
 		-- groupSky:removeSelf()
