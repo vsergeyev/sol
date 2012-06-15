@@ -117,6 +117,10 @@ function levelScreen(item)
 	dlg.alpha = 0.9
 	p:insert(dlg)
 
+	local ea = display.newImageRect("/ui/alliance.png", 100, 101)
+	ea.x, ea.y = screenW-200, dy + 50
+	p:insert(ea)
+
 	local infoTitle = display.newText(item.title, dx + 20, dy + 20, 600, 40, native.systemFont, 24)
 	infoTitle:setTextColor(0, 200, 100)
 	p:insert(infoTitle)
