@@ -49,7 +49,15 @@ function scene:createScene( event )
 	group:insert(moon)
 	
 	-- Buttons
-	local cButton = display.newText("[  Campaign  ]", screenW-300, screenH-240, 300, 60, native.systemFont, 36)
+	local cButton = display.newText("|| Tutorial", screenW-300, screenH-320, 300, 60, native.systemFont, 36)
+	cButton:setTextColor(0, 200, 100)
+	group:insert(cButton)
+	cButton:addEventListener('touch', function (e)
+		media.playVideo( "tutorial/movie.mov", false )
+		return true
+	end)
+
+	local cButton = display.newText("|| Campaign", screenW-300, screenH-240, 300, 60, native.systemFont, 36)
 	cButton:setTextColor(0, 200, 100)
 	group:insert(cButton)
 	cButton:addEventListener('touch', function (e)
@@ -60,7 +68,7 @@ function scene:createScene( event )
 		return true
 	end)
 
-	local sButton = display.newText("[   Skirmish   ]", screenW-300, screenH-160, 300, 60, native.systemFont, 36)
+	local sButton = display.newText("|| Survival", screenW-300, screenH-160, 300, 60, native.systemFont, 36)
 	sButton:setTextColor(0, 200, 100)
 	group:insert(sButton)
 	sButton:addEventListener('touch', function (e)
@@ -71,7 +79,7 @@ function scene:createScene( event )
 		return true
 	end)
 
-	local aButton = display.newText("[    Credits    ]", screenW-300, screenH-80, 300, 60, native.systemFont, 36)
+	local aButton = display.newText("|| Credits", screenW-300, screenH-80, 300, 60, native.systemFont, 36)
 	aButton:setTextColor(0, 200, 100)
 	group:insert(aButton)
 	aButton:addEventListener('touch', function (e)
@@ -83,7 +91,12 @@ function scene:createScene( event )
 	end)
 
 	-- Timers
-	table.insert(gameTimers, timer.performWithDelay(100, movePlanets, 0 ))
+	table.insert(gameTimers, timer.performWithDelay(100, function (e)
+		local g = moon
+		g.alphaR = g.alphaR + 0.0002 * g.speed
+		g.x = g.x0  + g.orbit * math.sin(g.alphaR)
+		g.y = g.y0  + g.orbit/1.5 * math.cos(g.alphaR)
+	end, 0 ))
 end
 
 -- Called immediately after scene has moved onscreen:

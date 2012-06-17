@@ -129,7 +129,7 @@ function levelScreen(item)
 	infoText:setTextColor(0, 200, 100)
 	p:insert(infoText)
 
-	local closeButton = display.newText("[ Start mission ]", screenW-310, screenH-200, 200, 40, native.systemFont, 24)
+	local closeButton = display.newText("|| Start mission", screenW-310, screenH-200, 200, 40, native.systemFont, 24)
 	closeButton:setTextColor(0, 200, 100)
 	p:insert(closeButton)
 	closeButton:addEventListener('touch', function (e)
@@ -137,8 +137,8 @@ function levelScreen(item)
 			gamePause(e)
 			p:removeSelf()
 			if item.sound then
-				local sound = audio.loadStream("sounds/"..item.sound)
-				audio.play(sound)
+				-- local sound = audio.loadStream("sounds/"..item.sound)
+				-- audio.play(sound)
 			end
 		end
 
@@ -175,7 +175,7 @@ function victoryScreen(item)
 	infoText:setTextColor(0, 200, 100)
 	p:insert(infoText)
 
-	local closeButton = display.newText("[ Next mission ]", screenW-310, screenH-200, 200, 40, native.systemFont, 24)
+	local closeButton = display.newText("|| Next mission", screenW-310, screenH-200, 200, 40, native.systemFont, 24)
 	closeButton:setTextColor(0, 200, 100)
 	p:insert(closeButton)
 	closeButton:addEventListener('touch', function (e)

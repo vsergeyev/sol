@@ -26,6 +26,8 @@ energy = 50
 stardate = 48315.6
 levelNow = 1
 
+isMusic = true
+
 planetGravitationFieldRadius = 1.1
 planetGraviationDamping = 1
 
@@ -34,6 +36,7 @@ gameTimers = {}
 -----------------------------------------------------------------------------------------
 
 function purgeTimers()
+	isPause = true
 	-- remove all previously set timers
 	for i=1, #gameTimers, 1 do
 		-- print(gameTimers[i])

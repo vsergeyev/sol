@@ -110,27 +110,27 @@ function addPlanets()
 
 
 	-- Mars
-	-- local p = display.newImageRect("i/mars.png", 100, 100)
-	-- p.x, p.y = screenW/1.5, screenH/1.5
-	-- p.r = 50
-	-- p.speed = 0.2
-	-- p.x0, p.y0 = 100, screenH - 100
-	-- p.orbit = 3000
-	-- p.alphaR = 120
-	-- p.fullName = "Mars"
-	-- p.name = "mars"
-	-- p.nameType = "planet"
-	-- p.res = {
-	-- 	supplies = 40,
-	-- 	colonized = false,
-	-- 	population = 0,
-	-- 	techlevel = 0,
-	-- 	defence = 0,
-	-- 	generators = 0
-	-- }
-	-- group:insert(p)
-	-- p:addEventListener('touch', selectPlanet)
-	-- table.insert(group.planets, p)
+	local p = display.newImageRect("i/mars.png", 200, 200)
+	p.x, p.y = screenW/1.5, screenH/1.5
+	p.r = 100
+	p.speed = 1
+	p.x0, p.y0 = 100, screenH - 100
+	p.orbit = 4000
+	p.alphaR = 120
+	p.fullName = "Mars"
+	p.name = "mars"
+	p.nameType = "planet"
+	p.res = {
+		supplies = 40,
+		colonized = false,
+		population = 0,
+		techlevel = 0,
+		defence = 0,
+		generators = 0
+	}
+	group:insert(p)
+	p:addEventListener('touch', selectPlanet)
+	table.insert(group.planets, p)
 
 
 	-- Jupiter

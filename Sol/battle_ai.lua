@@ -6,22 +6,39 @@
 
 require "notifications"
 
+local soundBlaster = audio.loadStream("sounds/blaster.m4a")
+
 -----------------------------------------------------------------------------------------
 function outOfBattle(g)
 	-- ship go out of battle
 
+	if not g.battleTimer then return true end
+
+	-- print(g.fullName.." destroying:")
+	-- print(g.battleTarget)
 	g.battleTarget = nil
 
-	if g.nextBattleTarget then
-		g.battleTarget = g.nextBattleTarget
-		g.nextBattleTarget = nil
-		if g.next2BattleTarget then
-			g.nextBattleTarget = g.next2BattleTarget
-			g.next2BattleTarget = nil
-		end
 
-		return
-	end
+	-- if g.nextBattleTarget then
+	-- 	-- print("Next target:")
+	-- 	-- print(g.nextBattleTarget)
+	-- 	g.battleTarget = g.nextBattleTarget
+	-- 	-- g.nextBattleTarget = nil
+	-- 	if g.next2BattleTarget then
+	-- 		g.nextBattleTarget = g.next2BattleTarget
+	-- 		-- g.next2BattleTarget = nil
+	-- 		if g.next3BattleTarget then
+	-- 			g.next2BattleTarget = g.next3BattleTarget
+	-- 			-- g.next3BattleTarget = nil
+	-- 			if g.next3BattleTarget then
+	-- 				g.next3BattleTarget = g.next4BattleTarget
+	-- 				-- g.next4BattleTarget = nil
+	-- 			end
+	-- 		end
+	-- 	end
+
+	-- 	return true
+	-- end
 
 	g.inBattle = false
 	g.targetReached = false
@@ -33,12 +50,18 @@ function outOfBattle(g)
 		g.battleTimer = nil
 	end
 
-	print(g.fullName.." timer stoped")
+	g.isBodyActive = false
+	timer.performWithDelay(100, function (e)
+		g.isBodyActive = true
+	end, 1)
+
+	-- print(g.fullName.." timer stoped")
 end
 
 -----------------------------------------------------------------------------------------
 function destroyShip(g)
 	showBaloon(g.fullName.." destroyed")
+	-- print(g.fullName.." destroyed")
 
 	if g == selectedObject then
 		selectedObject = nil
@@ -52,12 +75,18 @@ function destroyShip(g)
 	-- clear target on linked ships
 	for i = 1, group.numChildren, 1 do
 		local g0 = group[i]
-		if g0.nextBattleTarget == g then
-			g0.nextBattleTarget = nil
-		end
-		if g0.next2BattleTarget == g then
-			g0.next2BattleTarget = nil
-		end
+		-- if g0.nextBattleTarget == g then
+		-- 	g0.nextBattleTarget = nil
+		-- end
+		-- if g0.next2BattleTarget == g then
+		-- 	g0.next2BattleTarget = nil
+		-- end
+		-- if g0.next3BattleTarget == g then
+		-- 	g0.next3BattleTarget = nil
+		-- end
+		-- if g0.next4BattleTarget == g then
+		-- 	g0.next4BattleTarget = nil
+		-- end
 		if g0.battleTarget == g then
 			outOfBattle(g0)
 		end
@@ -150,6 +179,8 @@ function attackShipAI(g)
 				explosion:removeSelf()
 			end})
 		else -- Explosion, ship hul
+			-- audio.play(soundBlaster)
+
 			explosion = display.newImageRect("i/explosion.png", 130, 85)
 			explosion:scale(0.1, 0.1)
 			explosion.alpha = 0.1
@@ -173,6 +204,15 @@ function shipBattle(ship)
 
 	if target then
 		-- ship fighing
+		-- print(target.fullName)
+		-- print(target.x)
+		-- print(target.y)
+
+		if not target.x then
+			outOfBattle(ship)
+			return true
+		end
+
 		ship.x0, ship.y0 = target.x, target.y
 
 		local length = 1 * math.sqrt((ship.x0-ship.x)*(ship.x0-ship.x) + (ship.y0-ship.y)*(ship.y0-ship.y))

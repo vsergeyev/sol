@@ -20,6 +20,7 @@ physics.start(); physics.pause()
 physics.setGravity(0, 0)
 
 gold = 100
+levelNow = 1
 
 --------------------------------------------
 
@@ -115,6 +116,13 @@ function scene:createScene( event )
 	-- timer.performWithDelay(10000, stardateGo, 0 )
 	table.insert(gameTimers, timer.performWithDelay(5000, targetShips, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(1000, repairCarrier, 0 ))
+
+	if isMusic then
+		local soundTheme = audio.loadStream("sounds/level1.m4a")
+		table.insert(gameTimers, timer.performWithDelay(2000, function (e)
+			audio.play(soundTheme)
+		end, 0 ))
+	end
 
 	math.randomseed( os.time() )
 	-- timer.performWithDelay(500, aiTurn, 0 )

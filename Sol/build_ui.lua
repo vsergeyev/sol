@@ -11,45 +11,29 @@ require "game_ui"
 
 -----------------------------------------------------------------------------------------
 function addBuildButtons(g)
-	-- Planet control
-
-	-- local b = display.newText("Planet control:", 0, 0, native.systemFont, 16)
-	-- g:insert(b)
-
-	-- Build ships buttons
-	for i = 1, 3, 1 do
+	local function addBtn(i)
 		local s = shipsData[i]
 		local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
 		b:setReferencePoint(display.TopLeftReferencePoint)
-		b.x, b.y = 2 + (i-2)*73, 3
+		b.x, b.y = 2 + (i-3)*73, 3
+		if i > 3 then
+			b.x = 2 + (i-4)*73
+		end
 		b.fullName = s.fullName
 		b.ship = s.ship
 		b.res = s.res
 		b:addEventListener('touch', hudBuildShip)
 		g:insert(b)
 	end
-	
-	local s = shipsData[6]
-	local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
-	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 150, 3
-	b.fullName = s.fullName
-	b.ship = s.ship
-	b.res = s.res
-	b:addEventListener('touch', hudBuildShip)
-	g:insert(b)
 
-	-- Tech buttons
-	-- for i = 1, #buildData, 1 do
-	-- 	local s = buildData[i]
-	-- 	local b = display.newImageRect("ui/build/"..s.tech..".png", 70, 70)
-	-- 	b:setReferencePoint(display.TopLeftReferencePoint)
-	-- 	b.x, b.y = (i-1)*80, 110
-	-- 	b.tech = s.tech
-	-- 	b.res = s.res
-	-- 	b:addEventListener('touch', buildTech)
-	-- 	g:insert(b)
-	-- end
+	-- Build ships buttons
+	for i = 1, 3, 1 do
+		addBtn(i)
+	end
+	
+	for i = 5, 6, 1 do
+		addBtn(i)
+	end
 end
 
 -----------------------------------------------------------------------------------------
@@ -63,7 +47,7 @@ function addPlanetsButtons(g)
 		local planet = planetsData[i]
 		local b = display.newImageRect("i/"..planet.name..".png", planet.size, planet.size)
 		b.y = 38
-		if i < 5 then
+		if i < 6 then
 			b.x = 238 + i*74
 		elseif i == 5 then
 			b.x = i*55-20
@@ -86,15 +70,15 @@ function addGameButtons(g)
 
 	local b = display.newImageRect("ui/buttons/pause.png", 70, 70)
 	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 575, 3
+	b.x, b.y = 650, 3
 	b:addEventListener('touch', gamePause)
 	g:insert(b)
 
-	local b = display.newImageRect("ui/buttons/menu.png", 70, 70)
-	b:setReferencePoint(display.TopLeftReferencePoint)
-	b.x, b.y = 650, 3
-	b:addEventListener('touch', gameMenu)
-	g:insert(b)
+	-- local b = display.newImageRect("ui/buttons/menu.png", 70, 70)
+	-- b:setReferencePoint(display.TopLeftReferencePoint)
+	-- b.x, b.y = 650, 3
+	-- b:addEventListener('touch', gameMenu)
+	-- g:insert(b)
 
 	-- local b = display.newImageRect("ui/buttons/empty.png", 70, 70)
 	-- b:setReferencePoint(display.TopLeftReferencePoint)

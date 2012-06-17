@@ -73,7 +73,7 @@ function addAlienShip(target, shipKind)
 	else	
 		ship.targetPlanet =  group.planets[math.random(#group.planets)] --group.earth
 	end
-	print(ship.targetPlanet.fullName)
+	-- print(ship.targetPlanet.fullName)
 	ship.targetReached = false
 
 	for i = 1, group.numChildren, 1 do

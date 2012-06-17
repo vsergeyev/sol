@@ -16,7 +16,7 @@ function addFleetButtons(g)
 		local planet = planetsData[i]
 		local b = display.newImageRect("i/"..planet.name..".png", planet.size, planet.size)
 		b.y = 38
-		if i < 5 then
+		if i < 6 then
 			b.x = 238 + i*74
 		elseif i == 5 then
 			b.x = i*55-20

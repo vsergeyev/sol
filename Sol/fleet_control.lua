@@ -17,6 +17,9 @@ local rand = math.random
 local planetToColonize, colonizationShip = nil, nil
 local shipsCollisionFilter = { groupIndex = -1 }
 
+local soundEngine = audio.loadStream("sounds/engine.m4a")
+local soundShipReady = audio.loadStream("sounds/shipready.m4a")
+
 -----------------------------------------------------------------------------------------
 function buildShip(e)
 	-- Builds ship on the planet
@@ -30,7 +33,7 @@ function buildShip(e)
 
 	if t.res.cost <= gold then
 		-- build ship
-		if (t.ship == "carier") or (t.ship == "fighter") or (t.ship == "trade") or (t.ship == "explorer") then
+		if (t.ship == "carier") or (t.ship == "cruiser") or (t.ship == "fighter") or (t.ship == "trade") or (t.ship == "explorer") then
 			local p = "ships/"..t.ship.."/"
 			ship = movieclip.newAnim({p.."1.png", p.."2.png", p.."3.png", p.."3.png", p.."3.png", p.."3.png", p.."3.png"})
 			ship:setSpeed(0.15)
@@ -89,6 +92,10 @@ function buildShip(e)
 		groupHud.money.text = gold.." MC"
 
 		showBaloon("Ship ready: \n"..ship.fullName)
+
+		if isMusic then
+			audio.play(soundShipReady)
+		end
 	else
 		showBaloon("Need more resources: \n"..t.res.cost.." MC")
 	end
@@ -176,20 +183,25 @@ function collisionShip(e)
 				-- print(t.fullName.." collision")
 				t.inBattle = true
 				t.battleTarget = o
+				-- print(t.fullName.." battle target ")
+				-- print(o)
 				t.battleTimer = timer.performWithDelay(1000, function ()
 					-- print(t.fullName.." timer")
 					shipBattle(t)
 				end, 0 )
-			elseif not t.nextBattleTarget then
-				-- print(t.fullName.." next battle target")
-				t.nextBattleTarget = o
-			else
-				-- print(t.fullName.." next@2 battle target")
-				t.next2BattleTarget = o
+			-- elseif not t.nextBattleTarget then
+			-- 	-- print(t.fullName.." next battle target")
+			-- 	-- print(o)
+			-- 	t.nextBattleTarget = o
+			-- elseif not t.next2BattleTarget then
+			-- 	-- print(t.fullName.." next@2 battle target")
+			-- 	-- print(o)
+			-- 	t.next2BattleTarget = o
+			-- elseif not t.next3BattleTarget then
+			-- 	t.next3BattleTarget = o
+			-- elseif not t.next4BattleTarget then
+			-- 	t.next4BattleTarget = o
 			end
-			-- table.insert(t.enemies, o)
-			-- showBaloon("Our ship engaged the enemy")
-			-- local alert = native.showAlert( "Encountered aliens battleship!", "Start battle or retreat to nearest planet?", { "Retreat", "Fight" }, onCompleteBattle )
 		end
 	end
 end
@@ -227,6 +239,7 @@ function impulseShip(t, dx, dy, speed)
     	-- print(xI*k)
     	-- print(yI*k)
     	t:setLinearVelocity(xI*k, yI*k)
+    	-- audio.play(soundEngine)
     end
 end
 

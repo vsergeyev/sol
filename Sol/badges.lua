@@ -28,7 +28,7 @@ function addHumanBadge(planet)
 
 	-- add badge
 	-- local badge = display.newImageRect("ui/badges/human.png", 25, 25)
-	local badge = display.newImageRect("ui/badges/defence3.png", 25, 25)
+	local badge = display.newImageRect("ui/badges/ea.png", 25, 25)
 	badge.x, badge.y = planet.x + planet.r, planet.y - planet.r
 	group:insert(badge)
 	planet.badgeHuman = badge

@@ -21,8 +21,6 @@ physics.setGravity(0, 0)
 
 --------------------------------------------
 
-gold = 500
-
 require "events"
 require "planets"
 require "create_scene"
@@ -34,7 +32,11 @@ require "aliens"
 require "ai"
 require "notifications"
 
+gold = 500
+levelNow = nil
 local skirmishLevel = 1
+local skirmishDelay = 60000 -- 60000
+local soundAlert = audio.loadStream("sounds/alert.m4a")
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -46,7 +48,10 @@ local skirmishLevel = 1
 
 function skirmishBattle( e )
 	showBaloon("ALERT! ALERT! ALERT!\n\nFleet #"..skirmishLevel.." incoming")
-
+	if isMusic then
+		audio.play(soundAlert)
+	end
+	
 	if skirmishLevel == 1 then
 		for i=1, 5, 1 do
 			addAlienShip(group.earth, 1)
@@ -150,13 +155,20 @@ function scene:createScene( event )
 	table.insert(gameTimers, timer.performWithDelay(5000, targetShips, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(1000, repairCarrier, 0 ))
 
+	if isMusic then
+		local soundTheme = audio.loadStream("sounds/level1.m4a")
+		table.insert(gameTimers, timer.performWithDelay(2000, function (e)
+			audio.play(soundTheme)
+		end, 0 ))
+	end
+
 	math.randomseed( os.time() )
 	-- timer.performWithDelay(500, aiTurn, 0 )
 
 	movePlanets()
 	addAlienStations()
 
-	table.insert(gameTimers, timer.performWithDelay(20000, skirmishBattle, 0 ))
+	table.insert(gameTimers, timer.performWithDelay(skirmishDelay, skirmishBattle, 0 ))
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )

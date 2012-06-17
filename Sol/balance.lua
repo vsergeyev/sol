@@ -67,26 +67,26 @@ shipsData = {
 			attack = 5,
 			cost = 10,
 			e = 2,
-			w = 42,
-			h = 24,
+			w = 32,
+			h = 18,
 			r = 0,
 			autofigth = true
 		}
 	},
 	{
-		fullName = "Battlecruiser",
+		fullName = 'USS "Rhino" battleship',
 		ship = "cruiser",
 		res = {
 			hp = 500,
-			shield = 0,
-			speed = 0.3,
+			shield = 100,
+			speed = 0.5,
 			attack = 10,
-			cost = 500,
+			cost = 150,
 			e = 50,
-			w = 150,
-			h = 48,
+			w = 160,
+			h = 60,
 			r = 0,
-			autofigth = true
+			autofigth = false
 		},
 	},
 	{
@@ -141,8 +141,8 @@ aliensData = {
 			attack = 3,
 			cost = 20,
 			e = 2,
-			w = 35,
-			h = 30,
+			w = 18,
+			h = 15,
 			r = 0,
 			autofigth = true
 		}
@@ -249,10 +249,10 @@ planetsData = {
 		name = "moon",
 		size = 60,
 	},
-	-- {
-	-- 	name = "mars",
-	-- 	size = 35,
-	-- },
+	{
+		name = "mars",
+		size = 60,
+	},
 	-- {
 	-- 	name = "jupiter",
 	-- 	size = 60,
