@@ -68,6 +68,9 @@ function movePlanets( e )
 			g.alphaR = g.alphaR + 0.0002 * g.speed
 			g.x = g.x0  + g.orbit * math.sin(g.alphaR)
 			g.y = g.y0  + g.orbit/1.5 * math.cos(g.alphaR)
+			-- print(g.name)
+			-- print(g.x)
+			-- print(g.y)
 			-- move gravitation fields with their planets
 			if g.field then
 				g.field.x = g.x
@@ -155,15 +158,11 @@ function moveFighters( e )
 		if g.on_carrier and not g.inBattle then
 			local p = g.targetPlanet
 
-			-- g.x0, g.y0 = p.x, p.y
-			-- g.alphaR = g.alphaR + 0.3*g.res.speed
-
-			-- local x = g.x0 + g.r*g.orbit * math.sin(g.alphaR)
-			-- local y = g.y0 + g.r*g.orbit/3 * math.cos(g.alphaR)
-
-			-- g.rotation = math.deg(math.atan2((y - g.y), (x - g.x)))
-			-- impulseShip(g, x-g.x, y-g.y, 0.05 + math.random(2)/10)
-
+			if not p then
+				g.on_carrier = false
+				g.targetPlanet = nil
+				return true
+			end
 
 			g.alphaR = g.alphaR + 0.001
 
@@ -206,7 +205,7 @@ function selectPlanet( e )
 		end
 		
 		selectOverlay = display.newCircle(t.x, t.y, t.r)
-		selectOverlay.alpha = 0.3
+		selectOverlay.alpha = 0.1
 		selectOverlay.strokeWidth = 5
 		selectOverlay:setStrokeColor(255)
 		group:insert(selectOverlay)

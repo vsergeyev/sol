@@ -75,21 +75,13 @@ function destroyShip(g)
 	-- clear target on linked ships
 	for i = 1, group.numChildren, 1 do
 		local g0 = group[i]
-		-- if g0.nextBattleTarget == g then
-		-- 	g0.nextBattleTarget = nil
-		-- end
-		-- if g0.next2BattleTarget == g then
-		-- 	g0.next2BattleTarget = nil
-		-- end
-		-- if g0.next3BattleTarget == g then
-		-- 	g0.next3BattleTarget = nil
-		-- end
-		-- if g0.next4BattleTarget == g then
-		-- 	g0.next4BattleTarget = nil
-		-- end
 		if g0.battleTarget == g then
 			outOfBattle(g0)
 		end
+	end
+
+	if g.name == "portal" then
+		portalDestroyed = true
 	end
 
 	g:removeSelf()

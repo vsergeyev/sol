@@ -31,6 +31,7 @@ require "fleet_control"
 require "aliens"
 require "ai"
 require "notifications"
+require "dialogs"
 
 gold = 500
 levelNow = nil
@@ -45,6 +46,12 @@ local soundAlert = audio.loadStream("sounds/alert.m4a")
 --		 unless storyboard.removeScene() is called.
 -- 
 -----------------------------------------------------------------------------------------
+
+function winCondition( e )
+	if portalDestroyed then
+		showSurvivalDlg( e, "Victory!", true )
+	end
+end
 
 function skirmishBattle( e )
 	showBaloon("ALERT! ALERT! ALERT!\n\nFleet #"..skirmishLevel.." incoming")
@@ -112,19 +119,6 @@ function scene:createScene( event )
 	groupSky:insert(sky)
 	groupSky.sky = sky
 
-	
-
-	local g = graphics.newGradient(
-	  { 0, 0, 0 },
-	  { 50, 50, 50 },
-	  "down" )
-
-	-- local bg = display.newRect( -9*screenW, -9*screenH, 19*screenW, 19*screenH)
-	-- bg:setFillColor( 0 )
-	-- bg.alpha = 0.5
-	-- group:insert(bg)
-	-- bg:addEventListener('touch', moveBg)
-
 	createSun()
 	addPlanets()
 	addHud()
@@ -150,10 +144,11 @@ function scene:createScene( event )
 	table.insert(gameTimers, timer.performWithDelay(6000, hightlightSun, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(200, refreshMinimap, 1 ))
 	table.insert(gameTimers, timer.performWithDelay(3000, refreshMinimap, 0 ))
-	table.insert(gameTimers, timer.performWithDelay(20000, calcIncome, 0 ))
+	-- table.insert(gameTimers, timer.performWithDelay(20000, calcIncome, 0 ))
 	-- timer.performWithDelay(10000, stardateGo, 0 )
 	table.insert(gameTimers, timer.performWithDelay(5000, targetShips, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(1000, repairCarrier, 0 ))
+	table.insert(gameTimers, timer.performWithDelay(2000, winCondition, 0 ))
 
 	if isMusic then
 		local soundTheme = audio.loadStream("sounds/level1.m4a")
@@ -167,6 +162,32 @@ function scene:createScene( event )
 
 	movePlanets()
 	addAlienStations()
+
+	-- Portal to other System
+	local t = "aliens/portal/"
+	p = movieclip.newAnim({t.."1.png", t.."2.png", t.."3.png", t.."4.png", t.."5.png"})
+	p:setSpeed(0.2)
+	p:play()
+	p.r = 50
+	p.speed = 0.5
+	p.x, p.y = 7200, -1700
+	p.fullName = "Wormhole portal"
+	p.name = "portal"
+	p.nameType = "ship"
+	p.enemy = true
+	p.hp = 10000
+	p.shield = 0
+	p.res = {
+		hp = 10000,
+		shield = 0,
+		speed = 0.5,
+		attack = 0,
+	}
+	p:addEventListener('touch', selectShip)
+	physics.addBody(p, {radius=100, friction=0, filter=aliensCollisionFilter})
+	p.isSensor = true
+	p:addEventListener('collision', collisionShip)
+	group:insert(p)
 
 	table.insert(gameTimers, timer.performWithDelay(skirmishDelay, skirmishBattle, 0 ))
 
@@ -185,6 +206,7 @@ function scene:enterScene( event )
 	physics.start()
 
 	showInfo(selectedObject)
+	showSurvivalDlg( event, "Survive in the waves of enemies.\n\nNext wave will arrive in 60 sec.\n\nTo win find Wormhole portal and destroy it.\n\n Good luck, Captain!" )
 end
 
 -- Called when scene is about to move offscreen:

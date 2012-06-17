@@ -53,7 +53,9 @@ function scene:createScene( event )
 	cButton:setTextColor(0, 200, 100)
 	group:insert(cButton)
 	cButton:addEventListener('touch', function (e)
-		media.playVideo( "tutorial/movie.mov", false )
+		if e.phase == "ended" then
+			media.playVideo( "tutorial/movie.mov", false )
+		end
 		return true
 	end)
 

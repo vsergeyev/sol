@@ -4,6 +4,7 @@
 --
 -----------------------------------------------------------------------------------------
 
+local movieclip = require "movieclip"
 require "badges"
 
 function addPlanets()

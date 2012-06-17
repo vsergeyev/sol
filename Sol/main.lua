@@ -25,7 +25,7 @@ gold = 100
 energy = 50
 stardate = 48315.6
 levelNow = 1
-
+portalDestroyed = false
 isMusic = true
 
 planetGravitationFieldRadius = 1.1

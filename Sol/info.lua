@@ -51,12 +51,10 @@ function showInfo( item )
 				end
 
 				groupHud.build.alpha = 1
-				groupHud.text.text = "Population: "..p --.."\nTech. level: "..item.res.techlevel.."\nEnergy: "..item.res.generators.."\nDefence: "..item.res.defence
-				-- groupHud.text.text = "Colonized in: "..item.res.at.."\nPopulation: "..p.."\nTech. level: "..item.res.techlevel.."\nEnergy: "..item.res.generators.."\nDefence: "..item.res.defence
+				groupHud.text.text = "Population: "..p
 			else
-				groupHud.text.text = "" -- "Bonus resources: "..item.res.supplies.."\n\nNOT COLONIZED"
+				groupHud.text.text = ""
 			end
-			-- groupHud.text.text = groupHud.text.text .. "\n\n" .. infoPedia[item.name]
 		elseif item.nameType == "asteroid" then
 			groupHud.fleet.alpha = 0
 			groupHud.planets.alpha = 0
@@ -71,8 +69,6 @@ function showInfo( item )
 				groupHud.fleet.alpha = 1
 			end
 			groupHud.fleet.fighter.alpha = 0
-			-- groupHud.fleet.droid.alpha = 0
-			-- groupHud.fleet.details.alpha = 0
 
 			if item.name == "carier" then
 				-- Carrier can build fighters/droids
@@ -86,8 +82,6 @@ function showInfo( item )
 			
 			-- Ship details
 			groupHud.text.text = "HP: "..item.hp.."/"..item.res.hp.."\nShield: "..item.shield.."/"..item.res.shield
-			-- groupHud.text.text = "HP: "..item.hp.."/"..item.res.hp.."\nShield: "..item.shield.."/"..item.res.shield.."\nAttack: "..item.res.attack.."\nWarp speed: "..item.res.speed
-			-- groupHud.text.text = groupHud.text.text .. "\n\n" .. infoPedia[item.name]
 		else
 			groupHud.build.alpha = 0
 			groupHud.fleet.alpha = 0
@@ -95,8 +89,8 @@ function showInfo( item )
 			groupHud.text.text = infoPedia[item.name]
 		end
 	else
-		groupHud.title.text = "" -- "Resources: "..gold.." MC"  --"Solar system"
-		groupHud.text.text = "" -- [[The Solar System consists of the Sun and the astronomical objects gravitationally bound in orbit around it, all of which formed from the collapse of a giant molecular cloud approximately 4.6 billion years ago.]]
+		groupHud.title.text = ""
+		groupHud.text.text = ""
 		groupHud.build.alpha = 0
 		groupHud.fleet.alpha = 0
 		groupHud.planets.alpha = 1

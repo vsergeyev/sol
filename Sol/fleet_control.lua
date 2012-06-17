@@ -151,7 +151,7 @@ function collisionShip(e)
 	if o.name == "planet_field" then
 		-- if this is exploration ship and planet not colonized
 		local planet = o.planet
-		if t.name == "explorer" and planet.name ~= "sun" and not planet.res.colonized then
+		if t.name == "explorer" and planet.name ~= "sun" and planet.name ~= "portal" and not planet.res.colonized then
 			t:setLinearVelocity(0, 0)
 			t.targetPlanet = nil
 			planetToColonize = planet
@@ -189,33 +189,10 @@ function collisionShip(e)
 					-- print(t.fullName.." timer")
 					shipBattle(t)
 				end, 0 )
-			-- elseif not t.nextBattleTarget then
-			-- 	-- print(t.fullName.." next battle target")
-			-- 	-- print(o)
-			-- 	t.nextBattleTarget = o
-			-- elseif not t.next2BattleTarget then
-			-- 	-- print(t.fullName.." next@2 battle target")
-			-- 	-- print(o)
-			-- 	t.next2BattleTarget = o
-			-- elseif not t.next3BattleTarget then
-			-- 	t.next3BattleTarget = o
-			-- elseif not t.next4BattleTarget then
-			-- 	t.next4BattleTarget = o
 			end
 		end
 	end
 end
-
------------------------------------------------------------------------------------------
--- function escapeShip(e)
--- 	local t = e.target
--- 	local o = e.other
-
--- 	if t.enemies[o] then
--- 		table.remove(t.enemies, o)
--- 		print(t.enemies[1].fullName)
--- 	end
--- end
 
 -----------------------------------------------------------------------------------------
 function impulseShip(t, dx, dy, speed)
@@ -233,6 +210,14 @@ function impulseShip(t, dx, dy, speed)
 
         if speed then
         	k = k * speed
+        end
+
+        if t.overlay then
+        	if selectOverlay then
+				selectOverlay:removeSelf()
+				selectOverlay = nil
+			end
+			t.overlay = nil
         end
 
     	-- t:applyLinearImpulse(xI*k, yI*k, t.x, t.y)
@@ -262,12 +247,12 @@ function selectShip( e )
 			selectOverlay = nil
 		end
 		
-		-- selectOverlay = display.newCircle(t.x, t.y, t.r)
-		-- selectOverlay.alpha = 0.3
-		-- selectOverlay.strokeWidth = 5
-		-- selectOverlay:setStrokeColor(255)
-		-- group:insert(selectOverlay)
-		-- t.overlay = selectOverlay
+		selectOverlay = display.newCircle(t.x, t.y, t.r)
+		selectOverlay.alpha = 0.1
+		selectOverlay.strokeWidth = 5
+		selectOverlay:setStrokeColor(255)
+		group:insert(selectOverlay)
+		t.overlay = selectOverlay
 
 		selectedObject = t
 		showInfo(t)
