@@ -40,8 +40,6 @@ end
 -----------------------------------------------------------------------------------------
 function hightlightSun( e )
 	local s = display.newCircle(sun.x, sun.y, sun.r)
-	-- local s = display.newImageRect("i/sun2.png", 350, 350)
-	-- s.x, s.y = sun.x, sun.y
 
 	local function removeHightligth( e )
 		s:removeSelf()
@@ -68,10 +66,7 @@ function movePlanets( e )
 			g.alphaR = g.alphaR + 0.0002 * g.speed
 			g.x = g.x0  + g.orbit * math.sin(g.alphaR)
 			g.y = g.y0  + g.orbit/1.5 * math.cos(g.alphaR)
-			-- print(g.name)
-			-- print(g.x)
-			-- print(g.y)
-			-- move gravitation fields with their planets
+
 			if g.field then
 				g.field.x = g.x
 				g.field.y = g.y
@@ -236,13 +231,6 @@ function moveBg( e )
 
 		oneTouchBegan = true
 
-		if selectOverlay then
-			selectOverlay:removeSelf()
-			selectOverlay = nil
-		end
-		selectedObject = nil
-		showInfo(nil)
-
 		--groupHud.alpha = 0
 		groupX, groupY = group.x, group.y
 		sky.x0, sky.y0 = sky.x, sky.y
@@ -250,9 +238,6 @@ function moveBg( e )
 		if oneTouchBegan then
 			group.x = groupX + (e.x - e.xStart)
 			group.y = groupY + (e.y - e.yStart)
-			
-			-- groupSky.sky.x = sky.x0 + (e.x - e.xStart) / 20
-			-- groupSky.sky.y = sky.y0 + (e.y - e.yStart) / 20
 
 			sky.x = sky.x0 + (e.x - e.xStart) / 5
 			sky.y = sky.y0 + (e.y - e.yStart) / 10
@@ -288,10 +273,14 @@ function frameHandler( e )
 	if isPause then return end
 
 	if s then
-		if s.nameType == "ship" and s.alpha == 0 then
-			-- remove alpha 0 defeated battleships
-			s:removeSelf()
-			s = nil
+		if s.nameType == "ship" then
+			if s.alpha == 0 then
+				-- remove alpha 0 defeated battleships
+				s:removeSelf()
+				s = nil
+			elseif selectOverlay and selectOverlay.ship then
+				selectOverlay.x, selectOverlay.y = s.x, s.y
+			end
 		end
 	end
 end

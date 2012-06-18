@@ -134,8 +134,8 @@ function scene:createScene( event )
 	mtouch.setOnZoomOut( OnZoomOut  )
 
 	-- Test planets positions with smaller zoom
-	-- group.xScale = 0.7
-	-- group.yScale = 0.7
+	-- group.xScale = 0.5
+	-- group.yScale = 0.5
 
 	-- Timers
 	table.insert(gameTimers, timer.performWithDelay(1000, animatePlanets, 0 ))
@@ -206,7 +206,7 @@ function scene:enterScene( event )
 	physics.start()
 
 	showInfo(selectedObject)
-	showSurvivalDlg( event, "Survive in the waves of enemies.\n\nNext wave will arrive in 60 sec.\n\nTo win find Wormhole portal and destroy it.\n\n Good luck, Captain!" )
+	showSurvivalDlg( event, "Survive in the waves of enemies.\n\nNext wave will arrive in 60 sec.\n\nTo win find Wormhole portal and destroy it.\n\nGood luck, Captain!" )
 end
 
 -- Called when scene is about to move offscreen:

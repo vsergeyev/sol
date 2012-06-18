@@ -53,6 +53,7 @@ function showInfo( item )
 				groupHud.build.alpha = 1
 				groupHud.text.text = "Population: "..p
 			else
+				groupHud.build.alpha = 0
 				groupHud.text.text = ""
 			end
 		elseif item.nameType == "asteroid" then

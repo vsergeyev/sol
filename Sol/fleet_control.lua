@@ -212,17 +212,6 @@ function impulseShip(t, dx, dy, speed)
         	k = k * speed
         end
 
-        if t.overlay then
-        	if selectOverlay then
-				selectOverlay:removeSelf()
-				selectOverlay = nil
-			end
-			t.overlay = nil
-        end
-
-    	-- t:applyLinearImpulse(xI*k, yI*k, t.x, t.y)
-    	-- print(xI*k)
-    	-- print(yI*k)
     	t:setLinearVelocity(xI*k, yI*k)
     	-- audio.play(soundEngine)
     end
@@ -247,12 +236,13 @@ function selectShip( e )
 			selectOverlay = nil
 		end
 		
-		selectOverlay = display.newCircle(t.x, t.y, t.r)
+		selectOverlay = display.newCircle(t.x, t.y, t.res.w/2)
 		selectOverlay.alpha = 0.1
 		selectOverlay.strokeWidth = 5
 		selectOverlay:setStrokeColor(255)
 		group:insert(selectOverlay)
 		t.overlay = selectOverlay
+		selectOverlay.ship = t
 
 		selectedObject = t
 		showInfo(t)
