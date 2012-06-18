@@ -126,6 +126,12 @@ function colonizeIt()
 					outOfBattle(g0)
 				end
 			end
+			if colonizationShip == selectedObject then
+				selectOverlay:removeSelf()
+				selectOverlay = nil
+				selectedObject = nil
+				showInfo(nil)
+			end
     		colonizationShip:removeSelf()
     	end, 1 )
     end
@@ -151,7 +157,7 @@ function collisionShip(e)
 	if o.name == "planet_field" then
 		-- if this is exploration ship and planet not colonized
 		local planet = o.planet
-		if t.name == "explorer" and planet.name ~= "sun" and planet.name ~= "portal" and not planet.res.colonized then
+		if t.name == "explorer" and planet.name ~= "sun" and not planet.res.colonized then
 			t:setLinearVelocity(0, 0)
 			t.targetPlanet = nil
 			planetToColonize = planet

@@ -14,31 +14,7 @@ function outOfBattle(g)
 
 	if not g.battleTimer then return true end
 
-	-- print(g.fullName.." destroying:")
-	-- print(g.battleTarget)
 	g.battleTarget = nil
-
-
-	-- if g.nextBattleTarget then
-	-- 	-- print("Next target:")
-	-- 	-- print(g.nextBattleTarget)
-	-- 	g.battleTarget = g.nextBattleTarget
-	-- 	-- g.nextBattleTarget = nil
-	-- 	if g.next2BattleTarget then
-	-- 		g.nextBattleTarget = g.next2BattleTarget
-	-- 		-- g.next2BattleTarget = nil
-	-- 		if g.next3BattleTarget then
-	-- 			g.next2BattleTarget = g.next3BattleTarget
-	-- 			-- g.next3BattleTarget = nil
-	-- 			if g.next3BattleTarget then
-	-- 				g.next3BattleTarget = g.next4BattleTarget
-	-- 				-- g.next4BattleTarget = nil
-	-- 			end
-	-- 		end
-	-- 	end
-
-	-- 	return true
-	-- end
 
 	g.inBattle = false
 	g.targetReached = false
@@ -55,7 +31,6 @@ function outOfBattle(g)
 		g.isBodyActive = true
 	end, 1)
 
-	-- print(g.fullName.." timer stoped")
 end
 
 -----------------------------------------------------------------------------------------
@@ -65,6 +40,10 @@ function destroyShip(g)
 
 	if g == selectedObject then
 		selectedObject = nil
+		if selectOverlay then
+			selectOverlay:removeSelf()
+			selectOverlay = nil
+		end
 	end
 
 	if g.battleTimer then

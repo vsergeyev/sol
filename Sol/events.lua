@@ -60,8 +60,8 @@ function movePlanets( e )
 
 	if isPause then return end
 
-	for i = 1, group.numChildren, 1 do
-		local g = group[i]
+	for i = 1, #group.planets, 1 do
+		local g = group.planets[i]
 		if (g.nameType == "planet") or (g.nameType == "asteroid") then
 			g.alphaR = g.alphaR + 0.0002 * g.speed
 			g.x = g.x0  + g.orbit * math.sin(g.alphaR)
@@ -85,6 +85,10 @@ function movePlanets( e )
 				moon.alphaR = moon.alphaR + 0.001 * moon.speed
 				moon.x = moon.x0  + moon.orbit * math.sin(moon.alphaR)
 				moon.y = moon.y0  + moon.orbit/1.5 * math.cos(moon.alphaR)
+				if moon.field then
+					moon.field.x = moon.x
+					moon.field.y = moon.y
+				end
 				if moon.overlay then
 					moon.overlay.x = moon.x
 					moon.overlay.y = moon.y
@@ -94,10 +98,6 @@ function movePlanets( e )
 			-- badges
 			if g.badgeHuman then
 				g.badgeHuman.x, g.badgeHuman.y = g.x + g.r, g.y - g.r
-			end
-
-			if g.badgeDefence then
-				g.badgeDefence.x, g.badgeDefence.y = g.x + g.r + 30, g.y - g.r
 			end
 
 			if g.nameType == "asteroid" then
@@ -221,6 +221,13 @@ function moveBg( e )
 	local sky = e.target
 
 	if e.phase == "began" then
+		if selectOverlay then
+			selectOverlay:removeSelf()
+			selectOverlay = nil
+			selectedObject = nil
+			showInfo(nil)
+		end
+	
 		local r = display.newCircle((e.x-group.x)/group.xScale, (e.y-group.y)/group.xScale, 30/group.xScale)
 		r.alpha = 0.1
 		group:insert(r)
@@ -241,6 +248,9 @@ function moveBg( e )
 
 			sky.x = sky.x0 + (e.x - e.xStart) / 5
 			sky.y = sky.y0 + (e.y - e.yStart) / 10
+
+			groupSky.sky.x = sky.x0 + (e.x - e.xStart) / 10
+			groupSky.sky.y = sky.y0 + (e.y - e.yStart) / 20
 
 			if (sky.x > sky.width/2) then
 				sky.x = sky.width/2

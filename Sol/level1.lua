@@ -112,10 +112,10 @@ function scene:createScene( event )
 	groupSky:insert(sky)
 	sky:addEventListener('touch', moveBg)
 	
-	local sky = display.newImageRect("bg/bg2.png", 1280, 852)	
+	local sky = display.newImageRect("bg/bg22.png", 1944, 1458) -- 1280, 852)	
 	sky:setReferencePoint( display.CenterReferencePoint )
 	sky.x, sky.y = screenW/2, screenH/2
-	sky.alpha = 0.3
+	sky.alpha = 1
 	groupSky:insert(sky)
 	groupSky.sky = sky
 
@@ -160,7 +160,8 @@ function scene:createScene( event )
 	math.randomseed( os.time() )
 	-- timer.performWithDelay(500, aiTurn, 0 )
 
-	movePlanets()
+	table.insert(gameTimers, timer.performWithDelay(100, movePlanets, 0 ))
+	-- movePlanets()
 	addAlienStations()
 
 	-- Portal to other System

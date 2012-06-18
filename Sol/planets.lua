@@ -15,7 +15,7 @@ function addPlanets()
 	local p = display.newImageRect("i/mercury.png", 120, 120)
 	p.x, p.y = screenW/1.5, screenH/1.5
 	p.r = 60
-	p.speed = 2
+	p.speed = 0.2
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 600
 	p.alphaR = 0
@@ -39,7 +39,7 @@ function addPlanets()
 	local p = display.newImageRect("i/venus.png", 160, 160)
 	p.x, p.y = screenW/1.5, screenH/1.5
 	p.r = 80
-	p.speed = 1.5
+	p.speed = 0.15
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 1200
 	p.alphaR = 180
@@ -63,7 +63,7 @@ function addPlanets()
 	local earth = display.newImageRect("i/earth.png", 300, 300)
 	earth.x, earth.y = screenW/1.5, screenH/1.5
 	earth.r = 150
-	earth.speed = 1
+	earth.speed = 0.1
 	earth.x0, earth.y0 = 100, screenH - 100 -- 0, screenH
 	earth.orbit = 2000
 	earth.alphaR = 90
@@ -89,7 +89,7 @@ function addPlanets()
 	local moon = display.newImageRect("i/moon.png", 80, 80)
 	moon.x, moon.y = screenW/1.5, screenH/1.5
 	moon.r = 40
-	moon.speed = 0.01
+	moon.speed = 1
 	moon.x0, moon.y0 = earth.x, earth.y
 	moon.orbit = 800
 	moon.alphaR = 90
@@ -114,7 +114,7 @@ function addPlanets()
 	local p = display.newImageRect("i/mars.png", 200, 200)
 	p.x, p.y = screenW/1.5, screenH/1.5
 	p.r = 100
-	p.speed = 1
+	p.speed = 0.1
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 4000
 	p.alphaR = 120
@@ -210,7 +210,7 @@ function addPlanets()
 	local p = display.newImageRect("i/neptune.png", 160, 160)
 	p.x, p.y = screenW/1.5, screenH/1.5
 	p.r = 80
-	p.speed = 0.1
+	p.speed = 0.01
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 7500
 	p.alphaR = 90
@@ -248,65 +248,51 @@ function addPlanets()
 		end
 	end
 
-	local a = display.newImageRect("i/asteroid.png", 50, 50)
-	a.x, a.y = 1000, 500
-	a.r = 50
-	a.speed = 5
-	a.x0, a.y0 = 100, screenH - 100
-	a.orbit = 800
-	a.alphaR = 90
-	a.fullName = "Asteroid K23L2"
-	a.name = "asteroid"
-	a.nameType = "asteroid"
-	group:insert(a)
-	a:addEventListener('touch', selectPlanet)
-	physics.addBody(a, {radius=a.r})
-	a.isSensor = true
+	asteroidsData = {
+		{
+			speed = 5,
+			orbit = 800,
+			alphaR = 90,
+			fullName = "Asteroid K23L2"
+		},
+		{
+			speed = 7,
+			orbit = 2600,
+			alphaR = 60,
+			fullName = "Asteroid K23L3"
+		},
+		{
+			speed = 8,
+			orbit = 3200,
+			alphaR = 150,
+			fullName = "Asteroid K23L4"
+		},
+		{
+			speed = 10,
+			orbit = 4000,
+			alphaR = 30,
+			fullName = "Asteroid K23L1"
+		},
+	}
 
-	local a = display.newImageRect("i/asteroid.png", 50, 50)
-	a.x, a.y = 1000, 500
-	a.r = 50
-	a.speed = 7
-	a.x0, a.y0 = 100, screenH - 100
-	a.orbit = 2600
-	a.alphaR = 60
-	a.fullName = "Asteroid K23L3"
-	a.name = "asteroid"
-	a.nameType = "asteroid"
-	group:insert(a)
-	a:addEventListener('touch', selectPlanet)
-	physics.addBody(a, {radius=a.r})
-	a.isSensor = true
-
-	local a = display.newImageRect("i/asteroid.png", 50, 50)
-	a.x, a.y = 1000, 500
-	a.r = 50
-	a.speed = 8
-	a.x0, a.y0 = 100, screenH - 100
-	a.orbit = 3200
-	a.alphaR = 150
-	a.fullName = "Asteroid K23L4"
-	a.name = "asteroid"
-	a.nameType = "asteroid"
-	group:insert(a)
-	a:addEventListener('touch', selectPlanet)
-	physics.addBody(a, {radius=a.r})
-	a.isSensor = true
-
-	local a = display.newImageRect("i/asteroid.png", 50, 50)
-	a.x, a.y = 1000, 500
-	a.r = 50
-	a.speed = 10
-	a.x0, a.y0 = 100, screenH - 100
-	a.orbit = 4000
-	a.alphaR = 30
-	a.fullName = "Asteroid K23L1"
-	a.name = "asteroid"
-	a.nameType = "asteroid"
-	group:insert(a)
-	a:addEventListener('touch', selectPlanet)
-	physics.addBody(a, {radius=a.r})
-	a.isSensor = true
+	for i=1, #asteroidsData, 1 do
+		local d = asteroidsData[i]
+		local a = display.newImageRect("i/asteroid.png", 50, 50)
+		a.x, a.y = 1000, 500
+		a.r = 50
+		a.speed = d.speed
+		a.x0, a.y0 = 100, screenH - 100
+		a.orbit = d.orbit
+		a.alphaR = d.alphaR
+		a.fullName = d.fullName
+		a.name = "asteroid"
+		a.nameType = "asteroid"
+		group:insert(a)
+		a:addEventListener('touch', selectPlanet)
+		physics.addBody(a, {radius=a.r})
+		a.isSensor = true
+		table.insert(group.planets, a)
+	end
 end
 
 function animatePlanets(e)

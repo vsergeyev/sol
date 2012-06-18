@@ -53,7 +53,10 @@ function scene:createScene( event )
 	cButton:setTextColor(0, 200, 100)
 	group:insert(cButton)
 	cButton:addEventListener('touch', function (e)
-		if e.phase == "ended" then
+		if  e.phase == "began" then
+			e.target.alpha = 0.5
+		elseif e.phase == "ended" then
+			e.target.alpha = 1
 			media.playVideo( "tutorial/movie.mov", false )
 		end
 		return true
@@ -63,10 +66,15 @@ function scene:createScene( event )
 	cButton:setTextColor(0, 200, 100)
 	group:insert(cButton)
 	cButton:addEventListener('touch', function (e)
-		purgeTimers()
-		isPause = false
-		storyboard.removeScene( "level0" )
-		storyboard.gotoScene( "level0", "fade", 500 )
+		if  e.phase == "began" then
+			e.target.alpha = 0.5
+		elseif e.phase == "ended" then
+			e.target.alpha = 1
+			purgeTimers()
+			isPause = false
+			storyboard.removeScene( "level0" )
+			storyboard.gotoScene( "level0", "fade", 500 )
+		end
 		return true
 	end)
 
@@ -74,10 +82,15 @@ function scene:createScene( event )
 	sButton:setTextColor(0, 200, 100)
 	group:insert(sButton)
 	sButton:addEventListener('touch', function (e)
-		purgeTimers()
-		isPause = false
-		storyboard.removeScene( "level1" )
-		storyboard.gotoScene( "level1", "fade", 500 )
+		if  e.phase == "began" then
+			e.target.alpha = 0.5
+		elseif e.phase == "ended" then
+			e.target.alpha = 1
+			purgeTimers()
+			isPause = false
+			storyboard.removeScene( "level1" )
+			storyboard.gotoScene( "level1", "fade", 500 )
+		end
 		return true
 	end)
 
@@ -85,10 +98,15 @@ function scene:createScene( event )
 	aButton:setTextColor(0, 200, 100)
 	group:insert(aButton)
 	aButton:addEventListener('touch', function (e)
-		purgeTimers()
-		isPause = false
-		storyboard.removeScene( "about" )
-		storyboard.gotoScene( "about", "fade", 500 )
+		if  e.phase == "began" then
+			e.target.alpha = 0.5
+		elseif e.phase == "ended" then
+			e.target.alpha = 1
+			purgeTimers()
+			isPause = false
+			storyboard.removeScene( "about" )
+			storyboard.gotoScene( "about", "fade", 500 )
+		end
 		return true
 	end)
 
