@@ -138,8 +138,11 @@ function moveAutopilot( e )
 				y2 = p.y + g.orbit*p.r * math.cos(g.alphaR)
 
 				local k = 0.8 + math.random(10) / 20
-				if g.name == "fighter" or g.name2 == "fighter" then
+				if g.name == "fighter" then
 					k = 1 -- + math.random(10) / 20
+				end
+				if g.name2 == "fighter" then
+					k = 0.5
 				end
 				impulseShip(g, x2-g.x, y2-g.y, k)
 			--end
