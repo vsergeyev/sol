@@ -17,9 +17,9 @@ function outOfBattle(g)
 	g.battleTarget = nil
 
 	g.inBattle = false
-	g.targetReached = false
-	-- local vx, vy = g:getLinearVelocity()
-	-- g:setLinearVelocity(vx/5, vy/5)
+	if not g.on_carrier then
+		g.targetReached = false
+	end
 
 	if g.battleTimer then
 		timer.cancel( g.battleTimer )
@@ -170,6 +170,7 @@ end
 -----------------------------------------------------------------------------------------
 function shipBattle(ship)
 	-- called by timer for particular ship
+	if isPause then return end
 
 	local target = ship.battleTarget
 

@@ -49,7 +49,7 @@ function scene:createScene( event )
 	group:insert(moon)
 	
 	-- Buttons
-	local cButton = display.newText("|| Tutorial", screenW-300, screenH-320, 300, 60, native.systemFont, 36)
+	local cButton = display.newText("|| Tutorial", screenW-300, screenH-320, 200, 40, native.systemFont, 36)
 	cButton:setTextColor(0, 200, 100)
 	group:insert(cButton)
 	cButton:addEventListener('touch', function (e)
@@ -62,7 +62,7 @@ function scene:createScene( event )
 		return true
 	end)
 
-	local cButton = display.newText("|| Campaign", screenW-300, screenH-240, 300, 60, native.systemFont, 36)
+	local cButton = display.newText("|| Campaign", screenW-300, screenH-240, 200, 40, native.systemFont, 36)
 	cButton:setTextColor(0, 200, 100)
 	group:insert(cButton)
 	cButton:addEventListener('touch', function (e)
@@ -78,7 +78,7 @@ function scene:createScene( event )
 		return true
 	end)
 
-	local sButton = display.newText("|| Survival", screenW-300, screenH-160, 300, 60, native.systemFont, 36)
+	local sButton = display.newText("|| Survival", screenW-300, screenH-160, 200, 40, native.systemFont, 36)
 	sButton:setTextColor(0, 200, 100)
 	group:insert(sButton)
 	sButton:addEventListener('touch', function (e)
@@ -94,7 +94,7 @@ function scene:createScene( event )
 		return true
 	end)
 
-	local aButton = display.newText("|| Credits", screenW-300, screenH-80, 300, 60, native.systemFont, 36)
+	local aButton = display.newText("|| Credits", screenW-300, screenH-80, 200, 40, native.systemFont, 36)
 	aButton:setTextColor(0, 200, 100)
 	group:insert(aButton)
 	aButton:addEventListener('touch', function (e)

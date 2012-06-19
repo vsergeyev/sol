@@ -139,10 +139,8 @@ function scene:createScene( event )
 
 	-- Timers
 	table.insert(gameTimers, timer.performWithDelay(1000, animatePlanets, 0 ))
-	table.insert(gameTimers, timer.performWithDelay(100, moveAutopilot, 0 ))
-	table.insert(gameTimers, timer.performWithDelay(4000, moveFighters, 0 ))
+	table.insert(gameTimers, timer.performWithDelay(300, moveAutopilot, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(6000, hightlightSun, 0 ))
-	table.insert(gameTimers, timer.performWithDelay(200, refreshMinimap, 1 ))
 	table.insert(gameTimers, timer.performWithDelay(3000, refreshMinimap, 0 ))
 	-- table.insert(gameTimers, timer.performWithDelay(20000, calcIncome, 0 ))
 	-- timer.performWithDelay(10000, stardateGo, 0 )
@@ -161,8 +159,7 @@ function scene:createScene( event )
 	-- timer.performWithDelay(500, aiTurn, 0 )
 
 	table.insert(gameTimers, timer.performWithDelay(100, movePlanets, 0 ))
-	-- movePlanets()
-	addAlienStations()
+	table.insert(gameTimers, timer.performWithDelay(500, addAlienStations, 1 ))
 
 	-- Portal to other System
 	local t = "aliens/portal/"
@@ -183,6 +180,8 @@ function scene:createScene( event )
 		shield = 0,
 		speed = 0.5,
 		attack = 0,
+		w = 100,
+		h = 100
 	}
 	p:addEventListener('touch', selectShip)
 	physics.addBody(p, {radius=100, friction=0, filter=aliensCollisionFilter})

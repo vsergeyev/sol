@@ -47,7 +47,7 @@ function buildShip(e)
 			ship = display.newImageRect("ships/"..t.ship..".png", t.res.w, t.res.h)
 		end
 
-		ship.x, ship.y = p.x, p.y
+		ship.x, ship.y = p.x + p.r, p.y
 		ship.originPlanet = p
 		ship.targetPlanet = p
 		ship.targetReached = true
@@ -59,7 +59,7 @@ function buildShip(e)
 		else
 			ship.sensors = 300
 		end
-		ship.orbit = math.random(3)
+		ship.orbit = 1.1 + math.random(20) / 10
 		ship.alphaR = 1 -- math.random(360)
 		ship.fullName = t.fullName
 		ship.name = t.ship
@@ -191,7 +191,7 @@ function collisionShip(e)
 				t.battleTarget = o
 				-- print(t.fullName.." battle target ")
 				-- print(o)
-				t.battleTimer = timer.performWithDelay(1000, function ()
+				t.battleTimer = timer.performWithDelay(900 + math.random(400), function ()
 					-- print(t.fullName.." timer")
 					shipBattle(t)
 				end, 0 )

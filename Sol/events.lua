@@ -109,7 +109,7 @@ end
 
 -----------------------------------------------------------------------------------------
 function moveAutopilot( e )
-	-- SHIP ON PLANET
+	-- SHIP ON PLANET/STATION/CARRIER
 	-- Ships targeted to planet and reached it fly around it too
 
 	if isPause then return end
@@ -118,65 +118,31 @@ function moveAutopilot( e )
 		local g = group[i]
 		if g.nameType == "ship" and g.targetPlanet and g.targetReached and not g.inBattle then
 			local p = g.targetPlanet
-			g.alphaR = g.alphaR + 0.001
-			
-			if g.is_station then
-				g.rotation = 0
-
-				g.x = p.x + g.orbit*p.r * math.sin(g.alphaR)
-				g.y = p.y + g.orbit*p.r/1.5 * math.cos(g.alphaR)
-			elseif g.enemy then
-				g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
-
-				g.x = p.x + 1.2*g.orbit*p.r * math.sin(g.alphaR)
-				g.y = p.y + 1.2*g.orbit*p.r/1.5 * math.cos(g.alphaR)
-			elseif g.on_carrier then
-				--
+			if g.name == "fighter" or g.name2 == "fighter" then
+				g.alphaR = g.alphaR + 0.1
 			else
-				g.rotation = math.deg(-g.alphaR)
-				g.x = p.x + g.orbit*p.r * math.sin(g.alphaR)
-				g.y = p.y + g.orbit*p.r/1.5 * math.cos(g.alphaR)
-			end
-		end
-	end
-end
-
------------------------------------------------------------------------------------------
-function moveFighters( e )
-	-- Move fighters near carrier
-
-	if isPause then return end
-
-	for i = 1, group.numChildren, 1 do
-		local g = group[i]
-
-		if g.on_carrier and not g.inBattle then
-			local p = g.targetPlanet
-
-			if not p then
-				g.on_carrier = false
-				g.targetPlanet = nil
-				return true
+				g.alphaR = g.alphaR + 0.005
 			end
 
-			g.alphaR = g.alphaR + 0.001
+			--if not g.on_carrier then
+				if g.is_station then
+					g.rotation = 0
+				elseif g.enemy then
+					g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
+				else
+					g.rotation = math.deg(-g.alphaR)
+				end
+				-- g.x = p.x + g.orbit*p.r * math.sin(g.alphaR)
+				-- g.y = p.y + g.orbit*p.r/1.5 * math.cos(g.alphaR)
+				x2 = p.x + 1.5*g.orbit*p.r * math.sin(g.alphaR)
+				y2 = p.y + g.orbit*p.r * math.cos(g.alphaR)
 
-			local dx = -400 + math.random(800)
-			local dy = -200 + math.random(400)
-
-			if g.ship == "droid" then
-				dx = -200 + math.random(400)
-				dy = -100 + math.random(200)
-			end
-
-			g.rotation = p.rotation  --math.deg(math.atan2((p.y+dy - g.y), (p.x+dx - g.x)))
-			-- g.rotation = math.deg(math.atan2((p.y+dy - g.y), (p.x+dx - g.x)))
-
-			if math.sqrt((p.y-g.y)*(p.y-g.y)+(p.x-g.x)*(p.x-g.x)) > 200 then
-				impulseShip(g, p.x-g.x, p.y-g.y, 0.2)
-			else
-				impulseShip(g, p.x+dx-g.x, p.y+dy-g.y, 0.05)
-			end
+				local k = 0.8 + math.random(10) / 20
+				if g.name == "fighter" or g.name2 == "fighter" then
+					k = 1 -- + math.random(10) / 20
+				end
+				impulseShip(g, x2-g.x, y2-g.y, k)
+			--end
 		end
 	end
 end

@@ -51,7 +51,7 @@ function addAlienShip(target, shipKind)
 	ship.enemies = {}
 	ship.r = 75
 	ship.sensors = 300 -- how long it see Terran ships
-	ship.orbit = 3 + math.random(3)
+	ship.orbit = 1.5 + math.random(30) / 10
 	ship.alphaR = 90
 	ship.fullName = shipData.fullName
 	ship.name = shipData.ship
@@ -102,11 +102,11 @@ function addAlienStations()
 			ship:setSpeed(0.12)
 			ship:play()
 
-			ship.x, ship.y = 0, 0
+			ship.x, ship.y = g.x, g.y
 			ship.enemy = true
 			ship.enemies = {}
 			ship.targetPlanet = g
-			ship.targetReached = true
+			ship.targetReached = false
 			ship.r = 75
 			ship.sensors = 300 -- how long it see Terran ships
 			ship.orbit = 1 + math.random(3)
