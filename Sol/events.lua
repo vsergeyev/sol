@@ -101,6 +101,9 @@ function movePlanets( e )
 					moon.overlay.x = moon.x
 					moon.overlay.y = moon.y
 				end
+				if moon.badgeHuman then
+					moon.badgeHuman.x, moon.badgeHuman.y = moon.x + moon.r, moon.y - moon.r
+				end
 			end
 
 			-- badges
@@ -135,7 +138,7 @@ function moveAutopilot( e )
 			--if not g.on_carrier then
 				if g.is_station then
 					g.rotation = 0
-				elseif g.enemy then
+				elseif g.enemy and p.res.colonized then
 					g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
 					timer.performWithDelay(math.random(200), function()
 						attackPlanetAI(g, p)

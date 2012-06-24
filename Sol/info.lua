@@ -23,6 +23,11 @@ It is the most advanced and biggest battleship in the Solar System. And it's und
 }
 
 
+function format_value(n) -- credit http://richard.warburton.it
+	local left,num,right = string.match(n,'^([^%d]*%d)(%d*)(.-)$')
+	return left..(num:reverse():gsub('(%d%d%d)','%1 '):reverse())..right
+end
+
 -----------------------------------------------------------------------------------------
 function showInfo( item )
 	-- groupHud.alpha = 0.5
@@ -43,13 +48,7 @@ function showInfo( item )
 			
 			-- Planet info
 			if item.res.colonized then
-				local p = item.res.population
-				if p > 1000000000 then
-					p = math.ceil(p / 1000000000).." Blns"
-				elseif p > 1000000 then
-					p = math.ceil(p / 1000000).." Mlns"
-				end
-
+				local p = format_value(item.res.population)
 				groupHud.build.alpha = 1
 				groupHud.text.text = "Population: "..p
 			else

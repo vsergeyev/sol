@@ -233,9 +233,26 @@ function attackPlanetAI(g, t)
 	if g.res.attack then
 		-- piu-piu
 		if t.res.population > 0 then
-			t.res.population = t.res.population - 10*g.res.attack
-			if t.res.population < 0 then
+			k = 100
+			if t.res.population > 1000000000 then
+				k = 100000
+			elseif t.res.population > 1000000 then
+				k = 10000
+			end
+			t.res.population = t.res.population - k*g.res.attack
+			if t.res.population < 0 or t.res.population == 0 then
 				t.res.population = 0
+				t.res.colonized = false
+				t.badgeHuman:removeSelf()
+				t.badgeHuman = nil
+				g.targetReached = false
+				for i = 1, #group.planets, 1 do
+					local gp = group.planets[i]
+					if gp.res and gp.res.colonized then
+						g.targetPlanet = gp
+						break
+					end
+				end
 			end
 		end
 		
@@ -274,5 +291,9 @@ function attackPlanetAI(g, t)
 		transition.to(explosion, {delay=100, time=200, alpha=0.1, xScale=0.1, yScale=0.1, onComplete=function ()
 			explosion:removeSelf()
 		end})
+	
+		if (t == selectedObject) then
+			showInfo(t)
+		end
 	end
 end
