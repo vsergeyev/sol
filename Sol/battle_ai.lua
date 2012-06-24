@@ -225,3 +225,54 @@ function shipBattle(ship)
 		ship.battleTimer = nil
 	end
 end
+
+-----------------------------------------------------------------------------------------
+function attackPlanetAI(g, t)
+	if isPause then return end
+
+	if g.res.attack then
+		-- piu-piu
+		if t.res.population > 0 then
+			t.res.population = t.res.population - 10*g.res.attack
+			if t.res.population < 0 then
+				t.res.population = 0
+			end
+		end
+		
+		dx = -2*p.r + math.random(4*p.r)
+		dy = -2*p.r + math.random(4*p.r)
+
+		-- blaster line
+		local arrow = display.newLine(g.x,g.y, t.x + dx, t.y + dy )
+		arrow.width = 1
+		arrow:setColor(255, 0, 0)
+		group:insert(arrow)
+		
+		transition.to(arrow, {time=500, alpha=0, onComplete=function ()
+			arrow:removeSelf()
+		end})
+
+		-- BOM!!!
+		local explosion = nil
+		-- audio.play(soundBlaster)
+		
+		local expl = math.random(3)
+		if expl == 1 then
+			explosion = display.newImageRect("i/explosion.png", 130, 85)
+		elseif expl == 2 then
+			explosion = display.newImageRect("i/explosion2.png", 72, 72)
+		else
+			explosion = display.newImageRect("i/explosion3.png", 63, 63)
+		end
+		explosion:scale(0.1, 0.1)
+		explosion.alpha = 0.1
+		explosion.x, explosion.y = t.x + dx, t.y + dy
+
+		group:insert(explosion)
+
+		transition.to(explosion, {time=100, alpha=1, xScale=0.5, yScale=0.5, y=explosion.y-20})
+		transition.to(explosion, {delay=100, time=200, alpha=0.1, xScale=0.1, yScale=0.1, onComplete=function ()
+			explosion:removeSelf()
+		end})
+	end
+end

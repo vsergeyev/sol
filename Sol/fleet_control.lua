@@ -191,7 +191,7 @@ function collisionShip(e)
 				t.battleTarget = o
 				-- print(t.fullName.." battle target ")
 				-- print(o)
-				t.battleTimer = timer.performWithDelay(900 + math.random(400), function ()
+				t.battleTimer = timer.performWithDelay(1500 + math.random(400), function ()
 					-- print(t.fullName.." timer")
 					shipBattle(t)
 				end, 0 )

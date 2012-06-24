@@ -63,11 +63,13 @@ function skirmishBattle( e )
 		for i=1, 5, 1 do
 			addAlienShip(group.earth, 1)
 		end
+		addAlienShip(group.earth, 4)
 	elseif skirmishLevel < 6 then
 		local count = 5 * skirmishLevel
 		for i=1, count, 1 do
 			addAlienShip(group.earth, 1)
 		end
+		addAlienShip(group.earth, 4)
 	elseif skirmishLevel < 10 then
 		local count = 3 * skirmishLevel
 		for i=1, count, 1 do
@@ -76,6 +78,8 @@ function skirmishBattle( e )
 		for i=1, skirmishLevel, 1 do
 			addAlienShip(nil, 2)
 		end
+		
+		addAlienShip(group.earth, 4)
 	else
 		for i=1, 20, 1 do
 			addAlienShip(nil, 1)
@@ -85,6 +89,9 @@ function skirmishBattle( e )
 		end
 
 		addAlienShip(group.earth, 4)
+		addAlienShip(group.earth, 4)
+
+		addAlienShip(group.earth, 5)
 	end
 
 	skirmishLevel = skirmishLevel + 1

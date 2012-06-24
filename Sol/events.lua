@@ -137,6 +137,9 @@ function moveAutopilot( e )
 					g.rotation = 0
 				elseif g.enemy then
 					g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
+					timer.performWithDelay(math.random(200), function()
+						attackPlanetAI(g, p)
+					end, 1)
 				else
 					g.rotation = math.deg(-g.alphaR)
 				end

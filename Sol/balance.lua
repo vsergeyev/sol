@@ -137,7 +137,7 @@ aliensData = {
 		res = {
 			hp = 50,
 			shield = 10,
-			speed = 2,
+			speed = 1.5,
 			attack = 3,
 			cost = 20,
 			e = 2,
@@ -177,6 +177,23 @@ aliensData = {
 			h = 50,
 			autofigth = true,
 			is_station = true
+		}
+	},
+	{
+		fullName = "Alien cruiser",
+		name = "cruiser",
+		ship = "aliens",
+		res = {
+			hp = 500,
+			shield = 100,
+			speed = 1,
+			attack = 10,
+			cost = 200,
+			e = 20,
+			w = 100,
+			h = 100,
+			r = 0,
+			autofigth = true
 		}
 	},
 	{

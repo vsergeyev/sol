@@ -209,7 +209,7 @@ function addPlanets()
 	-- Neptune
 	local p = display.newImageRect("i/neptune.png", 160, 160)
 	p.x, p.y = screenW/1.5, screenH/1.5
-	p.r = 80
+	p.r = 75
 	p.speed = 0.01
 	p.x0, p.y0 = 100, screenH - 100
 	p.orbit = 7500
