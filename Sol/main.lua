@@ -28,7 +28,7 @@ levelNow = 1
 portalDestroyed = false
 isMusic = true
 
-planetGravitationFieldRadius = 1.1
+planetGravitationFieldRadius = 1.35
 planetGraviationDamping = 1
 
 gameTimers = {}

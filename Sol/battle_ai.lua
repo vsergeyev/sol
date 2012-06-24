@@ -151,8 +151,15 @@ function attackShipAI(g)
 			end})
 		else -- Explosion, ship hul
 			-- audio.play(soundBlaster)
-
-			explosion = display.newImageRect("i/explosion.png", 130, 85)
+			
+			local expl = math.random(3)
+			if expl == 1 then
+				explosion = display.newImageRect("i/explosion.png", 130, 85)
+			elseif expl == 2 then
+				explosion = display.newImageRect("i/explosion2.png", 72, 72)
+			else
+				explosion = display.newImageRect("i/explosion3.png", 63, 63)
+			end
 			explosion:scale(0.1, 0.1)
 			explosion.alpha = 0.1
 			explosion.x, explosion.y = t.x + dx, t.y + dy

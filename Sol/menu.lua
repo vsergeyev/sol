@@ -33,6 +33,9 @@ function scene:createScene( event )
 	sky.alpha = 0.8
 	group:insert(sky)
 	
+	local s = display.newImageRect("i/atmosphere.png", 360, 360)
+	s.x, s.y = 200, screenH-196
+	group:insert(s)
 	-- Earth
 	local earth = display.newImageRect("i/earth.png", 300, 300)
 	earth.x, earth.y = 200, screenH-200

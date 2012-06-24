@@ -33,6 +33,14 @@ function OnZoomOut( event )
 end
 
 -----------------------------------------------------------------------------------------
+function createOverlay( t, r )
+	selectOverlay = display.newImageRect("i/selection.png", r*3, r*3)
+	selectOverlay.x, selectOverlay.y = t.x, t.y
+	group:insert(selectOverlay)
+	t.overlay = selectOverlay
+end
+
+-----------------------------------------------------------------------------------------
 function rotateSky( e )
 	groupSky.rotation = groupSky.rotation - 0.05
 end
@@ -165,13 +173,7 @@ function selectPlanet( e )
 			selectOverlay = nil
 		end
 		
-		selectOverlay = display.newCircle(t.x, t.y, t.r)
-		selectOverlay.alpha = 0.1
-		selectOverlay.strokeWidth = 5
-		selectOverlay:setStrokeColor(255)
-		group:insert(selectOverlay)
-		t.overlay = selectOverlay
-
+		createOverlay(t, t.r)
 		selectedObject = t
 
 		showInfo(t)
@@ -247,6 +249,10 @@ function frameHandler( e )
 	local fast = 5
 
 	if isPause then return end
+
+	if selectOverlay then
+		selectOverlay.rotation = selectOverlay.rotation + 1
+	end
 
 	if s then
 		if s.nameType == "ship" then

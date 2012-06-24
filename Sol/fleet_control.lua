@@ -242,14 +242,8 @@ function selectShip( e )
 			selectOverlay = nil
 		end
 		
-		selectOverlay = display.newCircle(t.x, t.y, t.res.w/2)
-		selectOverlay.alpha = 0.1
-		selectOverlay.strokeWidth = 5
-		selectOverlay:setStrokeColor(255)
-		group:insert(selectOverlay)
-		t.overlay = selectOverlay
+		createOverlay(t, t.res.w/2)
 		selectOverlay.ship = t
-
 		selectedObject = t
 		showInfo(t)
 		--
