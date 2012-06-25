@@ -41,7 +41,7 @@ shipsData = {
 		}
 	},
 	{
-		fullName = 'Defence Starbase "Norad"',
+		fullName = 'USS "Norad" starbase',
 		ship = "station",
 		res = {
 			hp = 2000,
@@ -58,7 +58,7 @@ shipsData = {
 		}
 	},
 	{
-		fullName = "Fighter",
+		fullName = 'USS "Falcon" fighter',
 		ship = "fighter",
 		res = {
 			hp = 20,

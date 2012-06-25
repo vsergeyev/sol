@@ -191,7 +191,7 @@ function collisionShip(e)
 				t.battleTarget = o
 				-- print(t.fullName.." battle target ")
 				-- print(o)
-				t.battleTimer = timer.performWithDelay(1500 + math.random(400), function ()
+				t.battleTimer = timer.performWithDelay(1000 + math.random(400), function ()
 					-- print(t.fullName.." timer")
 					shipBattle(t)
 				end, 0 )
@@ -316,7 +316,7 @@ function targetShips(e)
 			if not g.inBattle and g.targetPlanet and not g.targetReached then
 				-- ship auto-piloting to planet
 				local planet = g.targetPlanet
-				if not g.res.is_station then
+				if not g.is_station then
 					g.rotation = math.deg(math.atan2((planet.y - g.y), (planet.x - g.x)))
 				end
 				local k = 1

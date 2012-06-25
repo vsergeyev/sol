@@ -87,7 +87,7 @@ function moveShipAI(g)
 	end
 
 	if g.name == "fighter" then
-		impulseShip(g, x-g.x, y-g.y, 0.1)
+		impulseShip(g, x-g.x, y-g.y, 0.15)
 	else
 		impulseShip(g, x-g.x, y-g.y, 0.3)
 	end
