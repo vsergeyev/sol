@@ -65,7 +65,7 @@ function scene:createScene( event )
 		return true
 	end)
 
-	local cButton = display.newText("|| Campaign", screenW-300, screenH-240, 200, 40, native.systemFont, 36)
+	local cButton = display.newText("|| Campaign", screenW-300, screenH-240, 220, 45, native.systemFont, 36)
 	cButton:setTextColor(0, 200, 100)
 	group:insert(cButton)
 	cButton:addEventListener('touch', function (e)
