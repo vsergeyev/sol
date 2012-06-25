@@ -20,15 +20,19 @@ function showPauseDlg(e)
 	ea.x, ea.y = screenW-200, dy + 50
 	p:insert(ea)
 
-	local infoTitle = display.newText("Paused", dx + 250, dy + 160, 400, 200, native.systemFont, 48)
-	infoTitle:setTextColor(0, 200, 100)
-	p:insert(infoTitle)
-
+	local infoTitle = nil
 	if levelNow then
+		infoTitle = display.newText("Paused", dx + 20, dy + 20, 600, 40, native.systemFont, 24)		
+
 		local infoText = display.newText(levelsData[levelNow].task, dx + 20, dy + 100, 600, 400, native.systemFont, 18)
 		infoText:setTextColor(0, 200, 100)
 		p:insert(infoText)
+	else
+		infoTitle = display.newText("Paused", dx + 250, dy + 160, 400, 200, native.systemFont, 48)
 	end
+
+	infoTitle:setTextColor(0, 200, 100)
+	p:insert(infoTitle)
 
 	local menuButton = display.newText("|| Exit to menu", screenW-500, screenH-200, 200, 40, native.systemFont, 24)
 	menuButton:setTextColor(0, 200, 100)

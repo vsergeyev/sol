@@ -21,6 +21,7 @@ physics.setGravity(0, 0)
 
 gold = 100
 levelNow = 1
+local loose_condition_timer = nil
 
 --------------------------------------------
 
@@ -41,6 +42,27 @@ require "levels_control"
 -- NOTE: Code outside of listener functions (below) will only be executed once,
 --		 unless storyboard.removeScene() is called.
 -- 
+-----------------------------------------------------------------------------------------
+
+function looseCondition( e )
+	if isPause then return end
+
+	-- Lost condition
+	local not_lost = false
+	for i = 1, #group.planets, 1 do
+		local g = group.planets[i]
+		if g.res and g.res.colonized then
+			not_lost = true
+			break
+		end
+	end
+	if not not_lost then
+		timer.cancel(loose_condition_timer)
+		showSurvivalDlg( e, "You lost!", true )
+	end
+	return true
+end
+
 -----------------------------------------------------------------------------------------
 
 -- Called when the scene's view does not exist:
@@ -110,7 +132,8 @@ function scene:createScene( event )
 	table.insert(gameTimers, timer.performWithDelay(300, moveAutopilot, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(6000, hightlightSun, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(3000, refreshMinimap, 0 ))
-	table.insert(gameTimers, timer.performWithDelay(20000, calcIncome, 0 ))
+	table.insert(gameTimers, timer.performWithDelay(10000, populationGrow, 0 ))
+	-- table.insert(gameTimers, timer.performWithDelay(20000, calcIncome, 0 ))
 	-- timer.performWithDelay(10000, stardateGo, 0 )
 	table.insert(gameTimers, timer.performWithDelay(5000, targetShips, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(1000, repairCarrier, 0 ))
@@ -128,31 +151,12 @@ function scene:createScene( event )
 	table.insert(gameTimers, timer.performWithDelay(100, movePlanets, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(500, addAlienStations, 1 ))
 
-	startLevel(levelNow)
-	-- check victory or loose in level
-	table.insert(gameTimers, timer.performWithDelay(1000, levelCondition, 0 ))
-
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )
 
 	-- Position camera on Earth
 	group.x = -1700
 	group.y = 250
-	
-	-- build our Carrier
-	-- selectedObject = group.earth
-	-- local ship = buildShip({target=shipsData[6]})
-	-- ship.targetPlanet = group.earth
-	-- ship.targetReached = false
-	-- group.carrier = ship
-
-	-- build fighters
-	-- selectedObject = ship
-	-- local t = shipsData[4]
-	-- t.on_carrier = true
-	-- for i=1, 10, 1 do
-	-- 	local ship = buildShip({target=t})
-	-- end
 end
 
 -- Called immediately after scene has moved onscreen:
@@ -160,6 +164,12 @@ function scene:enterScene( event )
 	local group = self.view
 	
 	physics.start()
+
+	startLevel(levelNow)
+	-- check victory or loose in level
+	table.insert(gameTimers, timer.performWithDelay(1000, levelCondition, 0 ))
+	loose_condition_timer = timer.performWithDelay(2000, looseCondition, 0 )
+	table.insert(gameTimers, loose_condition_timer)
 
 	showInfo(selectedObject)
 end

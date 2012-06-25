@@ -50,6 +50,8 @@ local win_condition_timer = nil
 -----------------------------------------------------------------------------------------
 
 function winCondition( e )
+	if isPause then return end
+
 	-- Victory condition
 	if portalDestroyed then
 		timer.cancel(win_condition_timer)
@@ -75,6 +77,8 @@ end
 
 -----------------------------------------------------------------------------------------
 function skirmishBattle( e )
+	if isPause then return end
+
 	showBaloon("ALERT! ALERT! ALERT!\n\nFleet #"..skirmishLevel.." incoming")
 	if isMusic then
 		audio.play(soundAlert)
@@ -236,7 +240,13 @@ function scene:enterScene( event )
 	physics.start()
 
 	showInfo(selectedObject)
-	showSurvivalDlg( event, "Survive in the waves of enemies.\n\nNext wave will arrive in 60 sec.\n\nTo win find Wormhole portal and destroy it.\n\nGood luck, Captain!" )
+	showSurvivalDlg( event, [[Survive in the waves of enemies.
+
+Next wave will arrive in 60 sec.
+
+Victory condition: find Wormhole portal and destroy it.
+
+Good luck, Captain!]] )
 end
 
 -- Called when scene is about to move offscreen:

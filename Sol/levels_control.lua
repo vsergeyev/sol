@@ -73,7 +73,8 @@ Victory condition: USS "Discovery" carrier + colony on Mercury and Venus.]],
 			aliens = 20,
 			frigates = 2,
 			times = 10,
-			delay = 30000
+			delay = 30000,
+			target = "earth"
 		},
 		colonize_all = true
 	},
@@ -94,7 +95,8 @@ Victory condition: Earth must be saved.]],
 			frigates = 4,
 			ms = 1,
 			times = 1,
-			delay = 1000
+			delay = 1000,
+			target = "earth"
 		},
 		destroy_ms = true
 	},
@@ -136,10 +138,10 @@ function levelScreen(item)
 		if e.phase == 'ended' then
 			gamePause(e)
 			p:removeSelf()
-			if item.sound then
+			--if item.sound then
 				-- local sound = audio.loadStream("sounds/"..item.sound)
 				-- audio.play(sound)
-			end
+			--end
 		end
 
 		return true

@@ -86,7 +86,11 @@ function moveShipAI(g)
 		g.rotation = math.deg(math.atan2((y - g.y), (x - g.x)))
 	end
 
-	impulseShip(g, x-g.x, y-g.y, 0.3)
+	if g.name == "fighter" then
+		impulseShip(g, x-g.x, y-g.y, 0.1)
+	else
+		impulseShip(g, x-g.x, y-g.y, 0.3)
+	end
 end
 
 -----------------------------------------------------------------------------------------

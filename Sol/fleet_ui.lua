@@ -15,18 +15,23 @@ function addFleetButtons(g)
 	for i = 1, #planetsData, 1 do
 		local planet = planetsData[i]
 		local b = display.newImageRect("i/"..planet.name..".png", planet.size, planet.size)
+		local x = i*65-40
 		b.y = 38
 		if i < 6 then
-			b.x = 238 + i*74
+			x = 238 + i*74
 		elseif i == 5 then
-			b.x = i*55-20
-		else
-			b.x = i*65-40
+			x = i*55-20
 		end
+
+		b.x = x
 
 		b.fleetTarget = planet.name
 		b:addEventListener('touch', hudFleetControl)
 		g:insert(b)
+		
+		local t = display.newText(planet.name, x-30, 56, native.systemFont, 12)
+		t:setTextColor(0, 200, 100)
+		g:insert(t)
 	end
 
 	-- Carrirer UI buttons
