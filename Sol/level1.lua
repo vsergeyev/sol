@@ -39,6 +39,8 @@ local skirmishLevel = 1
 local skirmishDelay = 60000 -- 60000
 local soundAlert = audio.loadStream("sounds/alert.m4a")
 
+local win_condition_timer = nil
+
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
 -- 
@@ -48,11 +50,30 @@ local soundAlert = audio.loadStream("sounds/alert.m4a")
 -----------------------------------------------------------------------------------------
 
 function winCondition( e )
+	-- Victory condition
 	if portalDestroyed then
+		timer.cancel(win_condition_timer)
 		showSurvivalDlg( e, "Victory!", true )
+		return true
 	end
+
+	-- Lost condition
+	local not_lost = false
+	for i = 1, #group.planets, 1 do
+		local g = group.planets[i]
+		if g.res and g.res.colonized then
+			not_lost = true
+			break
+		end
+	end
+	if not not_lost then
+		timer.cancel(win_condition_timer)
+		showSurvivalDlg( e, "You lost!", true )
+	end
+	return true
 end
 
+-----------------------------------------------------------------------------------------
 function skirmishBattle( e )
 	showBaloon("ALERT! ALERT! ALERT!\n\nFleet #"..skirmishLevel.." incoming")
 	if isMusic then
@@ -63,11 +84,13 @@ function skirmishBattle( e )
 		for i=1, 5, 1 do
 			addAlienShip(group.earth, 1)
 		end
+		addAlienShip(group.earth, 4)
 	elseif skirmishLevel < 6 then
 		local count = 5 * skirmishLevel
 		for i=1, count, 1 do
 			addAlienShip(group.earth, 1)
 		end
+		addAlienShip(group.earth, 4)
 	elseif skirmishLevel < 10 then
 		local count = 3 * skirmishLevel
 		for i=1, count, 1 do
@@ -76,6 +99,8 @@ function skirmishBattle( e )
 		for i=1, skirmishLevel, 1 do
 			addAlienShip(nil, 2)
 		end
+		
+		addAlienShip(group.earth, 4)
 	else
 		for i=1, 20, 1 do
 			addAlienShip(nil, 1)
@@ -85,6 +110,9 @@ function skirmishBattle( e )
 		end
 
 		addAlienShip(group.earth, 4)
+		addAlienShip(group.earth, 4)
+
+		addAlienShip(group.earth, 5)
 	end
 
 	skirmishLevel = skirmishLevel + 1
@@ -138,15 +166,17 @@ function scene:createScene( event )
 	-- group.yScale = 0.5
 
 	-- Timers
-	table.insert(gameTimers, timer.performWithDelay(1000, animatePlanets, 0 ))
+	-- table.insert(gameTimers, timer.performWithDelay(300, animatePlanets, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(300, moveAutopilot, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(6000, hightlightSun, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(3000, refreshMinimap, 0 ))
+	table.insert(gameTimers, timer.performWithDelay(10000, populationGrow, 0 ))
 	-- table.insert(gameTimers, timer.performWithDelay(20000, calcIncome, 0 ))
 	-- timer.performWithDelay(10000, stardateGo, 0 )
 	table.insert(gameTimers, timer.performWithDelay(5000, targetShips, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(1000, repairCarrier, 0 ))
-	table.insert(gameTimers, timer.performWithDelay(2000, winCondition, 0 ))
+	win_condition_timer = timer.performWithDelay(2000, winCondition, 0 )
+	table.insert(gameTimers, win_condition_timer)
 
 	if isMusic then
 		local soundTheme = audio.loadStream("sounds/level1.m4a")

@@ -33,6 +33,14 @@ function OnZoomOut( event )
 end
 
 -----------------------------------------------------------------------------------------
+function createOverlay( t, r )
+	selectOverlay = display.newImageRect("i/selection.png", r*3, r*3)
+	selectOverlay.x, selectOverlay.y = t.x, t.y
+	group:insert(selectOverlay)
+	t.overlay = selectOverlay
+end
+
+-----------------------------------------------------------------------------------------
 function rotateSky( e )
 	groupSky.rotation = groupSky.rotation - 0.05
 end
@@ -93,6 +101,9 @@ function movePlanets( e )
 					moon.overlay.x = moon.x
 					moon.overlay.y = moon.y
 				end
+				if moon.badgeHuman then
+					moon.badgeHuman.x, moon.badgeHuman.y = moon.x + moon.r, moon.y - moon.r
+				end
 			end
 
 			-- badges
@@ -127,8 +138,11 @@ function moveAutopilot( e )
 			--if not g.on_carrier then
 				if g.is_station then
 					g.rotation = 0
-				elseif g.enemy then
+				elseif g.enemy and p.res.colonized then
 					g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
+					timer.performWithDelay(math.random(200), function()
+						attackPlanetAI(g, p)
+					end, 1)
 				else
 					g.rotation = math.deg(-g.alphaR)
 				end
@@ -168,13 +182,7 @@ function selectPlanet( e )
 			selectOverlay = nil
 		end
 		
-		selectOverlay = display.newCircle(t.x, t.y, t.r)
-		selectOverlay.alpha = 0.1
-		selectOverlay.strokeWidth = 5
-		selectOverlay:setStrokeColor(255)
-		group:insert(selectOverlay)
-		t.overlay = selectOverlay
-
+		createOverlay(t, t.r)
 		selectedObject = t
 
 		showInfo(t)
@@ -250,6 +258,10 @@ function frameHandler( e )
 	local fast = 5
 
 	if isPause then return end
+
+	if selectOverlay then
+		selectOverlay.rotation = selectOverlay.rotation + 1
+	end
 
 	if s then
 		if s.nameType == "ship" then

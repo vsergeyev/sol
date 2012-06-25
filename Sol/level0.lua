@@ -106,7 +106,7 @@ function scene:createScene( event )
 	-- Timers
 	-- timer.performWithDelay(50, rotateSky, 0 )
 	-- timer.performWithDelay(100, movePlanets, 1 )
-	table.insert(gameTimers, timer.performWithDelay(1000, animatePlanets, 0 ))
+	-- table.insert(gameTimers, timer.performWithDelay(1000, animatePlanets, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(300, moveAutopilot, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(6000, hightlightSun, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(3000, refreshMinimap, 0 ))

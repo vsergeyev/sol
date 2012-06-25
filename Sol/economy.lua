@@ -46,6 +46,31 @@ function calcIncome()
 end
 
 -----------------------------------------------------------------------------------------
+function populationGrow()
+	if isPause then return end
+
+	for i = 1, #group.planets, 1 do
+		local g = group.planets[i]
+		if g.nameType == "planet" and g.res.colonized then
+			-- population grows
+			local p = g.res.population
+			if p > 10000000000 then
+				p = p
+			elseif p > 1000000000 then
+				p = p + math.random(0, 1000000)
+			elseif p > 1000000 then
+				p = p + math.random(0, 10000)
+			else
+				p = p + math.random(0, p)
+			end
+			g.res.population = p
+		end
+	end
+
+	showInfo(selectedObject)
+end
+
+-----------------------------------------------------------------------------------------
 function tradeIncome()
 	gold = gold + 10
 

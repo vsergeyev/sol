@@ -191,7 +191,7 @@ function collisionShip(e)
 				t.battleTarget = o
 				-- print(t.fullName.." battle target ")
 				-- print(o)
-				t.battleTimer = timer.performWithDelay(900 + math.random(400), function ()
+				t.battleTimer = timer.performWithDelay(1500 + math.random(400), function ()
 					-- print(t.fullName.." timer")
 					shipBattle(t)
 				end, 0 )
@@ -242,14 +242,8 @@ function selectShip( e )
 			selectOverlay = nil
 		end
 		
-		selectOverlay = display.newCircle(t.x, t.y, t.res.w/2)
-		selectOverlay.alpha = 0.1
-		selectOverlay.strokeWidth = 5
-		selectOverlay:setStrokeColor(255)
-		group:insert(selectOverlay)
-		t.overlay = selectOverlay
+		createOverlay(t, t.res.w/2)
 		selectOverlay.ship = t
-
 		selectedObject = t
 		showInfo(t)
 		--

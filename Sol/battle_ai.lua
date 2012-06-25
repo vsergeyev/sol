@@ -151,8 +151,15 @@ function attackShipAI(g)
 			end})
 		else -- Explosion, ship hul
 			-- audio.play(soundBlaster)
-
-			explosion = display.newImageRect("i/explosion.png", 130, 85)
+			
+			local expl = math.random(3)
+			if expl == 1 then
+				explosion = display.newImageRect("i/explosion.png", 130, 85)
+			elseif expl == 2 then
+				explosion = display.newImageRect("i/explosion2.png", 72, 72)
+			else
+				explosion = display.newImageRect("i/explosion3.png", 63, 63)
+			end
 			explosion:scale(0.1, 0.1)
 			explosion.alpha = 0.1
 			explosion.x, explosion.y = t.x + dx, t.y + dy
@@ -216,5 +223,77 @@ function shipBattle(ship)
 	else
 		timer.cancel( ship.battleTimer )
 		ship.battleTimer = nil
+	end
+end
+
+-----------------------------------------------------------------------------------------
+function attackPlanetAI(g, t)
+	if isPause then return end
+
+	if g.res.attack then
+		-- piu-piu
+		if t.res.population > 0 then
+			k = 100
+			if t.res.population > 1000000000 then
+				k = 100000
+			elseif t.res.population > 1000000 then
+				k = 10000
+			end
+			t.res.population = t.res.population - k*g.res.attack
+			if t.res.population < 0 or t.res.population == 0 then
+				t.res.population = 0
+				t.res.colonized = false
+				t.badgeHuman:removeSelf()
+				t.badgeHuman = nil
+				g.targetReached = false
+				for i = 1, #group.planets, 1 do
+					local gp = group.planets[i]
+					if gp.res and gp.res.colonized then
+						g.targetPlanet = gp
+						break
+					end
+				end
+			end
+		end
+		
+		dx = -2*p.r + math.random(4*p.r)
+		dy = -2*p.r + math.random(4*p.r)
+
+		-- blaster line
+		local arrow = display.newLine(g.x,g.y, t.x + dx, t.y + dy )
+		arrow.width = 1
+		arrow:setColor(255, 0, 0)
+		group:insert(arrow)
+		
+		transition.to(arrow, {time=500, alpha=0, onComplete=function ()
+			arrow:removeSelf()
+		end})
+
+		-- BOM!!!
+		local explosion = nil
+		-- audio.play(soundBlaster)
+		
+		local expl = math.random(3)
+		if expl == 1 then
+			explosion = display.newImageRect("i/explosion.png", 130, 85)
+		elseif expl == 2 then
+			explosion = display.newImageRect("i/explosion2.png", 72, 72)
+		else
+			explosion = display.newImageRect("i/explosion3.png", 63, 63)
+		end
+		explosion:scale(0.1, 0.1)
+		explosion.alpha = 0.1
+		explosion.x, explosion.y = t.x + dx, t.y + dy
+
+		group:insert(explosion)
+
+		transition.to(explosion, {time=100, alpha=1, xScale=0.5, yScale=0.5, y=explosion.y-20})
+		transition.to(explosion, {delay=100, time=200, alpha=0.1, xScale=0.1, yScale=0.1, onComplete=function ()
+			explosion:removeSelf()
+		end})
+	
+		if (t == selectedObject) then
+			showInfo(t)
+		end
 	end
 end
