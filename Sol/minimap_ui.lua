@@ -94,7 +94,10 @@ function gotoPlanet(e)
 			break
 		end
 	end
-	group.x, group.y = group.xScale*-planet.x + screenW/2, group.yScale*-planet.y + screenH/2
+
+	x2, y2 = group.xScale*-planet.x + screenW/2, group.yScale*-planet.y + screenH/2
+	transition.to(group, {time=200, x=x2, y=y2})
+	--group.x, group.y = group.xScale*-planet.x + screenW/2, group.yScale*-planet.y + screenH/2
 
 	refreshMinimap(e)
 end

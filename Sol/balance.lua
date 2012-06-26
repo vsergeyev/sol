@@ -193,7 +193,7 @@ aliensData = {
 			w = 100,
 			h = 100,
 			r = 0,
-			autofigth = true
+			autofigth = false
 		}
 	},
 	{

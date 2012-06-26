@@ -15,9 +15,9 @@ function addBuildButtons(g)
 		local s = shipsData[i]
 		local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
 		b:setReferencePoint(display.TopLeftReferencePoint)
-		b.x, b.y = (i-4)*75, 3
+		b.x, b.y = 2+(i-4)*74, 3
 		if i > 3 then
-			b.x = (i-5)*75
+			b.x = 2+(i-5)*74
 		end
 		b.fullName = s.fullName
 		b.ship = s.ship
@@ -25,11 +25,11 @@ function addBuildButtons(g)
 		b:addEventListener('touch', hudBuildShip)
 		g:insert(b)
 
-		local s = s.ship
+		local sh = s.ship
 		if s.ship == "carier" then
-			s = "carrier"
+			sh = "carrier"
 		end
-		local t = display.newText(s, b.x+2, b.y+53, native.systemFont, 12)
+		local t = display.newText(sh.." ("..s.res.cost..")", b.x+2, b.y+53, native.systemFont, 12)
 		t:setTextColor(0, 200, 100)
 		g:insert(t)
 	end
