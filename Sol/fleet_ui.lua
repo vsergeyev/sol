@@ -49,6 +49,10 @@ function addFleetButtons(g)
 	b:addEventListener('touch', hudBuildShip)
 	g:insert(b)
 	g.fighter = b
+	
+	local t = display.newText(s.ship, b.x+2, b.y+53, native.systemFont, 12)
+	t:setTextColor(0, 200, 100)
+	g:insert(t)
 
 	-- build Droid
 	-- local s = shipsData[7]
