@@ -69,15 +69,16 @@ function showInfo( item )
 				groupHud.fleet.alpha = 1
 			end
 			groupHud.fleet.fighter.alpha = 0
+			groupHud.fleet.fighterText.alpha = 0
 
 			if item.name == "carier" then
 				-- Carrier can build fighters/droids
 				groupHud.fleet.fighter.alpha = 1
-				-- groupHud.fleet.droid.alpha = 1
-				-- groupHud.fleet.details.alpha = 1
+				groupHud.fleet.fighterText.alpha = 1
 			elseif item.name == "station" then
 				-- Battle station can build fighters
 				groupHud.fleet.fighter.alpha = 1
+				groupHud.fleet.fighterText.alpha = 1
 			end
 			
 			-- Ship details

@@ -9,6 +9,8 @@ local scene = storyboard.newScene()
 
 require "events"
 
+local title = nil
+
 --------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -27,90 +29,59 @@ function scene:createScene( event )
 	group = self.view --display.newGroup()
 
 	-- display a background image
-	local sky = display.newImageRect("bg/bg3.png", 1700, 1200)
-	sky:setReferencePoint( display.CenterReferencePoint )
+	local sky = display.newImageRect("ui/menu.png", 1024, 768)
 	sky.x, sky.y = screenW/2, screenH/2
-	sky.alpha = 0.8
 	group:insert(sky)
-	
-	local s = display.newImageRect("i/atmosphere.png", 360, 360)
-	s.x, s.y = 200, screenH-196
-	group:insert(s)
-	-- Earth
-	local earth = display.newImageRect("i/earth.png", 300, 300)
-	earth.x, earth.y = 200, screenH-200
-	group:insert(earth)
-	
+
 	-- Moon
 	local moon = display.newImageRect("i/moon.png", 80, 80)
-	moon.x, moon.y = screenW-100, 200
+	moon.x, moon.y = screenW/2+1000, screenH
 	moon.nameType = "planet"
-	moon.x0, moon.y0 = earth.x, earth.y
-	moon.orbit = 800
+	moon.x0, moon.y0 = screenW/2, screenH
+	moon.orbit = 1000
 	moon.alphaR = 90
 	moon.speed = 10
 	group:insert(moon)
+
+	title = display.newImageRect("ui/menu_text.png", 1024, 768)
+	title.x, title.y = screenW/2, screenH/2
+	title.alpha = 0
+	group:insert(title)
 	
+	local btnsX, btnsY = 100, screenH-240
 	-- Buttons
-	local cButton = display.newText("|| Tutorial", screenW-300, screenH-320, 200, 40, native.systemFont, 36)
-	cButton:setTextColor(0, 200, 100)
-	group:insert(cButton)
-	cButton:addEventListener('touch', function (e)
-		if  e.phase == "began" then
-			e.target.alpha = 0.5
-		elseif e.phase == "ended" then
-			e.target.alpha = 1
-			media.playVideo( "tutorial/movie.mov", false )
-		end
-		return true
+	-- local cButton = display.newText("|| Tutorial", screenW-300, screenH-320, 200, 40, native.systemFont, 36)
+	-- cButton:setTextColor(0, 200, 100)
+	-- group:insert(cButton)
+	-- cButton:addEventListener('touch', function (e)
+	-- 	if  e.phase == "began" then
+	-- 		e.target.alpha = 0.5
+	-- 	elseif e.phase == "ended" then
+	-- 		e.target.alpha = 1
+	-- 		media.playVideo( "tutorial/movie.mov", false )
+	-- 	end
+	-- 	return true
+	-- end)
+
+	local cButton = addButton("Campaign", btnsX, btnsY, function (e)
+		purgeTimers()
+		isPause = false
+		storyboard.removeScene( "level0" )
+		storyboard.gotoScene( "level0", "fade", 500 )
 	end)
 
-	local cButton = display.newText("|| Campaign", screenW-300, screenH-240, 220, 45, native.systemFont, 36)
-	cButton:setTextColor(0, 200, 100)
-	group:insert(cButton)
-	cButton:addEventListener('touch', function (e)
-		if  e.phase == "began" then
-			e.target.alpha = 0.5
-		elseif e.phase == "ended" then
-			e.target.alpha = 1
-			purgeTimers()
-			isPause = false
-			storyboard.removeScene( "level0" )
-			storyboard.gotoScene( "level0", "fade", 500 )
-		end
-		return true
+	local sButton = addButton("Survival", btnsX, btnsY + 80, function (e)
+		purgeTimers()
+		isPause = false
+		storyboard.removeScene( "level1" )
+		storyboard.gotoScene( "level1", "fade", 500 )
 	end)
 
-	local sButton = display.newText("|| Survival", screenW-300, screenH-160, 200, 40, native.systemFont, 36)
-	sButton:setTextColor(0, 200, 100)
-	group:insert(sButton)
-	sButton:addEventListener('touch', function (e)
-		if  e.phase == "began" then
-			e.target.alpha = 0.5
-		elseif e.phase == "ended" then
-			e.target.alpha = 1
-			purgeTimers()
-			isPause = false
-			storyboard.removeScene( "level1" )
-			storyboard.gotoScene( "level1", "fade", 500 )
-		end
-		return true
-	end)
-
-	local aButton = display.newText("|| Credits", screenW-300, screenH-80, 200, 40, native.systemFont, 36)
-	aButton:setTextColor(0, 200, 100)
-	group:insert(aButton)
-	aButton:addEventListener('touch', function (e)
-		if  e.phase == "began" then
-			e.target.alpha = 0.5
-		elseif e.phase == "ended" then
-			e.target.alpha = 1
-			purgeTimers()
-			isPause = false
-			storyboard.removeScene( "about" )
-			storyboard.gotoScene( "about", "fade", 500 )
-		end
-		return true
+	local aButton = addButton("Credits", btnsX, btnsY + 160, function (e)
+		purgeTimers()
+		isPause = false
+		storyboard.removeScene( "about" )
+		storyboard.gotoScene( "about", "fade", 500 )
 	end)
 
 	-- Timers
@@ -124,10 +95,10 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
-	local group = self.view
+	group = self.view
 	
 	-- INSERT code here (e.g. start timers, load audio, start listeners, etc.)
-	
+	transition.to(title, {delay=500, time=1000, alpha=1})
 end
 
 -- Called when scene is about to move offscreen:

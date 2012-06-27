@@ -34,10 +34,10 @@ Our colonists work hard on the Moon to supply our fleet with rare minerals. We s
 
 Build Defence Starbase on the orbit of the Moon. Our starbases come with heavy fazer guns and protective shields. It is best in terms of "cost-value" solution for defending planets and satelites.
 
-Victory condition: Defence Starbase + 2 fighters.
+Victory condition: Defence Starbase + 5 fighters.
 ]],
 		base = true,
-		fighters = 2
+		fighters = 5
 	},
 
 -- MISSION 3
@@ -52,6 +52,7 @@ From other hand we don't know their goals. Prepare our battle ships to meet inco
 [Moon outpost]: They don't responding to our welcome transmissions. Oh shi....]],
 		spawn = {
 			aliens = 5,
+			cruisers = 1,
 			times = 1,
 			delay = 0,
 			target = "earth"
@@ -72,6 +73,7 @@ Victory condition: USS "Discovery" carrier + colony on Mercury and Venus.]],
 		spawn = {
 			aliens = 20,
 			frigates = 2,
+			cruisers = 2,
 			times = 10,
 			delay = 30000,
 			target = "earth"
@@ -93,6 +95,7 @@ Victory condition: Earth must be saved.]],
 		spawn = {
 			aliens = 20,
 			frigates = 4,
+			cruisers = 2,
 			ms = 1,
 			times = 1,
 			delay = 1000,
@@ -131,21 +134,10 @@ function levelScreen(item)
 	infoText:setTextColor(0, 200, 100)
 	p:insert(infoText)
 
-	local closeButton = display.newText("|| Start mission", screenW-310, screenH-200, 200, 40, native.systemFont, 24)
-	closeButton:setTextColor(0, 200, 100)
-	p:insert(closeButton)
-	closeButton:addEventListener('touch', function (e)
-		if e.phase == 'ended' then
-			gamePause(e)
-			p:removeSelf()
-			--if item.sound then
-				-- local sound = audio.loadStream("sounds/"..item.sound)
-				-- audio.play(sound)
-			--end
-		end
-
-		return true
-	end)
+	local closeButton = addButton("Start mission", screenW-360, screenH-200, function (e)
+		p:removeSelf()
+		gamePause(e)
+	end, p)
 end
 
 -----------------------------------------------------------------------------------------
@@ -177,20 +169,13 @@ function victoryScreen(item)
 	infoText:setTextColor(0, 200, 100)
 	p:insert(infoText)
 
-	local closeButton = display.newText("|| Next mission", screenW-310, screenH-200, 200, 40, native.systemFont, 24)
-	closeButton:setTextColor(0, 200, 100)
-	p:insert(closeButton)
-	closeButton:addEventListener('touch', function (e)
-		if e.phase == 'ended' then
-			gamePause(e)
-			p:removeSelf()
-			levelNow = levelNow + 1
-			startLevel(levelNow)
-		end
+	local closeButton = addButton("Next mission", screenW-360, screenH-200, function (e)
+		gamePause(e)
+		p:removeSelf()
+		levelNow = levelNow + 1
+		startLevel(levelNow)
+	end, p)
 
-		return true
-	end)
-	
 	local sound = audio.loadStream("sounds/victory.mp3")
 	audio.play(sound)
 end

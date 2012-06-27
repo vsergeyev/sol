@@ -53,6 +53,7 @@ function addFleetButtons(g)
 	local t = display.newText(s.ship.." ("..s.res.cost..")", b.x+2, b.y+53, native.systemFont, 12)
 	t:setTextColor(0, 200, 100)
 	g:insert(t)
+	g.fighterText = t
 
 	-- build Droid
 	-- local s = shipsData[7]

@@ -7,6 +7,38 @@
 local storyboard = require "storyboard"
 
 -----------------------------------------------------------------------------------------
+function addButton(text, x, y, fun, gr)
+	local p = group
+	if gr then
+		p = gr
+	end
+
+	local cButton = display.newText(text, x, y, 220, 45, native.systemFont, 36)
+	cButton:setTextColor(0, 200, 100)
+	p:insert(cButton)
+
+	local btn = display.newImageRect("ui/buttons/btn.png", 300, 60)
+	btn:setReferencePoint(display.TopLeftReferencePoint)
+	btn.x, btn.y = x-50, y-7
+	btn.text = cButton
+	p:insert(btn)
+
+	btn:addEventListener('touch', function (e)
+		if e.phase == "began" then
+			e.target.alpha = 0.5
+			e.target.text.alpha = 0.5
+		elseif e.phase == "ended" then
+			e.target.alpha = 1
+			e.target.text.alpha = 1
+			fun(e)
+		end
+		return true
+	end)
+
+	return btn --cButton
+end
+
+-----------------------------------------------------------------------------------------
 function showPauseDlg(e)
 	local p = display.newGroup()
 	local dx, dy = 150, 150
@@ -34,29 +66,15 @@ function showPauseDlg(e)
 	infoTitle:setTextColor(0, 200, 100)
 	p:insert(infoTitle)
 
-	local menuButton = display.newText("|| Exit to menu", screenW-500, screenH-200, 200, 40, native.systemFont, 24)
-	menuButton:setTextColor(0, 200, 100)
-	p:insert(menuButton)
-	menuButton:addEventListener('touch', function (e)
-		if e.phase == 'ended' then
-			p:removeSelf()
-			gameMenu(e)
-		end
+	local menuButton = addButton("Exit to menu", screenW-660, screenH-200, function (e)
+		p:removeSelf()
+		gameMenu(e)
+	end, p)
 
-		return true
-	end)
-
-	local closeButton = display.newText("|| Resume", screenW-310, screenH-200, 200, 40, native.systemFont, 24)
-	closeButton:setTextColor(0, 200, 100)
-	p:insert(closeButton)
-	closeButton:addEventListener('touch', function (e)
-		if e.phase == 'ended' then
-			p:removeSelf()
-			gamePause(e)
-		end
-
-		return true
-	end)
+	local closeButton = addButton("Resume", screenW-360, screenH-200, function (e)
+		p:removeSelf()
+		gamePause(e)
+	end, p)
 end
 
 -----------------------------------------------------------------------------------------
@@ -93,28 +111,14 @@ function showSurvivalDlg(e, text, isVictory)
 	p:insert(infoText)
 
 	if isVictory then
-		local menuButton = display.newText("|| Exit to menu", screenW-500, screenH-200, 200, 40, native.systemFont, 24)
-		menuButton:setTextColor(0, 200, 100)
-		p:insert(menuButton)
-		menuButton:addEventListener('touch', function (e)
-			if e.phase == 'ended' then
-				p:removeSelf()
-				gameMenu(e)
-			end
-
-			return true
-		end)
+		local menuButton = addButton("Exit to menu", screenW-660, screenH-200, function (e)
+			p:removeSelf()
+			gameMenu(e)
+		end, p)
 	end
 
-	local closeButton = display.newText("|| Resume", screenW-310, screenH-200, 200, 40, native.systemFont, 24)
-	closeButton:setTextColor(0, 200, 100)
-	p:insert(closeButton)
-	closeButton:addEventListener('touch', function (e)
-		if e.phase == 'ended' then
-			p:removeSelf()
-			gamePause(e)
-		end
-
-		return true
-	end)
+	local closeButton = addButton("Resume", screenW-360, screenH-200, function (e)
+		p:removeSelf()
+		gamePause(e)
+	end, p)
 end
