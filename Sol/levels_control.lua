@@ -205,10 +205,17 @@ local function spawnAliens(e)
 		end
 	end
 
+	-- spawn frigate
+	if l.spawn.cruisers then
+		for i=1, l.spawn.cruisers, 1 do
+			addAlienShip(target, 4)
+		end
+	end
+
 	-- spawn mothership
 	if l.spawn.ms then
 		for i=1, l.spawn.ms, 1 do
-			addAlienShip(group.earth, 4)
+			addAlienShip(group.earth, 5)
 		end
 	end
 end
