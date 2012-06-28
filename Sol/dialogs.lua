@@ -14,7 +14,7 @@ function addButton(text, x, y, fun, gr)
 	end
 
 	local cButton = display.newText(text, x, y, 220, 45, native.systemFont, 36)
-	cButton:setTextColor(0, 200, 100)
+	cButton:setTextColor(0, 156, 73)
 	p:insert(cButton)
 
 	local btn = display.newImageRect("ui/buttons/btn.png", 300, 60)

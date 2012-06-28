@@ -5,6 +5,7 @@
 -----------------------------------------------------------------------------------------
 
 require "aliens"
+require "briefing"
 
 local initialSpawn = false
 
@@ -14,6 +15,7 @@ levelsData = {
 -- MISSION 1
 	{
 		title = "Mission 1: Ticket To The Moon",
+		planet = "moon",
 		task = [[Establish colony on the Moon.
 
 Build USS "E.C.S." class ship and use it to colonize Earth's satelite.
@@ -28,6 +30,7 @@ Victory condition: gain 200 MC]],
 -- MISSION 2
 	{
 		title = "Mission 2: Be My Baby",
+		planet = "earth",
 		task = [[Good to go, Admiral,
 
 Our colonists work hard on the Moon to supply our fleet with rare minerals. We should protect them from any treat from outer space.
@@ -43,6 +46,7 @@ Victory condition: Defence Starbase + 5 fighters.
 -- MISSION 3
 	{
 		title = "Mission 3: First Contact",
+		planet = "moon",
 		task = [[Admiral, today is great day for all Humanity,
 
 We have received incoming signatures. Scanners shows objects, similar to space crafts and they approaching to our planet. We are about to establish contact with alien civilization.
@@ -63,6 +67,7 @@ From other hand we don't know their goals. Prepare our battle ships to meet inco
 -- MISSION 4
 	{
 		title = "Mission 4: First Contact War",
+		planet = "mercury",
 		task = [[Admiral, our new "friends" show themselfs not so friendly.
 
 The High Command ordered us to expand our military presence in Solar System. Build USS "Discovery" class carrier and escort colonists ships to Mercury and Venus.
@@ -84,6 +89,7 @@ Victory condition: USS "Discovery" carrier + colony on Mercury and Venus.]],
 -- MISSION 5
 	{
 		title = "Mission 5: Protect Earth",
+		planet = "earth",
 		task = [[Admiral, our sensors detected big alien vessel approaching to Earth.
 
 Our experts believe it is some sort of mothership. This spacecraft has size bigger than Manhattan. Imagine how powerful weapons it can carry.
@@ -230,7 +236,8 @@ function startLevel(level)
 		timer.performWithDelay(l.spawn.delay, spawnAliens, l.spawn.times )
 	end
 
-	levelScreen(l)
+	-- levelScreen(l)
+	showBriefing()
 end
 
 -----------------------------------------------------------------------------------------
