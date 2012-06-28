@@ -13,27 +13,33 @@ require "hud"
 
 -- Pinch to zoom Solar system
 function OnZoomIn( event )
+	local k = 1.007
 	if group.xScale < 3 then
-		group.xScale = group.xScale * 1.01
-		group.yScale = group.yScale * 1.01
+		group.xScale = group.xScale * k
+		group.yScale = group.yScale * k
 
-		group.x = group.x * 1.01 + (screenW/2 - 1.01*screenW/2)
-		group.y = group.y * 1.01 + (screenH/2 - 1.01*screenH/2)
+		group.x = group.x * k + (screenW/2 - k*screenW/2)
+		group.y = group.y * k + (screenH/2 - k*screenH/2)
 	end
 end
 
 function OnZoomOut( event )
+	local k = 1.007
 	if group.xScale > 0.2 then
-		group.xScale = group.xScale / 1.01
-		group.yScale = group.yScale / 1.01
+		group.xScale = group.xScale / k
+		group.yScale = group.yScale / k
 		
-		group.x = group.x / 1.01 + (screenW/2 - screenW/2.02)
-		group.y = group.y / 1.01 + (screenH/2 - screenH/2.02)
+		group.x = group.x / k + (screenW/2 - screenW/(2*k))
+		group.y = group.y / k + (screenH/2 - screenH/(2*k))
 	end
 end
 
 -----------------------------------------------------------------------------------------
 function createOverlay( t, r )
+	if selectOverlay then
+		selectOverlay.alpha = 1
+		return true
+	end
 	selectOverlay = display.newImageRect("i/selection.png", r*3, r*3)
 	selectOverlay.x, selectOverlay.y = t.x, t.y
 	group:insert(selectOverlay)
@@ -172,10 +178,7 @@ function selectPlanet( e )
 
 	touchesPinch[ e.id ]  = nil
 
-	oneTouchBegan = true
-
 	if e.phase == "ended" or e.phase == "cancelled" then
-		oneTouchBegan = false
 
 		if selectOverlay then
 			selectOverlay:removeSelf()
@@ -192,65 +195,6 @@ function selectPlanet( e )
 end
 
 -----------------------------------------------------------------------------------------
-function moveBg( e )
-	if isPause then return end
-	
-	local sky = e.target
-
-	if e.phase == "began" then
-		if selectOverlay then
-			selectOverlay:removeSelf()
-			selectOverlay = nil
-			selectedObject = nil
-			showInfo(nil)
-		end
-	
-		local r = display.newCircle((e.x-group.x)/group.xScale, (e.y-group.y)/group.xScale, 30/group.xScale)
-		r.alpha = 0.1
-		group:insert(r)
-		transition.to(r, {time=200, alpha=0.5})
-		transition.to(r, {delay=200, time=200, alpha=0, onComplete=function ()
-			r:removeSelf()
-		end})
-
-		oneTouchBegan = true
-
-		--groupHud.alpha = 0
-		groupX, groupY = group.x, group.y
-		sky.x0, sky.y0 = sky.x, sky.y
-	elseif e.phase == "moved" then
-		if oneTouchBegan then
-			group.x = groupX + (e.x - e.xStart)
-			group.y = groupY + (e.y - e.yStart)
-
-			sky.x = sky.x0 + (e.x - e.xStart) / 5
-			sky.y = sky.y0 + (e.y - e.yStart) / 10
-
-			groupSky.sky.x = sky.x0 + (e.x - e.xStart) / 10
-			groupSky.sky.y = sky.y0 + (e.y - e.yStart) / 20
-
-			if (sky.x > sky.width/2) then
-				sky.x = sky.width/2
-			end
-			if (sky.x < screenW-sky.width/2) then
-				sky.x = screenW-sky.width/2
-			end
-			if (sky.y > sky.height/2) then
-				sky.y = sky.height/2
-			end
-			if (sky.y < screenH-sky.height/2) then
-				sky.y = screenH-sky.height/2
-			end
-		end
-	elseif e.phase == "ended" or e.phase == "cancelled" then
-		groupX, groupY = 0, 0
-		oneTouchBegan = false
-	end
-
-	return true
-end
-
------------------------------------------------------------------------------------------
 function frameHandler( e )
 	local s = selectedObject
 	local border = 300 -- keep moving ship inside this
@@ -259,7 +203,7 @@ function frameHandler( e )
 
 	if isPause then return end
 
-	if selectOverlay then
+	if selectOverlay and selectOverlay.alpha > 0 then
 		selectOverlay.rotation = selectOverlay.rotation + 1
 	end
 

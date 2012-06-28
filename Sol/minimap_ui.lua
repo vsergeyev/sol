@@ -74,11 +74,14 @@ function refreshMinimap(e)
 		end
 	end
 
+	-- curent viewport miniature
 	local x = -group.x*zx/group.xScale + mdx - 18 + halfW
 	local y = -group.y*zy/group.yScale + mdy - 12 + halfH
-	-- local x = -group.x*zx*group.xScale + mdx - 20 + halfW
-	-- local y = -group.y*zy*group.yScale + mdy - 20 + halfH
-	local f = display.newRect(x, y, screenW/systemSizeX, screenH/systemSizeY)
+	local w, h = screenW/systemSizeX, screenH/systemSizeY
+	x = math.max(math.min(x, mdx+mapW-w), mdx)
+	y = math.max(math.min(y, mdy+mapH-h), mdy)
+
+	local f = display.newRect(x, y, w, h)
 	f:setFillColor(0, 255, 0)
 	f.alpha=0.5
 	minimap:insert(f)

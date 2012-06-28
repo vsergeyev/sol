@@ -50,19 +50,6 @@ function scene:createScene( event )
 	
 	local btnsX, btnsY = 100, screenH-240
 	-- Buttons
-	-- local cButton = display.newText("|| Tutorial", screenW-300, screenH-320, 200, 40, native.systemFont, 36)
-	-- cButton:setTextColor(0, 200, 100)
-	-- group:insert(cButton)
-	-- cButton:addEventListener('touch', function (e)
-	-- 	if  e.phase == "began" then
-	-- 		e.target.alpha = 0.5
-	-- 	elseif e.phase == "ended" then
-	-- 		e.target.alpha = 1
-	-- 		media.playVideo( "tutorial/movie.mov", false )
-	-- 	end
-	-- 	return true
-	-- end)
-
 	local cButton = addButton("Campaign", btnsX, btnsY, function (e)
 		purgeTimers()
 		isPause = false

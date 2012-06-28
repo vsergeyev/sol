@@ -85,56 +85,35 @@ function scene:createScene( event )
 	sky.x, sky.y = screenW/2, screenH/2
 	sky.alpha = 0.8
 	groupSky:insert(sky)
-	sky:addEventListener('touch', moveBg)
+	groupSky.shine = sky
+	-- sky:addEventListener('touch', moveBg)
 	
-	local sky = display.newImageRect("bg/bg2.png", 1280, 852)	
-	sky:setReferencePoint( display.CenterReferencePoint )
-	sky.x, sky.y = screenW/2, screenH/2
-	sky.alpha = 0.1
-	groupSky:insert(sky)
-	groupSky.sky = sky
-
-	
-
-	local g = graphics.newGradient(
-	  { 0, 0, 0 },
-	  { 50, 50, 50 },
-	  "down" )
-
-	-- local bg = display.newRect( -9*screenW, -9*screenH, 19*screenW, 19*screenH)
-	-- bg:setFillColor( 0 )
-	-- bg.alpha = 0.5
-	-- group:insert(bg)
-	-- bg:addEventListener('touch', moveBg)
+	local sky2 = display.newImageRect("bg/bg22.png", 1944, 1458) -- 1280, 852)	
+	sky2:setReferencePoint( display.CenterReferencePoint )
+	sky2.x, sky2.y = screenW/2, screenH/2
+	sky2.alpha = 0.1
+	groupSky:insert(sky2)
+	groupSky.sky = sky2
 
 	createSun()
 	addPlanets()
 	addHud()
 	refreshMinimap()
 
-	local pinch_overlay = display.newRect(0, 0, screenW, screenH)
-	pinch_overlay:setFillColor( 0 )
-	pinch_overlay.alpha = 0.01
-	groupPinch:insert(pinch_overlay)
+	-- local pinch_overlay = display.newRect(0, 0, screenW, screenH)
+	-- pinch_overlay:setFillColor( 0 )
+	-- pinch_overlay.alpha = 0.01
+	-- groupPinch:insert(pinch_overlay)
 
-	mtouch.setZoomObject( pinch_overlay )
+	mtouch.setZoomObject( sky ) -- pinch_overlay )
 	mtouch.setOnZoomIn( OnZoomIn  ) 
 	mtouch.setOnZoomOut( OnZoomOut  )
 
-	-- Test planets positions with smaller zoom
-	--  group.xScale = 0.3
-	-- group.yScale = 0.3
-
 	-- Timers
-	-- timer.performWithDelay(50, rotateSky, 0 )
-	-- timer.performWithDelay(100, movePlanets, 1 )
-	-- table.insert(gameTimers, timer.performWithDelay(1000, animatePlanets, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(300, moveAutopilot, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(6000, hightlightSun, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(3000, refreshMinimap, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(10000, populationGrow, 0 ))
-	-- table.insert(gameTimers, timer.performWithDelay(20000, calcIncome, 0 ))
-	-- timer.performWithDelay(10000, stardateGo, 0 )
 	table.insert(gameTimers, timer.performWithDelay(5000, targetShips, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(1000, repairCarrier, 0 ))
 
@@ -146,8 +125,6 @@ function scene:createScene( event )
 	end
 
 	math.randomseed( os.time() )
-	-- timer.performWithDelay(500, aiTurn, 0 )
-
 	table.insert(gameTimers, timer.performWithDelay(100, movePlanets, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(500, addAlienStations, 1 ))
 

@@ -13,7 +13,7 @@ function addButton(text, x, y, fun, gr)
 		p = gr
 	end
 
-	local cButton = display.newText(text, x, y, 220, 45, native.systemFont, 36)
+	local cButton = display.newText(text, x, y, 220, 48, native.systemFont, 32)
 	cButton:setTextColor(0, 156, 73)
 	p:insert(cButton)
 

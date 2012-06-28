@@ -86,15 +86,24 @@ function on_touch( event )
     local ret = false
     local t = event.target
 
-    -- if oneTouchBegan then return end
-
     if event.phase == "began" then
+        selectedObject = nil
+        showInfo(nil)
+        if selectOverlay and selectOverlay.alpha > 0 then
+            selectOverlay.alpha = 0    
+        end
+
         --register this touch
         touchesPinch[ event.id ] = event
 
         if( CountDictionary(touchesPinch) >= 2 ) then
             oneTouchBegan = false
             display.getCurrentStage():setFocus( t )
+        else
+            oneTouchBegan = true
+            local sky = groupSky.shine
+            groupX, groupY = group.x, group.y
+            sky.x0, sky.y0 = sky.x, sky.y
         end
     elseif event.phase == "moved" then
         UpdateTouch(event)
@@ -129,6 +138,30 @@ function on_touch( event )
    
             --save the lastdistance
             lastDistance = dist
+        elseif oneTouchBegan then
+            local e = event
+            local sky = groupSky.shine
+            group.x = groupX + (e.x - e.xStart)
+            group.y = groupY + (e.y - e.yStart)
+
+            sky.x = sky.x0 + (e.x - e.xStart) / 5
+            sky.y = sky.y0 + (e.y - e.yStart) / 10
+
+            groupSky.sky.x = sky.x0 + (e.x - e.xStart) / 10
+            groupSky.sky.y = sky.y0 + (e.y - e.yStart) / 20
+
+            if (sky.x > sky.width/2) then
+                sky.x = sky.width/2
+            end
+            if (sky.x < screenW-sky.width/2) then
+                sky.x = screenW-sky.width/2
+            end
+            if (sky.y > sky.height/2) then
+                sky.y = sky.height/2
+            end
+            if (sky.y < screenH-sky.height/2) then
+                sky.y = screenH-sky.height/2
+            end
         end
  
     elseif event.phase == "ended" or event.phase == "cancelled" then
@@ -141,6 +174,8 @@ function on_touch( event )
             display.getCurrentStage():setFocus( nil )
             -- return true
         end
+
+        groupX, groupY = 0, 0
     end
 
     return ret
