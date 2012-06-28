@@ -38,9 +38,10 @@ function showBriefing()
 	infoText:setTextColor(0, 200, 100)
 	p:insert(infoText)
 	local tmr = timer.performWithDelay(50, function (e)
-		if not infoText then
+		if not infoText["y"] then
 			timer.cancel( e.source )
 			tmr = nil
+			return true
 		end
 		if infoText.y > 400 then
 			infoText.y = infoText.y-2
