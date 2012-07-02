@@ -12,6 +12,8 @@ function addFleetButtons(g)
 	-- local b = display.newText("Autopilot", 330, 0, native.systemFont, 16)
 	-- g:insert(b)
 
+	g.buttons = {}
+
 	for i = 1, #planetsData, 1 do
 		local planet = planetsData[i]
 		local b = display.newImageRect("i/"..planet.name..".png", planet.size, planet.size)
@@ -32,6 +34,8 @@ function addFleetButtons(g)
 		local t = display.newText(planet.name, x-30, 56, native.systemFont, 12)
 		t:setTextColor(0, 200, 100)
 		g:insert(t)
+
+		g.buttons[i] = {b, t}
 	end
 
 	-- Carrirer UI buttons

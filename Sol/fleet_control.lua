@@ -94,7 +94,7 @@ function buildShip(e)
 		showBaloon("Ship ready: \n"..ship.fullName)
 
 		if isMusic then
-			audio.play(soundShipReady)
+			-- audio.play(soundShipReady)
 		end
 
 		gameStat.ships = gameStat.ships + 1

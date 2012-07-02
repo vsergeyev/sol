@@ -51,7 +51,10 @@ function scene:enterScene( event )
 			if group[i].name == "explorer" then
 				hint1.parent:remove(hint1)
 				timer.cancel(e.source)
-
+				
+				local soundHint = audio.loadStream("sounds/mission1.m4a")
+				audio.play(soundHint)
+				
 				-- 2nd hint
 				timer.performWithDelay(200, function (e)
 					if group.earth.moon.res.colonized then
@@ -69,13 +72,35 @@ function scene:enterScene( event )
 	timer.performWithDelay(400, function (e)
 		for i = 1, group.numChildren, 1 do
 			if group[i].name == "trade" then
-				hint1.parent:remove(hint1)
-				timer.cancel(e.source)
+				if hint1.parent then
+					hint1.parent:remove(hint1)
+					timer.cancel(e.source)
+					local soundHint = audio.loadStream("sounds/mission12.m4a")
+					audio.play(soundHint)
+				end
 				break
 			end
 		end
 		return true
 	end, 0 )
+
+	-- hide unneeded buttons
+	groupHud.build.buttons[3][1].alpha = 0
+	groupHud.build.buttons[3][2].alpha = 0
+	groupHud.build.buttons[3][3].alpha = 0
+	for i = 5, 7, 1 do
+		groupHud.build.buttons[i][1].alpha = 0
+		groupHud.build.buttons[i][2].alpha = 0
+		groupHud.build.buttons[i][3].alpha = 0
+	end
+	for i = 1, #planetsData, 1 do
+		if i ~= 3 and i ~= 4 then
+			groupHud.planets.buttons[i][1].alpha = 0
+			groupHud.planets.buttons[i][2].alpha = 0
+			groupHud.fleet.buttons[i][1].alpha = 0
+			groupHud.fleet.buttons[i][2].alpha = 0
+		end
+	end
 
 	enterLevel()
 end

@@ -28,10 +28,13 @@ function addBuildButtons(g)
 		local t = display.newText(s.name, b.x+2, b.y+53, native.systemFont, 10)
 		t:setTextColor(0, 200, 100)
 		g:insert(t)
-		local t = display.newText(s.res.cost.." MC", b.x+30, b.y, native.systemFont, 9)
-		t:setTextColor(0, 200, 100)
-		g:insert(t)
+		local t2 = display.newText(s.res.cost.." MC", b.x+30, b.y, native.systemFont, 9)
+		t2:setTextColor(0, 200, 100)
+		g:insert(t2)
+		g.buttons[i] = {b, t, t2}
 	end
+
+	g.buttons = {}
 
 	-- Build ships buttons
 	for i = 1, 3, 1 do
@@ -49,6 +52,8 @@ function addPlanetsButtons(g)
 
 	-- local b = display.newText("Select planet:", 0, 80, native.systemFont, 16)
 	-- g:insert(b)
+
+	g.buttons = {}
 
 	for i = 1, #planetsData, 1 do
 		local planet = planetsData[i]
@@ -70,6 +75,8 @@ function addPlanetsButtons(g)
 		local t = display.newText(planet.name, x-30, 56, native.systemFont, 12)
 		t:setTextColor(0, 200, 100)
 		g:insert(t)
+
+		g.buttons[i] = {b, t}
 	end
 end
 
