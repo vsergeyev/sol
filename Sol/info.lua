@@ -30,7 +30,19 @@ end
 
 -----------------------------------------------------------------------------------------
 function showInfo( item )
-	-- groupHud.alpha = 0.5
+	-- Show info about item in hud
+	if item and item ~= selectedObject then
+		if selectOverlay then
+			selectOverlay:removeSelf()
+			selectOverlay = nil
+		end
+		createOverlay(item, item.res.w/2)
+	elseif not item and selectOverlay then
+		selectOverlay:removeSelf()
+		selectOverlay = nil
+    end
+    selectedObject = item
+
 	groupHud.money.text = gold.." MC" --..energy.."E | Date: "..stardate
 
 	if item then

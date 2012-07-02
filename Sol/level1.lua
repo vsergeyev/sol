@@ -33,10 +33,10 @@ require "ai"
 require "notifications"
 require "dialogs"
 
-gold = 500
+gold = 5000
 levelNow = nil
 local skirmishLevel = 1
-local skirmishDelay = 60000 -- 60000
+local skirmishDelay = 12000 -- 60000
 local soundAlert = audio.loadStream("sounds/alert.m4a")
 
 local win_condition_timer = nil
@@ -157,7 +157,7 @@ function scene:createScene( event )
 	addHud()
 	refreshMinimap()
 
-	mtouch.setZoomObject( sky) --pinch_overlay )
+	mtouch.setZoomObject( sky ) --pinch_overlay )
 	mtouch.setOnZoomIn( OnZoomIn  ) 
 	mtouch.setOnZoomOut( OnZoomOut  )
 

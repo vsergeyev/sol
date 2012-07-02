@@ -74,6 +74,22 @@ shipsData = {
 		}
 	},
 	{
+		fullName = 'USS "Eagle" destroyer',
+		ship = "destroyer",
+		res = {
+			hp = 150,
+			shield = 50,
+			speed = 1,
+			attack = 10,
+			cost = 50,
+			e = 50,
+			w = 96,
+			h = 50,
+			r = 0,
+			autofigth = true
+		},
+	},
+	{
 		fullName = 'USS "Rhino" battleship',
 		ship = "cruiser",
 		res = {
@@ -86,7 +102,8 @@ shipsData = {
 			w = 160,
 			h = 60,
 			r = 0,
-			autofigth = false
+			autofigth = false,
+			torpedos = true
 		},
 	},
 	{

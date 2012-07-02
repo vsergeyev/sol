@@ -9,6 +9,54 @@ require "notifications"
 local soundBlaster = audio.loadStream("sounds/blaster.m4a")
 
 -----------------------------------------------------------------------------------------
+function createExplosion(x, y, e)
+	local explosion = nil
+
+	local expl = 1
+	if e then
+		expl = e
+	else
+		expl = math.random(3)
+	end
+	if expl == 1 then
+		explosion = display.newImageRect("i/explosion.png", 130, 85)
+	elseif expl == 2 then
+		explosion = display.newImageRect("i/explosion2.png", 72, 72)
+	else
+		explosion = display.newImageRect("i/explosion3.png", 63, 63)
+	end
+
+	explosion:scale(0.1, 0.1)
+	explosion.alpha = 0.1
+	explosion.x, explosion.y = x, y
+
+	group:insert(explosion)
+
+	transition.to(explosion, {time=100, alpha=1, xScale=0.5, yScale=0.5, y=explosion.y-20})
+	transition.to(explosion, {delay=100, time=200, alpha=0.1, xScale=0.1, yScale=0.1, onComplete=function ()
+		explosion:removeSelf()
+	end})
+end
+
+-----------------------------------------------------------------------------------------
+function minusHpOrShield(g, t)
+	if t.shield > 0 then
+		t.shield = t.shield - g.res.attack	
+		if t.shield < 0 then
+			t.shield = 0
+		end
+		-- specify kind of attack animation
+		return true
+	else
+		t.hp = t.hp - g.res.attack
+		if t.hp < 0 then
+			t.hp = 0
+		end
+	end
+	return false
+end
+
+-----------------------------------------------------------------------------------------
 function outOfBattle(g)
 	-- ship go out of battle
 
@@ -37,13 +85,10 @@ end
 function destroyShip(g)
 	showBaloon(g.fullName.." destroyed")
 	-- print(g.fullName.." destroyed")
+	g.isBodyActive = false
 
 	if g == selectedObject then
-		selectedObject = nil
-		if selectOverlay then
-			selectOverlay:removeSelf()
-			selectOverlay = nil
-		end
+		showInfo(nil)
 	end
 
 	if g.battleTimer then
@@ -63,7 +108,10 @@ function destroyShip(g)
 		portalDestroyed = true
 	end
 
-	g:removeSelf()
+	if g.parent then
+		-- g:removeSelf()
+		g.parent:remove(g)
+	end
 end
 
 -----------------------------------------------------------------------------------------
@@ -108,72 +156,59 @@ function attackShipAI(g)
 
 	if g.res.attack then -- and math.random(10) > 5 then
 		-- piu-piu
-		if t.shield > 0 then
-			t.shield = t.shield - g.res.attack	
-			if t.shield < 0 then
-				t.shield = 0
-			end
-			-- specify kind of attack animation
-			shieldAttacked = true
-		else
-			t.hp = t.hp - g.res.attack
-			if t.hp < 0 then
-				t.hp = 0
-			end
-		end
+		shieldAttacked = minusHpOrShield(g, t)
 		
 		dx = - 30 + math.random(60)
 		dy = - 30 + math.random(60)
 
-		-- blaster line
-		local arrow = display.newLine(g.x,g.y, t.x + dx, t.y + dy )
-		arrow.width = 1
-		if g.enemy then
-			arrow:setColor(255, 0, 0)
+		if g.res.torpedos then
+			local torpedo = display.newImageRect("ships/torpedo/1.png", 15, 10)
+			torpedo.x, torpedo.y = g.x, g.y
+			torpedo.nameType = "torpedo"
+			torpedo.enemy = false
+			torpedo.res = {
+				speed = 5,
+				ttl = 0.7,
+				tx = t.x,
+				ty = t.y,
+				attack = g.res.attack
+			}
+			physics.addBody(torpedo, {radius=12, filter=shipsCollisionFilter})
+			torpedo.isSensor = true
+			group:insert(torpedo)
 		else
-			arrow:setColor(0, 0, 255)
-		end
-		group:insert(arrow)
-		
-		transition.to(arrow, {time=500, alpha=0, onComplete=function ()
-			arrow:removeSelf()
-		end})
-
-		-- BOM!!!
-		local explosion = nil
-		if shieldAttacked then -- Shield splash animation
-			explosion = display.newImageRect("i/shield.png", t.res.w*1.3, t.res.h*1.3)
-			explosion.x, explosion.y = t.x, t.y
-			explosion.rotation = t.rotation
-			explosion.alpha = 0.1
-
-			group:insert(explosion)
-
-			transition.to(explosion, {time=100, alpha=0.3})
-			transition.to(explosion, {delay=100, time=200, alpha=0, onComplete=function ()
-				explosion:removeSelf()
-			end})
-		else -- Explosion, ship hul
-			-- audio.play(soundBlaster)
-			
-			local expl = math.random(3)
-			if expl == 1 then
-				explosion = display.newImageRect("i/explosion.png", 130, 85)
-			elseif expl == 2 then
-				explosion = display.newImageRect("i/explosion2.png", 72, 72)
+			-- blaster line
+			local arrow = display.newLine(g.x,g.y, t.x + dx, t.y + dy )
+			arrow.width = 1
+			if g.enemy then
+				arrow:setColor(255, 0, 0)
 			else
-				explosion = display.newImageRect("i/explosion3.png", 63, 63)
+				arrow:setColor(0, 0, 255)
 			end
-			explosion:scale(0.1, 0.1)
-			explosion.alpha = 0.1
-			explosion.x, explosion.y = t.x + dx, t.y + dy
-
-			group:insert(explosion)
-
-			transition.to(explosion, {time=100, alpha=1, xScale=0.5, yScale=0.5, y=explosion.y-20})
-			transition.to(explosion, {delay=100, time=200, alpha=0.1, xScale=0.1, yScale=0.1, onComplete=function ()
-				explosion:removeSelf()
+			group:insert(arrow)
+			
+			transition.to(arrow, {time=500, alpha=0, onComplete=function ()
+				arrow:removeSelf()
 			end})
+
+			-- BOM!!!
+			local explosion = nil
+			if shieldAttacked then -- Shield splash animation
+				explosion = display.newImageRect("i/shield.png", t.res.w*1.3, t.res.h*1.3)
+				explosion.x, explosion.y = t.x, t.y
+				explosion.rotation = t.rotation
+				explosion.alpha = 0.1
+
+				group:insert(explosion)
+
+				transition.to(explosion, {time=100, alpha=0.3})
+				transition.to(explosion, {delay=100, time=200, alpha=0, onComplete=function ()
+					explosion:removeSelf()
+				end})
+			else -- Explosion, ship hul
+				-- audio.play(soundBlaster)
+				createExplosion(t.x + dx, t.y + dy)
+			end
 		end
 	end
 end
@@ -201,7 +236,7 @@ function shipBattle(ship)
 		local length = 1 * math.sqrt((ship.x0-ship.x)*(ship.x0-ship.x) + (ship.y0-ship.y)*(ship.y0-ship.y))
 
 		-- Movement
-		if ship.enemy or ship.res.autofigth then
+		if (ship.enemy and ship.res.autofigth) or ship.res.autofigth then
 			moveShipAI(ship)
 		end
 
@@ -269,32 +304,12 @@ function attackPlanetAI(g, t)
 		arrow:setColor(255, 0, 0)
 		group:insert(arrow)
 		
-		transition.to(arrow, {time=500, alpha=0, onComplete=function ()
+		transition.to(arrow, {time=250, alpha=0, onComplete=function ()
 			arrow:removeSelf()
 		end})
 
 		-- BOM!!!
-		local explosion = nil
-		-- audio.play(soundBlaster)
-		
-		local expl = math.random(3)
-		if expl == 1 then
-			explosion = display.newImageRect("i/explosion.png", 130, 85)
-		elseif expl == 2 then
-			explosion = display.newImageRect("i/explosion2.png", 72, 72)
-		else
-			explosion = display.newImageRect("i/explosion3.png", 63, 63)
-		end
-		explosion:scale(0.1, 0.1)
-		explosion.alpha = 0.1
-		explosion.x, explosion.y = t.x + dx, t.y + dy
-
-		group:insert(explosion)
-
-		transition.to(explosion, {time=100, alpha=1, xScale=0.5, yScale=0.5, y=explosion.y-20})
-		transition.to(explosion, {delay=100, time=200, alpha=0.1, xScale=0.1, yScale=0.1, onComplete=function ()
-			explosion:removeSelf()
-		end})
+		createExplosion(t.x + dx, t.y + dy)
 	
 		if (t == selectedObject) then
 			showInfo(t)

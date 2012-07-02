@@ -29,7 +29,7 @@ function addBuildButtons(g)
 		if s.ship == "carier" then
 			sh = "carrier"
 		end
-		local t = display.newText(sh.." ("..s.res.cost..")", b.x+2, b.y+53, native.systemFont, 12)
+		local t = display.newText(sh.." ("..s.res.cost..")", b.x+2, b.y+53, native.systemFont, 10)
 		t:setTextColor(0, 200, 100)
 		g:insert(t)
 	end
@@ -39,7 +39,7 @@ function addBuildButtons(g)
 		addBtn(i)
 	end
 	
-	for i = 5, 6, 1 do
+	for i = 5, 7, 1 do
 		addBtn(i)
 	end
 end

@@ -28,7 +28,8 @@ function addPlanets()
 		population = 0,
 		techlevel = 0,
 		defence = 0,
-		generators = 0
+		generators = 0,
+		w = 120
 	}
 	group:insert(p)
 	p:addEventListener('touch', selectPlanet)
@@ -52,7 +53,8 @@ function addPlanets()
 		population = 0,
 		techlevel = 0,
 		defence = 0,
-		generators = 0
+		generators = 0,
+		w = 160
 	}
 	group:insert(p)
 	p:addEventListener('touch', selectPlanet)
@@ -76,7 +78,8 @@ function addPlanets()
 		techlevel = 1,
 		defence = 1,
 		generators = 1,
-		at = stardate
+		at = stardate,
+		w = 300
 	}
 	group:insert(earth)
 	group.earth = earth
@@ -102,7 +105,8 @@ function addPlanets()
 		population = 0, -- 30000,
 		techlevel = 0,
 		defence = 0,
-		generators = 0
+		generators = 0,
+		w = 80
 	}
 	group:insert(moon)
 	moon:addEventListener('touch', selectPlanet)
@@ -127,7 +131,8 @@ function addPlanets()
 		population = 0,
 		techlevel = 0,
 		defence = 0,
-		generators = 0
+		generators = 0,
+		w = 200
 	}
 	group:insert(p)
 	p:addEventListener('touch', selectPlanet)
@@ -224,7 +229,8 @@ function addPlanets()
 		population = 0,
 		techlevel = 0,
 		defence = 0,
-		generators = 0
+		generators = 0,
+		w = 150
 	}
 	group:insert(p)
 	p:addEventListener('touch', selectPlanet)

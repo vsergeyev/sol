@@ -33,7 +33,7 @@ function buildShip(e)
 
 	if t.res.cost <= gold then
 		-- build ship
-		if (t.ship == "carier") or (t.ship == "cruiser") or (t.ship == "fighter") or (t.ship == "trade") or (t.ship == "explorer") then
+		if (t.ship == "carier") or (t.ship == "cruiser") or (t.ship == "fighter") or (t.ship == "trade") or (t.ship == "explorer") or (t.ship == "destroyer") then
 			local p = "ships/"..t.ship.."/"
 			ship = movieclip.newAnim({p.."1.png", p.."2.png", p.."3.png", p.."3.png", p.."3.png", p.."3.png", p.."3.png"})
 			ship:setSpeed(0.15)
@@ -55,9 +55,9 @@ function buildShip(e)
 
 		-- ship.sensors = 100
 		if (t.ship == "trade") or (t.ship == "explorer") then
-			ship.sensors = 100
+			ship.sensors = 200
 		else
-			ship.sensors = 300
+			ship.sensors = 400
 		end
 		ship.orbit = 1.1 + math.random(20) / 10
 		ship.alphaR = 1 -- math.random(360)
@@ -127,9 +127,6 @@ function colonizeIt()
 				end
 			end
 			if colonizationShip == selectedObject then
-				selectOverlay:removeSelf()
-				selectOverlay = nil
-				selectedObject = nil
 				showInfo(nil)
 			end
     		colonizationShip:removeSelf()
@@ -197,6 +194,19 @@ function collisionShip(e)
 				end, 0 )
 			end
 		end
+	elseif o.nameType == "torpedo" then
+		if t.enemy ~= o.enemy then
+			minusHpOrShield(o, t)
+			createExplosion(t.x+math.random(60)-30, t.y+math.random(60)-30, 3)
+			timer.performWithDelay(5, function ()
+				--o.isBodyActive = false
+				if t.hp <= 0 then
+					destroyShip(t)
+				end
+				--o:removeSelf()
+				--o = nil
+			end, 1 )
+		end
 	end
 end
 
@@ -237,14 +247,6 @@ function selectShip( e )
 
 	if phase == 'began' then
 		-- Shine overlay
-		if selectOverlay then
-			selectOverlay:removeSelf()
-			selectOverlay = nil
-		end
-		
-		createOverlay(t, t.res.w/2)
-		selectOverlay.ship = t
-		selectedObject = t
 		showInfo(t)
 		--
 

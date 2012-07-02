@@ -36,10 +36,6 @@ end
 
 -----------------------------------------------------------------------------------------
 function createOverlay( t, r )
-	if selectOverlay then
-		selectOverlay.alpha = 1
-		return true
-	end
 	selectOverlay = display.newImageRect("i/selection.png", r*3, r*3)
 	selectOverlay.x, selectOverlay.y = t.x, t.y
 	group:insert(selectOverlay)
@@ -133,7 +129,7 @@ function moveAutopilot( e )
 
 	for i = 1, group.numChildren, 1 do
 		local g = group[i]
-		if g.nameType == "ship" and g.targetPlanet and g.targetReached and not g.inBattle then
+		if g and g.nameType == "ship" and g.targetPlanet and g.targetReached and not g.inBattle then
 			local p = g.targetPlanet
 			if g.name == "fighter" or g.name2 == "fighter" then
 				g.alphaR = g.alphaR + 0.1
@@ -166,6 +162,16 @@ function moveAutopilot( e )
 				end
 				impulseShip(g, x2-g.x, y2-g.y, k)
 			--end
+		elseif g and g.nameType == "torpedo" then
+			g.rotation = math.deg(math.atan2((g.res.ty - g.y), (g.res.tx - g.x)))
+			impulseShip(g, g.res.tx-g.x, g.res.ty-g.y, 0.5)
+			g.res.ttl = g.res.ttl - 0.2
+			if g.res.ttl < 0 then
+				-- createExplosion(g.x, g.y)
+				-- g:removeSelf()
+				g.parent:remove(g)
+				g = nil
+			end
 		end
 	end
 end
@@ -179,15 +185,6 @@ function selectPlanet( e )
 	touchesPinch[ e.id ]  = nil
 
 	if e.phase == "ended" or e.phase == "cancelled" then
-
-		if selectOverlay then
-			selectOverlay:removeSelf()
-			selectOverlay = nil
-		end
-		
-		createOverlay(t, t.r)
-		selectedObject = t
-
 		showInfo(t)
 	end
 
@@ -203,7 +200,7 @@ function frameHandler( e )
 
 	if isPause then return end
 
-	if selectOverlay and selectOverlay.alpha > 0 then
+	if selectOverlay then
 		selectOverlay.rotation = selectOverlay.rotation + 1
 	end
 
@@ -213,8 +210,8 @@ function frameHandler( e )
 				-- remove alpha 0 defeated battleships
 				s:removeSelf()
 				s = nil
-			elseif selectOverlay and selectOverlay.ship then
-				selectOverlay.x, selectOverlay.y = s.x, s.y
+			elseif s.overlay then  -- selectOverlay and selectOverlay.ship then
+				s.overlay.x, s.overlay.y = s.x, s.y
 			end
 		end
 	end

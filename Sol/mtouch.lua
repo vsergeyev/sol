@@ -87,11 +87,7 @@ function on_touch( event )
     local t = event.target
 
     if event.phase == "began" then
-        selectedObject = nil
         showInfo(nil)
-        if selectOverlay and selectOverlay.alpha > 0 then
-            selectOverlay.alpha = 0    
-        end
 
         --register this touch
         touchesPinch[ event.id ] = event
