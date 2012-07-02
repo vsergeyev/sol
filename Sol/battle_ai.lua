@@ -130,7 +130,8 @@ function moveShipAI(g)
 	if g.is_station or g.res.is_station then
 		g.rotation = 0
 	else
-		-- g.rotation = math.deg(math.atan2((g.y0 - g.y), (g.x0 - g.x)))
+		-- local r = math.deg(math.atan2((y - g.y), (x - g.x)))
+		-- g.rotation = g.rotation + (r - g.rotation) / 10
 		g.rotation = math.deg(math.atan2((y - g.y), (x - g.x)))
 	end
 

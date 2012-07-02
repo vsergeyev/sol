@@ -78,13 +78,13 @@ shipsData = {
 		ship = "destroyer",
 		res = {
 			hp = 150,
-			shield = 50,
-			speed = 1,
+			shield = 100,
+			speed = 0.7,
 			attack = 10,
 			cost = 50,
 			e = 50,
-			w = 96,
-			h = 50,
+			w = 48,
+			h = 25,
 			r = 0,
 			autofigth = true
 		},
@@ -210,7 +210,7 @@ aliensData = {
 			w = 100,
 			h = 100,
 			r = 0,
-			autofigth = false
+			autofigth = true
 		}
 	},
 	{

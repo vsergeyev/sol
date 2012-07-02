@@ -49,7 +49,7 @@ function addAlienShip(target, shipKind)
 	ship.x, ship.y = x, y
 	ship.enemy = true
 	ship.enemies = {}
-	ship.r = 75
+	ship.r = math.max(shipData.res.w/2, 75)
 	ship.sensors = 50 -- how long it see Terran ships
 	ship.orbit = 1.5 + math.random(30) / 10
 	ship.alphaR = 90

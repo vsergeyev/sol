@@ -57,7 +57,7 @@ function buildShip(e)
 		if (t.ship == "trade") or (t.ship == "explorer") then
 			ship.sensors = 200
 		else
-			ship.sensors = 400
+			ship.sensors = 500
 		end
 		ship.orbit = 1.1 + math.random(20) / 10
 		ship.alphaR = 1 -- math.random(360)
