@@ -4,6 +4,8 @@
 --
 -----------------------------------------------------------------------------------------
 
+local storyboard = require( "storyboard" )
+
 require "aliens"
 require "briefing"
 
@@ -20,7 +22,7 @@ levelsData = {
 
 Build USS "E.C.S." class ship and use it to colonize Earth's satelite.
 
-Once colony established, build USS "Minecrafter" class space ships to transport rare minerals from the Moon to Earth and equipment & supplies back to colonists.
+Once colony established, build USS "Minecrafter" class space ships to transport rare minerals from the Moon to Earth and supplies back to colonists.
 
 Victory condition: gain 200 MC]],
 		goal = 200, -- resources, victory condition
@@ -156,30 +158,45 @@ function victoryScreen(item)
 
 	-- dialog
 	local p = display.newGroup()
+	local l = levelsData[levelNow]
+
 	local dx, dy = 150, 150
 
-	local dlg = display.newRoundedRect(100, 100, screenW-200, screenH-200, 10)
+	local dlg = display.newRect(0, 0, screenW, screenH)
 	dlg:setFillColor(0)
-	dlg.alpha = 0.9
 	p:insert(dlg)
 	
-	local ea = display.newImageRect("ui/alliance.png", 100, 101)
-	ea.x, ea.y = screenW-200, dy + 50
-	p:insert(ea)
+	local bg = display.newImage("bg/bg2.png")
+	p:insert(bg)
+	local bg = display.newImage("ui/planet.png")
+	p:insert(bg)
+	local bg = display.newImage("ui/text_victory.png")
+	bg.x, bg.y = screenW/2, 80
+	p:insert(bg)
 
-	local infoTitle = display.newText(item.title, dx + 20, dy + 20, 600, 40, native.systemFont, 24)
+	local infoTitle = display.newText(l.title, 30, 200, 600, 40, native.systemFont, 24)
 	infoTitle:setTextColor(0, 200, 100)
 	p:insert(infoTitle)
 
-	local infoText = display.newText("Victory!", dx + 250, dy + 200, 400, 200, native.systemFont, 48)
+	local infoText = display.newText(gameStat.money.." MC earned\n"..gameStat.ships.." ships built\n"..gameStat.killed.." enemies killed", 30, 260, 600, 400, native.systemFont, 18)
 	infoText:setTextColor(0, 200, 100)
 	p:insert(infoText)
 
-	local closeButton = addButton("Next mission", screenW-360, screenH-200, function (e)
+	local menuButton = addButton("Exit to menu", screenW-570, screenH-70, function (e)
+		timer.cancel(tmr)
+		tmr = nil
+		p:removeSelf()
+		gameMenu(e)
+	end, p)
+
+	local closeButton = addButton("Next mission", screenW-270, screenH-70, function (e)
 		gamePause(e)
 		p:removeSelf()
 		levelNow = levelNow + 1
-		startLevel(levelNow)
+		-- startLevel(levelNow)
+		purgeTimers()
+		storyboard.removeScene( "mission"..levelNow )
+		storyboard.gotoScene( "mission"..levelNow, "fade", 500 )
 	end, p)
 
 	local sound = audio.loadStream("sounds/victory.mp3")
@@ -229,15 +246,13 @@ end
 -----------------------------------------------------------------------------------------
 function startLevel(level)
 	local l = levelsData[level]
-	
+	showBriefing()
+
 	-- spawn enemies
 	if l.spawn then
 		initialSpawn = true
 		timer.performWithDelay(l.spawn.delay, spawnAliens, l.spawn.times )
 	end
-
-	-- levelScreen(l)
-	showBriefing()
 end
 
 -----------------------------------------------------------------------------------------

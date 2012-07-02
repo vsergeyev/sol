@@ -6,11 +6,10 @@
 
 --system.activate("multitouch")
 local mtouch = require( "mtouch" )
-
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 
-local movieclip = require "movieclip"
+require "campaign"
 
 -- include Corona's "physics" library
 local physics = require "physics"
@@ -18,23 +17,6 @@ physics.start(); physics.pause()
 
 -- physics.setDrawMode('hybrid')
 physics.setGravity(0, 0)
-
-gold = 100
-levelNow = 1
-local loose_condition_timer = nil
-
---------------------------------------------
-
-require "events"
-require "planets"
-require "create_scene"
-require "hud"
-require "minimap_ui"
-require "economy"
-require "fleet_control"
-require "aliens"
-require "ai"
-require "levels_control"
 
 -----------------------------------------------------------------------------------------
 -- BEGINNING OF YOUR IMPLEMENTATION
@@ -44,93 +26,17 @@ require "levels_control"
 -- 
 -----------------------------------------------------------------------------------------
 
-function looseCondition( e )
-	if isPause then return end
-
-	-- Lost condition
-	local not_lost = false
-	for i = 1, #group.planets, 1 do
-		local g = group.planets[i]
-		if g.res and g.res.colonized then
-			not_lost = true
-			break
-		end
-	end
-	if not not_lost then
-		timer.cancel(loose_condition_timer)
-		showSurvivalDlg( e, "You lost!", true )
-	end
-	return true
-end
-
------------------------------------------------------------------------------------------
-
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
-	local group0 = self.view
-	groupSky = display.newGroup()
-	group = display.newGroup() -- self.view
-	groupHud = display.newGroup()
-	groupNotifications = display.newGroup()
-	groupPinch = display.newGroup()
+	gold = 100
+	levelNow = 1
+	gameStat = {
+		money = 0,
+		ships = 0,
+		killed = 0
+	}
 
-	group0:insert(groupSky)
-	group0:insert(group)
-	group0:insert(groupHud)
-	group0:insert(groupNotifications)
-	group0:insert(groupPinch)
-
-	local sky = display.newImageRect("bg/bg3.png", 1700, 1200)
-	sky:setReferencePoint( display.CenterReferencePoint )
-	sky.x, sky.y = screenW/2, screenH/2
-	sky.alpha = 0.8
-	groupSky:insert(sky)
-	groupSky.shine = sky
-	-- sky:addEventListener('touch', moveBg)
-	
-	local sky2 = display.newImageRect("bg/bg22.png", 1944, 1458) -- 1280, 852)	
-	sky2:setReferencePoint( display.CenterReferencePoint )
-	sky2.x, sky2.y = screenW/2, screenH/2
-	sky2.alpha = 0.1
-	groupSky:insert(sky2)
-	groupSky.sky = sky2
-
-	createSun()
-	addPlanets()
-	addHud()
-	refreshMinimap()
-
-	-- local pinch_overlay = display.newRect(0, 0, screenW, screenH)
-	-- pinch_overlay:setFillColor( 0 )
-	-- pinch_overlay.alpha = 0.01
-	-- groupPinch:insert(pinch_overlay)
-
-	mtouch.setZoomObject( sky ) -- pinch_overlay )
-	mtouch.setOnZoomIn( OnZoomIn  ) 
-	mtouch.setOnZoomOut( OnZoomOut  )
-
-	-- Timers
-	table.insert(gameTimers, timer.performWithDelay(300, moveAutopilot, 0 ))
-	table.insert(gameTimers, timer.performWithDelay(6000, hightlightSun, 0 ))
-	table.insert(gameTimers, timer.performWithDelay(3000, refreshMinimap, 0 ))
-	table.insert(gameTimers, timer.performWithDelay(10000, populationGrow, 0 ))
-	table.insert(gameTimers, timer.performWithDelay(5000, targetShips, 0 ))
-	table.insert(gameTimers, timer.performWithDelay(1000, repairCarrier, 0 ))
-
-	if isMusic then
-		local soundTheme = audio.loadStream("sounds/level1.m4a")
-		table.insert(gameTimers, timer.performWithDelay(2000, function (e)
-			audio.play(soundTheme)
-		end, 0 ))
-	end
-
-	math.randomseed( os.time() )
-	table.insert(gameTimers, timer.performWithDelay(100, movePlanets, 0 ))
-	table.insert(gameTimers, timer.performWithDelay(500, addAlienStations, 1 ))
-
-	-- Frame handlers
-	Runtime:addEventListener( "enterFrame", frameHandler )
-
+	local group = createLevel(self.view)
 	-- Position camera on Earth
 	group.x = -1700
 	group.y = 250
@@ -138,31 +44,17 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
-	local group = self.view
-	
 	physics.start()
-
-	startLevel(levelNow)
-	-- check victory or loose in level
-	table.insert(gameTimers, timer.performWithDelay(1000, levelCondition, 0 ))
-	loose_condition_timer = timer.performWithDelay(2000, looseCondition, 0 )
-	table.insert(gameTimers, loose_condition_timer)
-
-	showInfo(selectedObject)
+	enterLevel()
 end
 
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
-	local group = self.view
-	
 	physics.stop()
-	
 end
 
 -- If scene's view is removed, scene:destroyScene() will be called just prior to:
 function scene:destroyScene( event )
-	local group = self.view
-	
 	package.loaded[physics] = nil
 	physics = nil
 end

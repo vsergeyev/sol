@@ -73,6 +73,7 @@ end
 -----------------------------------------------------------------------------------------
 function tradeIncome()
 	gold = gold + 10
+	gameStat.money = gameStat.money + 10
 
 	showInfo(selectedObject)
 	showBaloon("Minecrafter: \n+10 MC")

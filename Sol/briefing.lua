@@ -56,7 +56,7 @@ function showBriefing()
 	dlg.alpha = 1
 	p:insert(dlg)
 
-	local infoTitle = display.newText(l.title, 30, 30, 600, 40, native.systemFont, 36)		
+	local infoTitle = display.newText(l.title, 30, 30, 600, 40, native.systemFont, 36)
 	infoTitle:setTextColor(0, 200, 100)
 	p:insert(infoTitle)
 

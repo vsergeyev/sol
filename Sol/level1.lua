@@ -33,10 +33,10 @@ require "ai"
 require "notifications"
 require "dialogs"
 
-gold = 5000
+gold = 500
 levelNow = nil
 local skirmishLevel = 1
-local skirmishDelay = 12000 -- 60000
+local skirmishDelay = 60000 -- 60000
 local soundAlert = audio.loadStream("sounds/alert.m4a")
 
 local win_condition_timer = nil
@@ -55,7 +55,7 @@ function winCondition( e )
 	-- Victory condition
 	if portalDestroyed then
 		timer.cancel(win_condition_timer)
-		showSurvivalDlg( e, "Victory!", true )
+		showSurvivalVictoryDlg(e)
 		return true
 	end
 
@@ -240,6 +240,9 @@ Next wave will arrive in 60 sec.
 Victory condition: find Wormhole portal and destroy it.
 
 Good luck, Captain!]] )
+	
+	-- showSurvivalVictoryDlg(e)
+	-- showSurvivalDlg( e, "You lost!", true )
 end
 
 -- Called when scene is about to move offscreen:

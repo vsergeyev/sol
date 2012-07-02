@@ -54,25 +54,4 @@ function addFleetButtons(g)
 	t:setTextColor(0, 200, 100)
 	g:insert(t)
 	g.fighterText = t
-
-	-- build Droid
-	-- local s = shipsData[7]
-	-- local b = display.newImageRect("ui/build/"..s.ship..".png", 70, 70)
-	-- b:setReferencePoint(display.TopLeftReferencePoint)
-	-- b.x, b.y = 660, 0
-	-- b.fullName = s.fullName
-	-- b.ship = s.ship
-	-- b.res = s.res
-	-- b.on_carrier = true
-	-- b:addEventListener('touch', hudBuildShip)
-	-- g:insert(b)
-	-- g.droid = b
-
-	-- show details
-	-- local b = display.newImageRect("ui/buttons/details.png", 70, 70)
-	-- b:setReferencePoint(display.TopLeftReferencePoint)
-	-- b.x, b.y = 660, 0
-	-- b:addEventListener('touch', hudDetails)
-	-- g:insert(b)
-	-- g.details = b
 end

@@ -41,16 +41,17 @@ end
 -----------------------------------------------------------------------------------------
 function showPauseDlg(e)
 	local p = display.newGroup()
-	local dx, dy = 150, 150
+	local dx, dy = 10, 10
 
-	local dlg = display.newRoundedRect(100, 100, screenW-200, screenH-200, 10)
+	local dlg = display.newRect(0, 0, screenW, screenH)
 	dlg:setFillColor(0)
 	dlg.alpha = 0.9
 	p:insert(dlg)
 
-	local ea = display.newImageRect("ui/alliance.png", 100, 101)
-	ea.x, ea.y = screenW-200, dy + 50
-	p:insert(ea)
+	local bg = display.newImage("bg/bg2.png")
+	p:insert(bg)
+	local bg = display.newImage("ui/victory.png")
+	p:insert(bg)
 
 	local infoTitle = nil
 	if levelNow then
@@ -60,18 +61,18 @@ function showPauseDlg(e)
 		infoText:setTextColor(0, 200, 100)
 		p:insert(infoText)
 	else
-		infoTitle = display.newText("Paused", dx + 250, dy + 160, 400, 200, native.systemFont, 48)
+		infoTitle = display.newText("Paused", 400, dy + 160, 400, 200, native.systemFont, 48)
 	end
 
 	infoTitle:setTextColor(0, 200, 100)
 	p:insert(infoTitle)
 
-	local menuButton = addButton("Exit to menu", screenW-660, screenH-200, function (e)
+	local menuButton = addButton("Exit to menu", screenW-570, screenH-70, function (e)
 		p:removeSelf()
 		gameMenu(e)
 	end, p)
 
-	local closeButton = addButton("Resume", screenW-360, screenH-200, function (e)
+	local closeButton = addButton("Resume", screenW-270, screenH-70, function (e)
 		p:removeSelf()
 		gamePause(e)
 	end, p)
@@ -86,16 +87,17 @@ function showSurvivalDlg(e, text, isVictory)
 	physics.pause()
 
 	local p = display.newGroup()
-	local dx, dy = 150, 150
+	local dx, dy = 10, 10
 
-	local dlg = display.newRoundedRect(100, 100, screenW-200, screenH-200, 10)
+	local dlg = display.newRect(0, 0, screenW, screenH)
 	dlg:setFillColor(0)
 	dlg.alpha = 0.9
 	p:insert(dlg)
 
-	local ea = display.newImageRect("ui/alliance.png", 100, 101)
-	ea.x, ea.y = screenW-200, dy + 50
-	p:insert(ea)
+	local bg = display.newImage("bg/bg2.png")
+	p:insert(bg)
+	local bg = display.newImage("ui/planet.png")
+	p:insert(bg)
 
 	local infoTitle = display.newText("Survival mode", dx + 20, dy + 20, 600, 40, native.systemFont, 24)
 	infoTitle:setTextColor(0, 200, 100)
@@ -103,7 +105,7 @@ function showSurvivalDlg(e, text, isVictory)
 
 	local infoText = nil
 	if isVictory then
-		infoText = display.newText(text, dx + 250, dy + 200, 400, 200, native.systemFont, 48)
+		infoText = display.newText(text, 400, 200, 400, 200, native.systemFont, 48)
 	else
 		infoText = display.newText(text, dx + 20, dy + 100, 600, 300, native.systemFont, 18)
 	end
@@ -111,14 +113,52 @@ function showSurvivalDlg(e, text, isVictory)
 	p:insert(infoText)
 
 	if isVictory then
-		local menuButton = addButton("Exit to menu", screenW-660, screenH-200, function (e)
+		local menuButton = addButton("Exit to menu", screenW-570, screenH-70, function (e)
 			p:removeSelf()
 			gameMenu(e)
 		end, p)
 	end
 
-	local closeButton = addButton("Resume", screenW-360, screenH-200, function (e)
+	local closeButton = addButton("Resume", screenW-270, screenH-70, function (e)
 		p:removeSelf()
 		gamePause(e)
+	end, p)
+end
+
+-----------------------------------------------------------------------------------------
+function showSurvivalVictoryDlg(e)
+	-- Mission/VICTORY in Survival mode
+
+	-- pause game
+	isPause = true
+	physics.pause()
+
+	local p = display.newGroup()
+	local dx, dy = 10, 10
+
+	local dlg = display.newRect(0, 0, screenW, screenH)
+	dlg:setFillColor(0)
+	dlg.alpha = 0.9
+	p:insert(dlg)
+
+	local bg = display.newImage("bg/bg2.png")
+	p:insert(bg)
+	local bg = display.newImage("ui/planet.png")
+	p:insert(bg)
+	local bg = display.newImage("ui/text_victory.png")
+	bg.x, bg.y = screenW/2, 80
+	p:insert(bg)
+
+	local infoTitle = display.newText("Survival mode", 30, 200, 600, 40, native.systemFont, 24)
+	infoTitle:setTextColor(0, 200, 100)
+	p:insert(infoTitle)
+
+	local infoText = display.newText(gameStat.money.." MC earned\n"..gameStat.ships.." ships built\n"..gameStat.killed.." enemies killed", 30, 260, 600, 400, native.systemFont, 18)
+	infoText:setTextColor(0, 200, 100)
+	p:insert(infoText)
+
+	local menuButton = addButton("Exit to menu", screenW-270, screenH-70, function (e)
+		p:removeSelf()
+		gameMenu(e)
 	end, p)
 end

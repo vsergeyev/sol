@@ -55,7 +55,7 @@ function buildShip(e)
 
 		-- ship.sensors = 100
 		if (t.ship == "trade") or (t.ship == "explorer") then
-			ship.sensors = 200
+			ship.sensors = 100
 		else
 			ship.sensors = 500
 		end
@@ -96,6 +96,8 @@ function buildShip(e)
 		if isMusic then
 			audio.play(soundShipReady)
 		end
+
+		gameStat.ships = gameStat.ships + 1
 	else
 		showBaloon("Need more resources: \n"..t.res.cost.." MC")
 	end
@@ -177,6 +179,7 @@ function collisionShip(e)
 		-- bonus for reserching asteroids
 		t:setLinearVelocity(0, 0)
 		gold = gold + 100
+		gameStat.money = gameStat.money + 100
 		o.explored = true
 		showInfo(selectedObject)
 		showBaloon(o.fullName.." explored: \n+100 MC")
@@ -192,6 +195,9 @@ function collisionShip(e)
 					-- print(t.fullName.." timer")
 					shipBattle(t)
 				end, 0 )
+				if t.enemy and not t.res.autofigth then
+					t.linearDamping = 1
+				end
 			end
 		end
 	elseif o.nameType == "torpedo" then

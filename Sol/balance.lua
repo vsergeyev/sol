@@ -10,6 +10,7 @@
 shipsData = {
 	{
 		fullName = 'USS "E.C.S." colonists ship',
+		name = "E.C.S.",
 		ship = "explorer",
 		res = {
 			hp = 20,
@@ -26,6 +27,7 @@ shipsData = {
 	},
 	{
 		fullName = 'USS "Minecrafter" freighter',
+		name = "minecrafter",
 		ship = "trade",
 		res = {
 			hp = 80,
@@ -42,6 +44,7 @@ shipsData = {
 	},
 	{
 		fullName = 'USS "Norad" starbase',
+		name = "starbase",
 		ship = "station",
 		res = {
 			hp = 2000,
@@ -59,6 +62,7 @@ shipsData = {
 	},
 	{
 		fullName = 'USS "Falcon" fighter',
+		name = "fighter",
 		ship = "fighter",
 		res = {
 			hp = 20,
@@ -75,6 +79,7 @@ shipsData = {
 	},
 	{
 		fullName = 'USS "Eagle" destroyer',
+		name = "destroyer",
 		ship = "destroyer",
 		res = {
 			hp = 150,
@@ -86,11 +91,12 @@ shipsData = {
 			w = 48,
 			h = 25,
 			r = 0,
-			autofigth = true
+			autofigth = false
 		},
 	},
 	{
 		fullName = 'USS "Rhino" battleship',
+		name = "cruiser",
 		ship = "cruiser",
 		res = {
 			hp = 500,
@@ -108,6 +114,7 @@ shipsData = {
 	},
 	{
 		fullName =  'USS "Discovery" carrier', --'USS "Discovery"',
+		name = "carrier",
 		ship = "carier",
 		res = {
 			class = "Carrier",
@@ -192,7 +199,7 @@ aliensData = {
 			speed = 1,
 			w = 50,
 			h = 50,
-			autofigth = true,
+			autofigth = false,
 			is_station = true
 		}
 	},
@@ -210,7 +217,7 @@ aliensData = {
 			w = 100,
 			h = 100,
 			r = 0,
-			autofigth = true
+			autofigth = false
 		}
 	},
 	{
@@ -227,7 +234,7 @@ aliensData = {
 			w = 200,
 			h = 200,
 			r = 0,
-			autofigth = true,
+			autofigth = false,
 			max_fighters = 20
 		}
 	},

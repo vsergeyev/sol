@@ -32,6 +32,11 @@ planetGravitationFieldRadius = 1.34
 planetGraviationDamping = 1
 
 gameTimers = {}
+gameStat = {
+	money = 0,
+	ships = 0,
+	killed = 0
+}
 
 -----------------------------------------------------------------------------------------
 

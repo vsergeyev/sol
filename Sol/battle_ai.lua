@@ -63,6 +63,7 @@ function outOfBattle(g)
 	if not g.battleTimer then return true end
 
 	g.battleTarget = nil
+	g.linearDamping = 0
 
 	g.inBattle = false
 	if not g.on_carrier then
@@ -86,6 +87,10 @@ function destroyShip(g)
 	showBaloon(g.fullName.." destroyed")
 	-- print(g.fullName.." destroyed")
 	g.isBodyActive = false
+
+	if g.enemy then
+		gameStat.killed = gameStat.killed + 1
+	end
 
 	if g == selectedObject then
 		showInfo(nil)

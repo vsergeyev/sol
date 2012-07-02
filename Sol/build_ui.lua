@@ -25,11 +25,10 @@ function addBuildButtons(g)
 		b:addEventListener('touch', hudBuildShip)
 		g:insert(b)
 
-		local sh = s.ship
-		if s.ship == "carier" then
-			sh = "carrier"
-		end
-		local t = display.newText(sh.." ("..s.res.cost..")", b.x+2, b.y+53, native.systemFont, 10)
+		local t = display.newText(s.name, b.x+2, b.y+53, native.systemFont, 10)
+		t:setTextColor(0, 200, 100)
+		g:insert(t)
+		local t = display.newText(s.res.cost.." MC", b.x+30, b.y, native.systemFont, 9)
 		t:setTextColor(0, 200, 100)
 		g:insert(t)
 	end
