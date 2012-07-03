@@ -13,15 +13,17 @@ function addButton(text, x, y, fun, gr)
 		p = gr
 	end
 
-	local cButton = display.newText(text, x, y, 220, 48, native.systemFont, 32)
-	cButton:setTextColor(0, 156, 73)
-	p:insert(cButton)
-
 	local btn = display.newImageRect("ui/buttons/btn.png", 300, 60)
 	btn:setReferencePoint(display.TopLeftReferencePoint)
 	btn.x, btn.y = x-50, y-7
-	btn.text = cButton
 	p:insert(btn)
+
+	local cButton = display.newEmbossedText(text, x, y, native.systemFont, 32)
+	cButton:setReferencePoint(display.TopCenterReferencePoint)
+	cButton.x = x + 95
+	cButton:setTextColor(180) --193, 168, 64) --0, 156, 73)
+	p:insert(cButton)
+	btn.text = cButton
 
 	btn:addEventListener('touch', function (e)
 		if e.phase == "began" then
@@ -50,7 +52,7 @@ function showPauseDlg(e)
 
 	local bg = display.newImage("bg/bg2.png")
 	p:insert(bg)
-	local bg = display.newImage("ui/victory.png")
+	local bg = display.newImage("ui/planet.png")
 	p:insert(bg)
 
 	local infoTitle = nil

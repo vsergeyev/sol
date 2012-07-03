@@ -29,6 +29,8 @@ function scene:createScene( event )
 	group = self.view --display.newGroup()
 
 	-- display a background image
+	local bg = display.newImage("bg/bg2.png")
+	group:insert(bg)
 	local sky = display.newImageRect("ui/menu.png", 1024, 768)
 	sky.x, sky.y = screenW/2, screenH/2
 	group:insert(sky)

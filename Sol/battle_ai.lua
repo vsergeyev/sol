@@ -157,6 +157,7 @@ function attackShipAI(g)
 	if isPause then return end
 
 	local t = g.battleTarget
+	local tx, ty, tw, th, tr = t.x, t.y, t.res.w, t.res.h, t.rotation
 	local shieldAttacked = false
 	local dx, dy = 0, 0 -- point on ship, where atack made
 
@@ -175,8 +176,8 @@ function attackShipAI(g)
 			torpedo.res = {
 				speed = 5,
 				ttl = 0.7,
-				tx = t.x,
-				ty = t.y,
+				tx = tx,
+				ty = ty,
 				attack = g.res.attack
 			}
 			physics.addBody(torpedo, {radius=12, filter=shipsCollisionFilter})
@@ -184,37 +185,39 @@ function attackShipAI(g)
 			group:insert(torpedo)
 		else
 			-- blaster line
-			local arrow = display.newLine(g.x,g.y, t.x + dx, t.y + dy )
-			arrow.width = 1
+			local arrow = nil
+
 			if g.enemy then
-				arrow:setColor(255, 0, 0)
+				arrow = display.newImageRect("ships/blaster_red.png", 23, 6) -- display.newLine(g.x,g.y, t.x + dx, t.y + dy )
 			else
-				arrow:setColor(0, 0, 255)
+				arrow = display.newImageRect("ships/blaster.png", 23, 6)
 			end
+			arrow.x, arrow.y = g.x, g.y
+			arrow.rotation = math.deg(math.atan2((ty - g.y), (tx - g.x)))
 			group:insert(arrow)
 			
-			transition.to(arrow, {time=500, alpha=0, onComplete=function ()
+			transition.to(arrow, {time=250, x=tx+dx, y=ty+dy, alpha=0.5, onComplete=function ()
 				arrow:removeSelf()
+			
+				-- BOM!!!
+				local explosion = nil
+				if shieldAttacked then -- Shield splash animation
+					explosion = display.newImageRect("i/shield.png", tw*1.3, th*1.3)
+					explosion.x, explosion.y = tx, ty
+					explosion.rotation = tr
+					explosion.alpha = 0.1
+
+					group:insert(explosion)
+
+					transition.to(explosion, {time=100, alpha=0.3})
+					transition.to(explosion, {delay=100, time=200, alpha=0, onComplete=function ()
+						explosion:removeSelf()
+					end})
+				else -- Explosion, ship hul
+					-- audio.play(soundBlaster)
+					createExplosion(tx + dx, ty + dy)
+				end
 			end})
-
-			-- BOM!!!
-			local explosion = nil
-			if shieldAttacked then -- Shield splash animation
-				explosion = display.newImageRect("i/shield.png", t.res.w*1.3, t.res.h*1.3)
-				explosion.x, explosion.y = t.x, t.y
-				explosion.rotation = t.rotation
-				explosion.alpha = 0.1
-
-				group:insert(explosion)
-
-				transition.to(explosion, {time=100, alpha=0.3})
-				transition.to(explosion, {delay=100, time=200, alpha=0, onComplete=function ()
-					explosion:removeSelf()
-				end})
-			else -- Explosion, ship hul
-				-- audio.play(soundBlaster)
-				createExplosion(t.x + dx, t.y + dy)
-			end
 		end
 	end
 end
@@ -305,17 +308,19 @@ function attackPlanetAI(g, t)
 		dy = -2*p.r + math.random(4*p.r)
 
 		-- blaster line
-		local arrow = display.newLine(g.x,g.y, t.x + dx, t.y + dy )
-		arrow.width = 1
-		arrow:setColor(255, 0, 0)
+		local arrow = display.newImageRect("ships/blaster_red.png", 23, 6)
+		arrow.x, arrow.y = g.x, g.y
+		arrow.rotation = math.deg(math.atan2((t.y - g.y), (t.x - g.x)))
+		-- local arrow = display.newLine(g.x,g.y, t.x + dx, t.y + dy )
+		-- arrow.width = 1
+		-- arrow:setColor(255, 0, 0)
 		group:insert(arrow)
 		
-		transition.to(arrow, {time=250, alpha=0, onComplete=function ()
+		transition.to(arrow, {time=250, x=t.x+dx, y=t.y+dy, alpha=0.5, onComplete=function ()
 			arrow:removeSelf()
+			-- BOM!!!
+			createExplosion(t.x + dx, t.y + dy)
 		end})
-
-		-- BOM!!!
-		createExplosion(t.x + dx, t.y + dy)
 	
 		if (t == selectedObject) then
 			showInfo(t)
