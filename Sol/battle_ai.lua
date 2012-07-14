@@ -6,6 +6,8 @@
 
 require "notifications"
 
+local Particles = require("lib_particle_candy")
+
 local soundBlaster = audio.loadStream("sounds/blaster.m4a")
 
 -----------------------------------------------------------------------------------------
@@ -115,6 +117,9 @@ function destroyShip(g)
 
 	if g.parent then
 		-- g:removeSelf()
+		if g.trail then
+			Particles.DeleteEmitter(g.trail)
+		end
 		g.parent:remove(g)
 	end
 end
@@ -187,8 +192,12 @@ function attackShipAI(g)
 			-- blaster line
 			local arrow = nil
 
-			if g.enemy then
+			if g.name2 == "fighter" then
+				arrow = display.newImageRect("ships/blaster_red.png", 10, 2)
+			elseif g.enemy then
 				arrow = display.newImageRect("ships/blaster_red.png", 23, 6) -- display.newLine(g.x,g.y, t.x + dx, t.y + dy )
+			elseif g.name == "fighter" then
+				arrow = display.newImageRect("ships/blaster.png", 10, 2)
 			else
 				arrow = display.newImageRect("ships/blaster.png", 23, 6)
 			end
@@ -304,13 +313,13 @@ function attackPlanetAI(g, t)
 			end
 		end
 		
-		dx = -2*p.r + math.random(4*p.r)
-		dy = -2*p.r + math.random(4*p.r)
+		dx = -t.r + math.random(2*t.r)
+		dy = -t.r + math.random(2*t.r)
 
 		-- blaster line
 		local arrow = display.newImageRect("ships/blaster_red.png", 23, 6)
 		arrow.x, arrow.y = g.x, g.y
-		arrow.rotation = math.deg(math.atan2((t.y - g.y), (t.x - g.x)))
+		arrow.rotation = math.deg(math.atan2((t.y+dy - g.y), (t.x+dx - g.x)))
 		-- local arrow = display.newLine(g.x,g.y, t.x + dx, t.y + dy )
 		-- arrow.width = 1
 		-- arrow:setColor(255, 0, 0)

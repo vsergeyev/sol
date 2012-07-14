@@ -11,6 +11,12 @@ require "battle_ai"
 
 local movieclip = require "movieclip"
 
+local Particles = require("lib_particle_candy")
+Particles.CreateParticleType ("trail_explorer", {imagePath="ships/trail.png", imageWidth=24, imageHeight=24, velocityStart=10, lifeTime=1500, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
+Particles.CreateParticleType ("trail_trade", {imagePath="ships/trail.png", imageWidth=12, imageHeight=12, velocityStart=10, lifeTime=1500, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
+Particles.CreateParticleType ("trail_destroyer", {imagePath="ships/trail.png", imageWidth=12, imageHeight=12, velocityStart=10, lifeTime=1500, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
+Particles.CreateParticleType ("trail_fighter", {imagePath="ships/trail.png", imageWidth=10, imageHeight=10, velocityStart=10, lifeTime=1500, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
+
 local baseImpulse = 150
 local maxImpulseMoveSize = 150
 local rand = math.random
@@ -33,7 +39,7 @@ function buildShip(e)
 
 	if t.res.cost <= gold then
 		-- build ship
-		if (t.ship == "carier") or (t.ship == "cruiser") or (t.ship == "fighter") or (t.ship == "trade") or (t.ship == "explorer") or (t.ship == "destroyer") then
+		if (t.ship == "carier") or (t.ship == "cruiser") then
 			local p = "ships/"..t.ship.."/"
 			ship = movieclip.newAnim({p.."1.png", p.."2.png", p.."3.png", p.."3.png", p.."3.png", p.."3.png", p.."3.png"})
 			ship:setSpeed(0.15)
@@ -98,6 +104,15 @@ function buildShip(e)
 		end
 
 		gameStat.ships = gameStat.ships + 1
+
+		-- Particles
+		if (t.ship == "explorer") or (t.ship == "trade") or (t.ship == "destroyer") or (t.ship == "fighter") then
+			ship.trail = "ship"..gameStat.ships
+			Particles.CreateEmitter(ship.trail, 0, 0, 0, false, true, true)
+			Particles.AttachParticleType(ship.trail, "trail_"..t.ship, 15, 3000, 1000)
+			Particles.SetEmitterTarget(ship.trail, ship, true, -90, ship.res.trailX, 0)
+			Particles.StartEmitter(ship.trail, false)
+		end
 	else
 		showBaloon("Need more resources: \n"..t.res.cost.." MC")
 	end
@@ -131,6 +146,7 @@ function colonizeIt()
 			if colonizationShip == selectedObject then
 				showInfo(nil)
 			end
+			Particles.DeleteEmitter(colonizationShip.trail)
     		colonizationShip:removeSelf()
     	end, 1 )
     end

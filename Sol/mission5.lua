@@ -23,8 +23,8 @@ physics.setGravity(0, 0)
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
-	gold = 100
-	levelNow = 2
+	gold = 300
+	levelNow = 5
 	gameStat = {
 		money = 0,
 		ships = 0,
@@ -35,13 +35,14 @@ function scene:createScene( event )
 	-- Position camera on Earth
 	group.x = -1700
 	group.y = 250
-
-	table.insert(gameTimers, timer.performWithDelay(500, addAlienStations, 1 ))
 end
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	physics.start()
+
+	table.insert(gameTimers, timer.performWithDelay(500, addAlienStations, 1 ))
+
 	enterLevel()
 end
 

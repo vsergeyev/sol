@@ -35,8 +35,6 @@ function scene:createScene( event )
 	-- Position camera on Earth
 	group.x = -1700
 	group.y = 250
-
-	table.insert(gameTimers, timer.performWithDelay(500, addAlienStations, 1 ))
 end
 
 -- Called immediately after scene has moved onscreen:

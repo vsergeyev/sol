@@ -22,7 +22,8 @@ shipsData = {
 			w = 150,
 			h = 50,
 			r = 0,
-			autofigth = false
+			autofigth = false,
+			trailX = -55
 		}
 	},
 	{
@@ -39,7 +40,8 @@ shipsData = {
 			w = 90,
 			h = 24,
 			r = 0,
-			autofigth = false
+			autofigth = false,
+			trailX = -40
 		}
 	},
 	{
@@ -65,8 +67,8 @@ shipsData = {
 		name = "fighter",
 		ship = "fighter",
 		res = {
-			hp = 20,
-			shield = 20,
+			hp = 40,
+			shield = 0,
 			speed = 4,
 			attack = 5,
 			cost = 10,
@@ -74,7 +76,8 @@ shipsData = {
 			w = 16,
 			h = 9,
 			r = 0,
-			autofigth = true
+			autofigth = true,
+			trailX = -10
 		}
 	},
 	{
@@ -91,7 +94,8 @@ shipsData = {
 			w = 48,
 			h = 25,
 			r = 0,
-			autofigth = false
+			autofigth = false,
+			trailX = -22
 		},
 	},
 	{
@@ -159,8 +163,8 @@ aliensData = {
 		name = "fighter",
 		ship = "aliens",
 		res = {
-			hp = 50,
-			shield = 10,
+			hp = 60,
+			shield = 0,
 			speed = 1.5,
 			attack = 3,
 			cost = 20,

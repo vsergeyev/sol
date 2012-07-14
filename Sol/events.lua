@@ -7,6 +7,7 @@
 require "info"
 require "hud"
 
+local Particles = require("lib_particle_candy")
 
 -----------------------------------------------------------------------------------------
 -----------------------------------------------------------------------------------------
@@ -203,6 +204,8 @@ function frameHandler( e )
 	if selectOverlay then
 		selectOverlay.rotation = selectOverlay.rotation + 1
 	end
+
+	Particles.Update()
 
 	if s then
 		if s.nameType == "ship" then

@@ -57,8 +57,8 @@ From other hand we don't know their goals. Prepare our battle ships to meet inco
 
 [Moon outpost]: They don't responding to our welcome transmissions. Oh shi....]],
 		spawn = {
-			aliens = 5,
-			cruisers = 1,
+			aliens = 10,
+			cruisers = 0,
 			times = 1,
 			delay = 0,
 			target = "earth"
