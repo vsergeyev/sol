@@ -288,6 +288,9 @@ function addPlanets()
 		local a = display.newImageRect("i/asteroid.png", 50, 50)
 		a.x, a.y = 1000, 500
 		a.r = 50
+		a.res = {
+			w = 50
+		}
 		a.speed = d.speed
 		a.x0, a.y0 = 100, screenH - 100
 		a.orbit = d.orbit

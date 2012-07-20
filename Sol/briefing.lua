@@ -34,7 +34,7 @@ function showBriefing()
 	planet.x, planet.y = screenW/2, screenH/2
 	p:insert(planet)
 
-	local infoText = display.newText(l.task, 30, screenH-100, 600, 400, native.systemFont, 18)
+	local infoText = display.newText(l.task, 30, screenH-100, 600, 400, native.systemFont, 22)
 	infoText:setTextColor(0, 200, 100)
 	p:insert(infoText)
 	local tmr = timer.performWithDelay(50, function (e)

@@ -4,6 +4,8 @@
 --
 -----------------------------------------------------------------------------------------
 
+require "utils"
+
 isPause = false
 oneTouchBegan = false
 touchesPinch = {}
@@ -57,6 +59,8 @@ display.setStatusBar( display.HiddenStatusBar )
 
 -- include the Corona "storyboard" module
 local storyboard = require "storyboard"
+
+utils.showFps();
 
 -- load menu screen
 storyboard.gotoScene( "menu" )

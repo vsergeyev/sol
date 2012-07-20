@@ -36,7 +36,7 @@ local V = {}
 ----------------------------------------------------------------
 -- CHANGE THIS TO YOUR NEEDS:
 ----------------------------------------------------------------
-V.debug 		= true
+V.debug 		= false
 V.gGravity		= 0.98
 V.gEmitterColorR	= 255
 V.gEmitterColorG	= 255

@@ -103,6 +103,11 @@ function destroyShip(g)
 		g.battleTimer = nil
 	end
 
+	if g.planetTimer then
+		timer.cancel( g.planetTimer )
+		g.planetTimer = nil
+	end
+
 	-- clear target on linked ships
 	for i = 1, group.numChildren, 1 do
 		local g0 = group[i]
@@ -180,7 +185,7 @@ function attackShipAI(g)
 			torpedo.enemy = false
 			torpedo.res = {
 				speed = 5,
-				ttl = 0.7,
+				ttl = 1,
 				tx = tx,
 				ty = ty,
 				attack = g.res.attack
@@ -287,7 +292,7 @@ end
 function attackPlanetAI(g, t)
 	if isPause then return end
 
-	if g.res.attack then
+	if g.res and g.res.attack then
 		-- piu-piu
 		if t.res.population > 0 then
 			k = 100
@@ -317,7 +322,12 @@ function attackPlanetAI(g, t)
 		dy = -t.r + math.random(2*t.r)
 
 		-- blaster line
-		local arrow = display.newImageRect("ships/blaster_red.png", 23, 6)
+		local arrow = nil
+		if g.name2 == "fighter" then
+			arrow = display.newImageRect("ships/blaster_red.png", 10, 2)
+		else
+			arrow = display.newImageRect("ships/blaster_red.png", 23, 6)
+		end
 		arrow.x, arrow.y = g.x, g.y
 		arrow.rotation = math.deg(math.atan2((t.y+dy - g.y), (t.x+dx - g.x)))
 		-- local arrow = display.newLine(g.x,g.y, t.x + dx, t.y + dy )

@@ -103,7 +103,7 @@ function on_touch( event )
         end
     elseif event.phase == "moved" then
         UpdateTouch(event)
-        
+
         --verify if i have at least 2 touches
         if( CountDictionary(touchesPinch) >= 2 ) then
             oneTouchBegan = false
@@ -140,11 +140,11 @@ function on_touch( event )
             group.x = groupX + (e.x - e.xStart)
             group.y = groupY + (e.y - e.yStart)
 
-            sky.x = sky.x0 + (e.x - e.xStart) / 5
-            sky.y = sky.y0 + (e.y - e.yStart) / 10
+            sky.x = sky.x0 + (e.x - e.xStart) / 3
+            sky.y = sky.y0 + (e.y - e.yStart) / 6
 
-            groupSky.sky.x = sky.x0 + (e.x - e.xStart) / 10
-            groupSky.sky.y = sky.y0 + (e.y - e.yStart) / 20
+            -- groupSky.sky.x = sky.x0 + (e.x - e.xStart) / 10
+            -- groupSky.sky.y = sky.y0 + (e.y - e.yStart) / 20
 
             if (sky.x > sky.width/2) then
                 sky.x = sky.width/2
@@ -162,6 +162,7 @@ function on_touch( event )
  
     elseif event.phase == "ended" or event.phase == "cancelled" then
         --remove this touch from list
+        oneTouchBegan = false
         touchesPinch[ event.id ]  = nil
         lastDistance    = -1
         zoomObject.touching = false

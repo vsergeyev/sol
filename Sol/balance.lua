@@ -113,7 +113,8 @@ shipsData = {
 			h = 60,
 			r = 0,
 			autofigth = false,
-			torpedos = true
+			torpedos = true,
+			trailX = -80
 		},
 	},
 	{

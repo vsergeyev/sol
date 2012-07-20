@@ -14,6 +14,8 @@ local halfW, halfH = mapW/2, mapH/2
 
 -----------------------------------------------------------------------------------------
 function gotoMinimap( e )
+	touchesPinch[ e.id ]  = nil
+
 	if selectedObject and selectedObject.nameType == "ship" then
 		selectedObject = nil
 		showInfo(nil)

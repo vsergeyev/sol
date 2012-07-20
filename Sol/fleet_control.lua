@@ -12,10 +12,11 @@ require "battle_ai"
 local movieclip = require "movieclip"
 
 local Particles = require("lib_particle_candy")
-Particles.CreateParticleType ("trail_explorer", {imagePath="ships/trail.png", imageWidth=24, imageHeight=24, velocityStart=10, lifeTime=1500, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
-Particles.CreateParticleType ("trail_trade", {imagePath="ships/trail.png", imageWidth=12, imageHeight=12, velocityStart=10, lifeTime=1500, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
-Particles.CreateParticleType ("trail_destroyer", {imagePath="ships/trail.png", imageWidth=12, imageHeight=12, velocityStart=10, lifeTime=1500, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
-Particles.CreateParticleType ("trail_fighter", {imagePath="ships/trail.png", imageWidth=10, imageHeight=10, velocityStart=10, lifeTime=1500, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
+Particles.CreateParticleType ("trail_explorer", {imagePath="ships/trail.png", imageWidth=24, imageHeight=24, velocityStart=10, lifeTime=1000, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
+Particles.CreateParticleType ("trail_trade", {imagePath="ships/trail.png", imageWidth=12, imageHeight=20, velocityStart=10, lifeTime=1000, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
+Particles.CreateParticleType ("trail_destroyer", {imagePath="ships/trail.png", imageWidth=12, imageHeight=20, velocityStart=10, lifeTime=500, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
+Particles.CreateParticleType ("trail_fighter", {imagePath="ships/trail.png", imageWidth=10, imageHeight=15, velocityStart=10, lifeTime=250, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=50, killOutsideScreen = true})
+Particles.CreateParticleType ("trail_cruiser", {imagePath="ships/trail.png", imageWidth=20, imageHeight=20, velocityStart=10, lifeTime=1000, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
 
 local baseImpulse = 150
 local maxImpulseMoveSize = 150
@@ -27,11 +28,15 @@ local soundEngine = audio.loadStream("sounds/engine.m4a")
 local soundShipReady = audio.loadStream("sounds/shipready.m4a")
 
 -----------------------------------------------------------------------------------------
-function buildShip(e)
+function buildShip(e, noevent)
 	-- Builds ship on the planet
 	-- or on Carrier / Station
 
 	if isPause then return end
+
+	if not noevent then
+		touchesPinch[ e.id ]  = nil
+	end
 
 	local t = e.target
 	local p = selectedObject
@@ -39,7 +44,7 @@ function buildShip(e)
 
 	if t.res.cost <= gold then
 		-- build ship
-		if (t.ship == "carier") or (t.ship == "cruiser") then
+		if (t.ship == "carier") then
 			local p = "ships/"..t.ship.."/"
 			ship = movieclip.newAnim({p.."1.png", p.."2.png", p.."3.png", p.."3.png", p.."3.png", p.."3.png", p.."3.png"})
 			ship:setSpeed(0.15)
@@ -106,10 +111,10 @@ function buildShip(e)
 		gameStat.ships = gameStat.ships + 1
 
 		-- Particles
-		if (t.ship == "explorer") or (t.ship == "trade") or (t.ship == "destroyer") or (t.ship == "fighter") then
+		if (t.ship == "explorer") or (t.ship == "trade") or (t.ship == "destroyer") or (t.ship == "fighter") or (t.ship == "cruiser") then
 			ship.trail = "ship"..gameStat.ships
 			Particles.CreateEmitter(ship.trail, 0, 0, 0, false, true, true)
-			Particles.AttachParticleType(ship.trail, "trail_"..t.ship, 15, 3000, 1000)
+			Particles.AttachParticleType(ship.trail, "trail_"..t.ship, 10, 3000, 1000)
 			Particles.SetEmitterTarget(ship.trail, ship, true, -90, ship.res.trailX, 0)
 			Particles.StartEmitter(ship.trail, false)
 		end
@@ -343,12 +348,19 @@ function targetShips(e)
 				if not g.is_station then
 					g.rotation = math.deg(math.atan2((planet.y - g.y), (planet.x - g.x)))
 				end
-				local k = 1
-				if g.name == "fighter" then
-					k = 0.1
-				end
-				impulseShip(g, planet.x-g.x, planet.y-g.y, k)
+				
+				-- ship maybe near planet, inside of sensors physics body
+				if (g.name ~="trade") and (math.abs(planet.x - g.x) < 2*planet.r) and (math.abs(planet.y - g.y) < 2*planet.r) then
+					g.targetReached = true
+					g:setLinearVelocity(0, 0)
+				else
+					local k = 1
+					if g.name == "fighter" then
+						k = 0.1
+					end
+					impulseShip(g, planet.x-g.x, planet.y-g.y, k)
 				-- print(g.fullName.." go to planet "..g.targetPlanet.fullName)
+				end
 			end
 
 			-- alien mothership

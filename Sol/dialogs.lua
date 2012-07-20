@@ -81,7 +81,7 @@ function showPauseDlg(e)
 end
 
 -----------------------------------------------------------------------------------------
-function showSurvivalDlg(e, text, isVictory)
+function showSurvivalDlg(e, text, isVictory, mode)
 	-- Mission/VICTORY in Survival mode
 
 	-- pause game
@@ -101,7 +101,12 @@ function showSurvivalDlg(e, text, isVictory)
 	local bg = display.newImage("ui/planet.png")
 	p:insert(bg)
 
-	local infoTitle = display.newText("Survival mode", dx + 20, dy + 20, 600, 40, native.systemFont, 24)
+	local title_text = "Survival mode"
+	if mode then
+		title_text = mode
+	end
+
+	local infoTitle = display.newText(title_text, dx + 20, dy + 20, 600, 40, native.systemFont, 24)
 	infoTitle:setTextColor(0, 200, 100)
 	p:insert(infoTitle)
 
@@ -109,7 +114,7 @@ function showSurvivalDlg(e, text, isVictory)
 	if isVictory then
 		infoText = display.newText(text, 400, 200, 400, 200, native.systemFont, 48)
 	else
-		infoText = display.newText(text, dx + 20, dy + 100, 600, 300, native.systemFont, 18)
+		infoText = display.newText(text, dx + 20, dy + 100, 600, 300, native.systemFont, 22)
 	end
 	infoText:setTextColor(0, 200, 100)
 	p:insert(infoText)

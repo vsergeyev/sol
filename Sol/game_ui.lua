@@ -10,6 +10,8 @@ require "dialogs"
 -----------------------------------------------------------------------------------------
 function gamePause(e)
 	-- Pause / Resume
+	touchesPinch[ e.id ]  = nil
+
 	if e.phase == "ended" then
 		isPause = not isPause
 		if isPause then
@@ -25,6 +27,8 @@ end
 
 -----------------------------------------------------------------------------------------
 function gameMenu(e)
+	touchesPinch[ e.id ]  = nil
+
 	if e.phase == "ended" then
 		purgeTimers()
 		storyboard.gotoScene( "menu", "fade", 500 )
@@ -38,6 +42,8 @@ end
 
 -----------------------------------------------------------------------------------------
 function gameRestart(e)
+	touchesPinch[ e.id ]  = nil
+
 	if e.phase == "ended" then
 		purgeTimers()
 		storyboard.reloadScene()

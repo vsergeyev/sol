@@ -50,7 +50,7 @@ function scene:createScene( event )
 	title.alpha = 0
 	group:insert(title)
 	
-	local btnsX, btnsY = 100, screenH-240
+	local btnsX, btnsY = 100, screenH-300
 	-- Buttons
 	local cButton = addButton("Campaign", btnsX, btnsY, function (e)
 		purgeTimers()
@@ -66,7 +66,14 @@ function scene:createScene( event )
 		storyboard.gotoScene( "level1", "fade", 500 )
 	end)
 
-	local aButton = addButton("Credits", btnsX, btnsY + 160, function (e)
+	local ssButton = addButton("Assault", btnsX, btnsY + 160, function (e)
+		purgeTimers()
+		isPause = false
+		storyboard.removeScene( "level2" )
+		storyboard.gotoScene( "level2", "fade", 500 )
+	end)
+
+	local aButton = addButton("Credits", btnsX, btnsY + 240, function (e)
 		purgeTimers()
 		isPause = false
 		storyboard.removeScene( "about" )

@@ -138,31 +138,32 @@ function moveAutopilot( e )
 				g.alphaR = g.alphaR + 0.005
 			end
 
-			--if not g.on_carrier then
-				if g.is_station then
-					g.rotation = 0
-				elseif g.enemy and p.res.colonized then
-					g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
-					timer.performWithDelay(math.random(200), function()
-						attackPlanetAI(g, p)
-					end, 1)
-				else
-					g.rotation = math.deg(-g.alphaR)
-				end
-				-- g.x = p.x + g.orbit*p.r * math.sin(g.alphaR)
-				-- g.y = p.y + g.orbit*p.r/1.5 * math.cos(g.alphaR)
-				x2 = p.x + 1.5*g.orbit*p.r * math.sin(g.alphaR)
-				y2 = p.y + g.orbit*p.r * math.cos(g.alphaR)
+			if g.is_station then
+				g.rotation = 0
+			elseif g.enemy and p.res and p.res.colonized then
+				g.rotation = math.deg(math.atan2((p.y - g.y), (p.x - g.x)))
+				g.planetTimer = timer.performWithDelay(math.random(200), function()
+					attackPlanetAI(g, p)
+				end, 1)
+			else
+				g.rotation = math.deg(-g.alphaR)
+				--print(g.targetPlanet)
+				--print(g.name)
+				--print(g.rotation)
+			end
 
-				local k = 0.8 + math.random(10) / 20
-				if g.name == "fighter" then
-					k = 1 -- + math.random(10) / 20
-				end
-				if g.name2 == "fighter" then
-					k = 0.5
-				end
-				impulseShip(g, x2-g.x, y2-g.y, k)
-			--end
+			x2 = p.x + 1.5*g.orbit*p.r * math.sin(g.alphaR)
+			y2 = p.y + g.orbit*p.r * math.cos(g.alphaR)
+
+			local k = 0.8 + math.random(10) / 20
+			if g.name == "fighter" then
+				k = 1 -- + math.random(10) / 20
+			end
+			if g.name2 == "fighter" then
+				k = 0.5
+			end
+
+			impulseShip(g, x2-g.x, y2-g.y, k)
 		elseif g and g.nameType == "torpedo" then
 			g.rotation = math.deg(math.atan2((g.res.ty - g.y), (g.res.tx - g.x)))
 			impulseShip(g, g.res.tx-g.x, g.res.ty-g.y, 0.5)
@@ -181,12 +182,9 @@ end
 function selectPlanet( e )
 	if isPause then return end
 
-	local t = e.target
-
 	touchesPinch[ e.id ]  = nil
-
-	if e.phase == "ended" or e.phase == "cancelled" then
-		showInfo(t)
+	if e.phase == "began" then
+		showInfo(e.target)
 	end
 
 	return true

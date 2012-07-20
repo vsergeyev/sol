@@ -1,10 +1,9 @@
 -----------------------------------------------------------------------------------------
 --
--- level1.lua
+-- level2.lua
 --
 -----------------------------------------------------------------------------------------
 
---system.activate("multitouch")
 local mtouch = require( "mtouch" )
 
 local storyboard = require( "storyboard" )
@@ -19,15 +18,10 @@ physics.start(); physics.pause()
 -- physics.setDrawMode('hybrid')
 physics.setGravity(0, 0)
 
-local Particles = require("lib_particle_candy")
-require "level1_res"
-local Group = initClouds()
-
 --------------------------------------------
 
 require "events"
 require "planets"
-require "create_scene"
 require "hud"
 require "minimap_ui"
 require "economy"
@@ -36,13 +30,10 @@ require "aliens"
 require "ai"
 require "notifications"
 require "dialogs"
+require "level2_res"
 
-gold = 500
+gold = 590
 levelNow = nil
-local skirmishLevel = 1
-local skirmishDelay = 60000 -- 60000
-local soundAlert = audio.loadStream("sounds/alert.m4a")
-
 local win_condition_timer = nil
 
 -----------------------------------------------------------------------------------------
@@ -56,22 +47,24 @@ local win_condition_timer = nil
 function winCondition( e )
 	if isPause then return end
 
+	local win = true
+	local not_lost = false
+	for i = 1, group.numChildren, 1 do
+		local g = group[i]
+		if g.nameType == "ship" and g.enemy then
+			win = false
+		elseif g.nameType == "ship" and not g.enemy then
+			not_lost = true
+		end
+	end
+
 	-- Victory condition
-	if portalDestroyed then
+	if win then
 		timer.cancel(win_condition_timer)
 		showSurvivalVictoryDlg(e)
 		return true
 	end
 
-	-- Lost condition
-	local not_lost = false
-	for i = 1, #group.planets, 1 do
-		local g = group.planets[i]
-		if g.res and g.res.colonized then
-			not_lost = true
-			break
-		end
-	end
 	if not not_lost then
 		timer.cancel(win_condition_timer)
 		showSurvivalDlg( e, "You lost!", true )
@@ -80,51 +73,6 @@ function winCondition( e )
 end
 
 -----------------------------------------------------------------------------------------
-function skirmishBattle( e )
-	if isPause then return end
-
-	showBaloon("ALERT! ALERT! ALERT!\n\nFleet #"..skirmishLevel.." incoming")
-	if isMusic then
-		audio.play(soundAlert)
-	end
-	
-	if skirmishLevel == 1 then
-		for i=1, 5, 1 do
-			addAlienShip(group.earth, 1)
-		end
-		addAlienShip(group.earth, 4)
-	elseif skirmishLevel < 6 then
-		local count = 5 * skirmishLevel
-		for i=1, count, 1 do
-			addAlienShip(group.earth, 1)
-		end
-		addAlienShip(group.earth, 4)
-	elseif skirmishLevel < 10 then
-		local count = 3 * skirmishLevel
-		for i=1, count, 1 do
-			addAlienShip(nil, 1)
-		end
-		for i=1, skirmishLevel, 1 do
-			addAlienShip(nil, 2)
-		end
-		
-		addAlienShip(group.earth, 4)
-	else
-		for i=1, 20, 1 do
-			addAlienShip(nil, 1)
-		end
-		for i=1, 5, 1 do
-			addAlienShip(nil, 2)
-		end
-
-		addAlienShip(group.earth, 4)
-		addAlienShip(group.earth, 4)
-
-		addAlienShip(group.earth, 5)
-	end
-
-	skirmishLevel = skirmishLevel + 1
-end
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
@@ -136,13 +84,12 @@ function scene:createScene( event )
 	groupPinch = display.newGroup()
 
 	group0:insert(groupSky)
-	group0:insert(Group)
 	group0:insert(group)
 	group0:insert(groupHud)
 	group0:insert(groupNotifications)
 	group0:insert(groupPinch)
 
-	local sky = display.newImageRect("bg/sun_nasa.png", 2048, 1351) --1700, 1200)
+	local sky = display.newImageRect("bg/sol_nasa.png", 2000, 1125) --1700, 1200)
 	sky:setReferencePoint( display.CenterReferencePoint )
 	sky.x, sky.y = screenW/2, screenH/2
 	sky.alpha = 1
@@ -150,15 +97,7 @@ function scene:createScene( event )
 	groupSky.shine = sky
 	-- sky:addEventListener('touch', moveBg)
 	
-	local sky2 = display.newImageRect("bg/bg22.png", 1944, 1458) -- 1280, 852)	
-	sky2:setReferencePoint( display.CenterReferencePoint )
-	sky2.x, sky2.y = screenW/2, screenH/2
-	sky2.alpha = 0.8
-	groupSky:insert(sky2)
-	groupSky.sky = sky2
-
-	--createSun()
-	addPlanets()
+	addPlanets2()
 	addHud()
 	refreshMinimap()
 
@@ -166,19 +105,13 @@ function scene:createScene( event )
 	mtouch.setOnZoomIn( OnZoomIn  ) 
 	mtouch.setOnZoomOut( OnZoomOut  )
 
-	-- Test planets positions with smaller zoom
-	-- group.xScale = 0.5
-	-- group.yScale = 0.5
-
 	-- Timers
 	table.insert(gameTimers, timer.performWithDelay(300, moveAutopilot, 0 ))
-	-- table.insert(gameTimers, timer.performWithDelay(6000, hightlightSun, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(3000, refreshMinimap, 0 ))
-	table.insert(gameTimers, timer.performWithDelay(10000, populationGrow, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(5000, targetShips, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(1000, repairCarrier, 0 ))
-	win_condition_timer = timer.performWithDelay(2000, winCondition, 0 )
-	table.insert(gameTimers, win_condition_timer)
+	-- win_condition_timer = timer.performWithDelay(2000, winCondition, 0 )
+	-- table.insert(gameTimers, win_condition_timer)
 
 	if isMusic then
 		local soundTheme = audio.loadStream("sounds/level1.m4a")
@@ -193,75 +126,33 @@ function scene:createScene( event )
 	table.insert(gameTimers, timer.performWithDelay(100, movePlanets, 0 ))
 	table.insert(gameTimers, timer.performWithDelay(500, addAlienStations, 1 ))
 
-	-- Portal to other System
-	local t = "aliens/portal/"
-	p = movieclip.newAnim({t.."1.png", t.."2.png", t.."3.png", t.."4.png", t.."5.png"})
-	p:setSpeed(0.2)
-	p:play()
-	p.r = 50
-	p.speed = 0.5
-	p.x, p.y = 7200, -1700
-	p.fullName = "Wormhole portal"
-	p.name = "portal"
-	p.nameType = "ship"
-	p.enemy = true
-	p.hp = 10000
-	p.shield = 0
-	p.res = {
-		hp = 10000,
-		shield = 0,
-		speed = 0.5,
-		attack = 0,
-		w = 100,
-		h = 100
-	}
-	p:addEventListener('touch', selectShip)
-	physics.addBody(p, {radius=100, friction=0, filter=aliensCollisionFilter})
-	p.isSensor = true
-	p:addEventListener('collision', collisionShip)
-	group:insert(p)
-
-	table.insert(gameTimers, timer.performWithDelay(skirmishDelay, skirmishBattle, 0 ))
+	addShips()
+	addAliens()
 
 	-- Frame handlers
 	Runtime:addEventListener( "enterFrame", frameHandler )
 
-	-- Position camera on Earth
-	group.x = -1350
-	group.y = 250
-
-
-	timer.performWithDelay(100, function (e)
-		-- UPDATE PARTICLES
-		Particles.Update()
-		
-		-- GIVE COLOR VARIATION
-		brightness = math.random()*128
-		Particles.SetParticleProperty("Stars1" , "colorStart", {brightness,brightness,brightness+25}) 
-		Particles.SetParticleProperty("Stars2" , "colorStart", {brightness,brightness,100}) 
-
-		-- ROTATE ALL PARTICLES
-		-- Group.rotation = math.sin(system.getTimer()/5000)*60
-	end, 0)
+	-- Position camera on Portal
+	group.x, group.y = 7200+screenW/2, -1700+screenH/2
 end
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local group = self.view
 	
+	for i = 1, #planetsData, 1 do
+		groupHud.planets.buttons[i][1].alpha = 0
+		groupHud.planets.buttons[i][2].alpha = 0
+		groupHud.fleet.buttons[i][1].alpha = 0
+		groupHud.fleet.buttons[i][2].alpha = 0
+	end
+
 	physics.start()
 
 	showInfo(selectedObject)
-	showSurvivalDlg( event, [[Survive in the waves of enemies.
+	showSurvivalDlg( event, [[Eliminate all alien presence in this sector
 
-Next wave will arrive in 60 sec.
-
-Victory condition: find Wormhole portal and destroy it.
-
-Good luck, Captain!]] )
-	
-	-- showSurvivalVictoryDlg(e)
-	-- showSurvivalDlg( e, "You lost!", true )
+Good luck, Captain!]], false, "Assault mode")
 end
 
 -- Called when scene is about to move offscreen:
