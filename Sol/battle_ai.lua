@@ -113,11 +113,17 @@ function destroyShip(g)
 		local g0 = group[i]
 		if g0.battleTarget == g then
 			outOfBattle(g0)
+		elseif g0.targetPlanet == g then
+			g0.targetPlanet = nil
 		end
 	end
 
 	if g.name == "portal" then
 		portalDestroyed = true
+	end
+
+	if g.on_carrier then
+		g.targetPlanet.fighters = g.targetPlanet.fighters - 1
 	end
 
 	if g.parent then
@@ -170,6 +176,31 @@ function attackShipAI(g)
 	local tx, ty, tw, th, tr = t.x, t.y, t.res.w, t.res.h, t.rotation
 	local shieldAttacked = false
 	local dx, dy = 0, 0 -- point on ship, where atack made
+	-- blaster line
+	local arrow = nil
+
+	local function attackComplete ()
+		arrow:removeSelf()
+	
+		-- BOM!!!
+		local explosion = nil
+		if shieldAttacked then -- Shield splash animation
+			explosion = display.newImageRect("i/shield.png", tw*1.3, th*1.3)
+			explosion.x, explosion.y = tx, ty
+			explosion.rotation = tr
+			explosion.alpha = 0.1
+
+			group:insert(explosion)
+
+			transition.to(explosion, {time=100, alpha=0.3})
+			transition.to(explosion, {delay=100, time=200, alpha=0, onComplete=function ()
+				explosion:removeSelf()
+			end})
+		else -- Explosion, ship hul
+			-- audio.play(soundBlaster)
+			createExplosion(tx + dx, ty + dy)
+		end
+	end
 
 	if g.res.attack then -- and math.random(10) > 5 then
 		-- piu-piu
@@ -194,44 +225,29 @@ function attackShipAI(g)
 			torpedo.isSensor = true
 			group:insert(torpedo)
 		else
-			-- blaster line
-			local arrow = nil
-
 			if g.name2 == "fighter" then
-				arrow = display.newImageRect("ships/blaster_red.png", 10, 2)
+				-- arrow = display.newImageRect("ships/blaster_red.png", 10, 2)
+				arrow = display.newLine(g.x, g.y, t.x+dx, t.y+dy )
+				arrow:setColor(255, 0, 0)
 			elseif g.enemy then
 				arrow = display.newImageRect("ships/blaster_red.png", 23, 6) -- display.newLine(g.x,g.y, t.x + dx, t.y + dy )
 			elseif g.name == "fighter" then
-				arrow = display.newImageRect("ships/blaster.png", 10, 2)
+				-- arrow = display.newImageRect("ships/blaster.png", 10, 2)
+				arrow = display.newLine(g.x, g.y, t.x+dx, t.y+dy )
+				arrow:setColor(0, 0, 255)
 			else
 				arrow = display.newImageRect("ships/blaster.png", 23, 6)
 			end
-			arrow.x, arrow.y = g.x, g.y
-			arrow.rotation = math.deg(math.atan2((ty - g.y), (tx - g.x)))
-			group:insert(arrow)
 			
-			transition.to(arrow, {time=250, x=tx+dx, y=ty+dy, alpha=0.5, onComplete=function ()
-				arrow:removeSelf()
-			
-				-- BOM!!!
-				local explosion = nil
-				if shieldAttacked then -- Shield splash animation
-					explosion = display.newImageRect("i/shield.png", tw*1.3, th*1.3)
-					explosion.x, explosion.y = tx, ty
-					explosion.rotation = tr
-					explosion.alpha = 0.1
-
-					group:insert(explosion)
-
-					transition.to(explosion, {time=100, alpha=0.3})
-					transition.to(explosion, {delay=100, time=200, alpha=0, onComplete=function ()
-						explosion:removeSelf()
-					end})
-				else -- Explosion, ship hul
-					-- audio.play(soundBlaster)
-					createExplosion(tx + dx, ty + dy)
-				end
-			end})
+			if g.name == "fighter" or g.name2 == "fighter" then
+				group:insert(arrow)
+				transition.to(arrow, {time=250, alpha=0, onComplete=attackComplete})
+			else
+				arrow.x, arrow.y = g.x, g.y
+				arrow.rotation = math.deg(math.atan2((ty - g.y), (tx - g.x)))
+				group:insert(arrow)
+				transition.to(arrow, {time=250, x=tx+dx, y=ty+dy, alpha=0.5, onComplete=attackComplete})
+			end
 		end
 	end
 end

@@ -49,6 +49,7 @@ function showPauseDlg(e)
 	dlg:setFillColor(0)
 	dlg.alpha = 0.9
 	p:insert(dlg)
+	dlg:addEventListener('touch', function (e) return true end)
 
 	local bg = display.newImage("bg/bg2.png")
 	p:insert(bg)
@@ -95,6 +96,7 @@ function showSurvivalDlg(e, text, isVictory, mode)
 	dlg:setFillColor(0)
 	dlg.alpha = 0.9
 	p:insert(dlg)
+	dlg:addEventListener('touch', function (e) return true end)
 
 	local bg = display.newImage("bg/bg2.png")
 	p:insert(bg)
@@ -147,6 +149,7 @@ function showSurvivalVictoryDlg(e)
 	dlg:setFillColor(0)
 	dlg.alpha = 0.9
 	p:insert(dlg)
+	dlg:addEventListener('touch', function (e) return true end)
 
 	local bg = display.newImage("bg/bg2.png")
 	p:insert(bg)

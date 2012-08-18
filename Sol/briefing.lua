@@ -22,6 +22,7 @@ function showBriefing()
 	local dlg = display.newRect(0, 0, screenW, screenH)
 	dlg:setFillColor(0)
 	p:insert(dlg)
+	dlg:addEventListener('touch', function (e) return true end)
 
 	local bg = display.newImage("bg/bg2.png")
 	p:insert(bg)

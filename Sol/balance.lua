@@ -59,7 +59,8 @@ shipsData = {
 			h = 130,
 			r = 0,
 			autofigth = true,
-			is_station = true
+			is_station = true,
+			max_fighters = 10
 		}
 	},
 	{
@@ -134,9 +135,11 @@ shipsData = {
 			cost = 400,
 			e = 500,
 			w = 210,
-			h = 102,
+			h = 100,
 			r = 0,
-			autofigth = false
+			autofigth = false,
+			trailX = -105,
+			max_fighters = 10
 		},
 	},
 	{

@@ -32,7 +32,7 @@ require "notifications"
 require "dialogs"
 require "level2_res"
 
-gold = 590
+gold = 920
 levelNow = nil
 local win_condition_timer = nil
 
@@ -150,7 +150,10 @@ function scene:enterScene( event )
 	physics.start()
 
 	showInfo(selectedObject)
-	showSurvivalDlg( event, [[Eliminate all alien presence in this sector
+	showSurvivalDlg( event, [[Your fleet traveled through wormhole to the Sirius system. Eliminate all alien presence in this sector.
+
+Notes:
+Seek for asteroids, exploring them will give you additional funds.
 
 Good luck, Captain!]], false, "Assault mode")
 end

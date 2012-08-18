@@ -66,6 +66,9 @@ function createLevel(view)
 	sky2.alpha = 0.8 -- 0.1
 	groupSky:insert(sky2)
 	groupSky.sky = sky2
+	table.insert(gameTimers, timer.performWithDelay(60, function (e)
+		groupSky.sky.rotation = groupSky.sky.rotation + 0.1
+	end, 0 ))
 
 	--createSun()
 	addPlanets()

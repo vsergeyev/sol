@@ -7,7 +7,7 @@ function addShips()
 	-- Portal to other System
 	local t = "aliens/portal/"
 	p = movieclip.newAnim({t.."1.png", t.."2.png", t.."3.png", t.."4.png", t.."5.png"})
-	p:setSpeed(0.2)
+	p:setSpeed(0.07)
 	p:play()
 	p.r = 50
 	p.speed = 0.5
@@ -35,12 +35,15 @@ function addShips()
 	-- Add fleet
 	selectedObject = p
 	buildShip({target=shipsData[1]}, true)
-	buildShip({target=shipsData[1]}, true)
-	buildShip({target=shipsData[6]}, true)
-	buildShip({target=shipsData[6]}, true)
-	for i=1, 3, 1 do
-		buildShip({target=shipsData[5]}, true)
-	end
+	-- buildShip({target=shipsData[1]}, true)
+	-- buildShip({target=shipsData[2]}, true)
+	-- buildShip({target=shipsData[2]}, true)
+	-- buildShip({target=shipsData[6]}, true)
+	-- buildShip({target=shipsData[6]}, true)
+	buildShip({target=shipsData[7]}, true)
+	-- for i=1, 3, 1 do
+	-- 	buildShip({target=shipsData[5]}, true)
+	-- end
 end
 
 -----------------------------------------------------------------------------------------

@@ -52,6 +52,9 @@ function showInfo( item )
 			groupHud.title.text = item.name:sub(1,1):upper()..item.name:sub(2)
 		end
 		groupHud.text.text = ""
+		if item.fighters and item.fighters > 0 then
+			groupHud.title.text = groupHud.title.text.." ("..item.fighters.."f)"
+		end
 
 		-- print(item.nameType)
 		if item.nameType == "planet" then

@@ -17,6 +17,7 @@ Particles.CreateParticleType ("trail_trade", {imagePath="ships/trail.png", image
 Particles.CreateParticleType ("trail_destroyer", {imagePath="ships/trail.png", imageWidth=12, imageHeight=20, velocityStart=10, lifeTime=500, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
 Particles.CreateParticleType ("trail_fighter", {imagePath="ships/trail.png", imageWidth=10, imageHeight=15, velocityStart=10, lifeTime=250, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=50, killOutsideScreen = true})
 Particles.CreateParticleType ("trail_cruiser", {imagePath="ships/trail.png", imageWidth=20, imageHeight=20, velocityStart=10, lifeTime=1000, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
+Particles.CreateParticleType ("trail_carier", {imagePath="ships/trail.png", imageWidth=30, imageHeight=20, velocityStart=10, lifeTime=1000, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
 
 local baseImpulse = 150
 local maxImpulseMoveSize = 150
@@ -42,14 +43,14 @@ function buildShip(e, noevent)
 	local p = selectedObject
 	local ship = nil
 
+	if t.on_carrier and p.fighters >= p.res.max_fighters then
+		showBaloon("Limit fighters reached")
+		return true
+	end
+
 	if t.res.cost <= gold then
 		-- build ship
-		if (t.ship == "carier") then
-			local p = "ships/"..t.ship.."/"
-			ship = movieclip.newAnim({p.."1.png", p.."2.png", p.."3.png", p.."3.png", p.."3.png", p.."3.png", p.."3.png"})
-			ship:setSpeed(0.15)
-			ship:play()
-		elseif t.ship == "station" then
+		if t.ship == "station" then
 			local p = "ships/station/"
 			ship = movieclip.newAnim({p.."1.png", p.."2.png", p.."3.png", p.."4.png", p.."5.png", p.."6.png", p.."7.png", p.."8.png", p.."9.png", p.."10.png", p.."11.png", p.."12.png", p.."13.png", p.."17.png", p.."18.png"})
 			ship:setSpeed(0.2)
@@ -75,6 +76,7 @@ function buildShip(e, noevent)
 		ship.fullName = t.fullName
 		ship.name = t.ship
 		ship.res = t.res
+		ship.fighters = 0
 		ship.hp = t.res.hp -- res.hp == max/normal/100% hp
 		ship.shield = t.res.shield
 		ship.nameType = "ship"
@@ -97,6 +99,7 @@ function buildShip(e, noevent)
 			ship.on_carrier = true
 			ship.rotation = p.rotation
 			impulseShip(ship, 20, 10, 0.2)
+			p.fighters = p.fighters + 1
 		end
 
 		gold = gold - ship.res.cost
@@ -111,7 +114,7 @@ function buildShip(e, noevent)
 		gameStat.ships = gameStat.ships + 1
 
 		-- Particles
-		if (t.ship == "explorer") or (t.ship == "trade") or (t.ship == "destroyer") or (t.ship == "fighter") or (t.ship == "cruiser") then
+		if (t.ship == "explorer") or (t.ship == "trade") or (t.ship == "destroyer") or (t.ship == "fighter") or (t.ship == "cruiser") or (t.ship == "carier") then
 			ship.trail = "ship"..gameStat.ships
 			Particles.CreateEmitter(ship.trail, 0, 0, 0, false, true, true)
 			Particles.AttachParticleType(ship.trail, "trail_"..t.ship, 10, 3000, 1000)
@@ -199,11 +202,11 @@ function collisionShip(e)
 	elseif o.nameType == "asteroid" and not o.explored and t.name == "explorer" then
 		-- bonus for reserching asteroids
 		t:setLinearVelocity(0, 0)
-		gold = gold + 100
-		gameStat.money = gameStat.money + 100
+		gold = gold + 500
+		gameStat.money = gameStat.money + 500
 		o.explored = true
 		showInfo(selectedObject)
-		showBaloon(o.fullName.." explored: \n+100 MC")
+		showBaloon(o.fullName.." explored: \n+500 MC")
 	elseif o.nameType == "ship" and t.res.attack > 0 then
 		if t.enemy ~= o.enemy then
 			if not t.inBattle then
@@ -279,6 +282,7 @@ function selectShip( e )
 
 		if e.target.enemy then return true end
 		if e.target.name == "fighter" then return true end
+		if e.target.name == "portal" then return true end
 		if e.target.is_station then return true end
 		--
 
@@ -365,9 +369,10 @@ function targetShips(e)
 
 			-- alien mothership
 			-- build 2 fighters every 5 secs
-			if g.name2 == "ms" then
+			if g.name2 == "ms" and g.fighters < g.res.max_fighters then
 				addAlienShip(g, 1)
 				addAlienShip(g, 1)
+				g.fighters = g.fighters + 2
 			end
 		end
 	end

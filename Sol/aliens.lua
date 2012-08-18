@@ -57,6 +57,7 @@ function addAlienShip(target, shipKind)
 	ship.name = shipData.ship
 	ship.name2 = shipData.name
 	ship.res = shipData.res
+	ship.fighters = 0
 	ship.hp = ship.res.hp
 	ship.shield = ship.res.shield
 	ship.nameType = "ship"

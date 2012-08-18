@@ -21,7 +21,7 @@ settings = {
                     "Icon-72.png" , 
             },
             CFBundleDisplayName = "Sol control",
-            CFBundleVersion = "1.05",
+            CFBundleVersion = "1.06",
             CFBundleIdentifier = "G7VEJ27EVV.com.pythondevside.Sol"
 		}
 	},

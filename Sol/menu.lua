@@ -9,6 +9,8 @@ local scene = storyboard.newScene()
 
 require "events"
 
+local Particles = require("lib_particle_candy")
+
 local title = nil
 
 --------------------------------------------
@@ -55,6 +57,7 @@ function scene:createScene( event )
 	local cButton = addButton("Campaign", btnsX, btnsY, function (e)
 		purgeTimers()
 		isPause = false
+		Particles.WakeUp()
 		storyboard.removeScene( "mission1" )
 		storyboard.gotoScene( "mission1", "fade", 500 )
 	end)
@@ -62,6 +65,7 @@ function scene:createScene( event )
 	local sButton = addButton("Survival", btnsX, btnsY + 80, function (e)
 		purgeTimers()
 		isPause = false
+		Particles.WakeUp()
 		storyboard.removeScene( "level1" )
 		storyboard.gotoScene( "level1", "fade", 500 )
 	end)
@@ -69,6 +73,7 @@ function scene:createScene( event )
 	local ssButton = addButton("Assault", btnsX, btnsY + 160, function (e)
 		purgeTimers()
 		isPause = false
+		Particles.WakeUp()
 		storyboard.removeScene( "level2" )
 		storyboard.gotoScene( "level2", "fade", 500 )
 	end)

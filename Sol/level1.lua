@@ -156,6 +156,9 @@ function scene:createScene( event )
 	sky2.alpha = 0.8
 	groupSky:insert(sky2)
 	groupSky.sky = sky2
+	table.insert(gameTimers, timer.performWithDelay(60, function (e)
+		groupSky.sky.rotation = groupSky.sky.rotation + 0.1
+	end, 0 ))
 
 	--createSun()
 	addPlanets()
@@ -231,18 +234,18 @@ function scene:createScene( event )
 	group.y = 250
 
 
-	timer.performWithDelay(100, function (e)
-		-- UPDATE PARTICLES
-		Particles.Update()
+	-- timer.performWithDelay(100, function (e)
+	-- 	-- UPDATE PARTICLES
+	-- 	Particles.Update()
 		
-		-- GIVE COLOR VARIATION
-		brightness = math.random()*128
-		Particles.SetParticleProperty("Stars1" , "colorStart", {brightness,brightness,brightness+25}) 
-		Particles.SetParticleProperty("Stars2" , "colorStart", {brightness,brightness,100}) 
+	-- 	-- GIVE COLOR VARIATION
+	-- 	brightness = math.random()*128
+	-- 	Particles.SetParticleProperty("Stars1" , "colorStart", {brightness,brightness,brightness+25}) 
+	-- 	Particles.SetParticleProperty("Stars2" , "colorStart", {brightness,brightness,100}) 
 
-		-- ROTATE ALL PARTICLES
-		-- Group.rotation = math.sin(system.getTimer()/5000)*60
-	end, 0)
+	-- 	-- ROTATE ALL PARTICLES
+	-- 	-- Group.rotation = math.sin(system.getTimer()/5000)*60
+	-- end, 0)
 end
 
 -- Called immediately after scene has moved onscreen:
