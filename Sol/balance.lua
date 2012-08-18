@@ -23,7 +23,7 @@ shipsData = {
 			h = 50,
 			r = 0,
 			autofigth = false,
-			trailX = -55
+			trailX = -40
 		}
 	},
 	{
@@ -74,8 +74,8 @@ shipsData = {
 			attack = 5,
 			cost = 10,
 			e = 2,
-			w = 16,
-			h = 9,
+			w = 20,
+			h = 10,
 			r = 0,
 			autofigth = true,
 			trailX = -10
@@ -92,11 +92,11 @@ shipsData = {
 			attack = 10,
 			cost = 50,
 			e = 50,
-			w = 48,
-			h = 25,
+			w = 70,
+			h = 30,
 			r = 0,
 			autofigth = false,
-			trailX = -22
+			trailX = -35
 		},
 	},
 	{
@@ -114,8 +114,8 @@ shipsData = {
 			h = 60,
 			r = 0,
 			autofigth = false,
-			torpedos = true,
-			trailX = -80
+			torpedos = false, --true,
+			trailX = -70
 		},
 	},
 	{

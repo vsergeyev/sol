@@ -12,12 +12,12 @@ require "battle_ai"
 local movieclip = require "movieclip"
 
 local Particles = require("lib_particle_candy")
-Particles.CreateParticleType ("trail_explorer", {imagePath="ships/trail.png", imageWidth=24, imageHeight=24, velocityStart=10, lifeTime=1000, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
+Particles.CreateParticleType ("trail_explorer", {imagePath="ships/trail2.png", imageWidth=24, imageHeight=16, velocityStart=10, lifeTime=1000, autoOrientation=true, alphaStart=0.2, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
 Particles.CreateParticleType ("trail_trade", {imagePath="ships/trail.png", imageWidth=12, imageHeight=20, velocityStart=10, lifeTime=1000, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
-Particles.CreateParticleType ("trail_destroyer", {imagePath="ships/trail.png", imageWidth=12, imageHeight=20, velocityStart=10, lifeTime=500, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
+Particles.CreateParticleType ("trail_destroyer", {imagePath="ships/trail.png", imageWidth=12, imageHeight=5, velocityStart=10, lifeTime=500, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
 Particles.CreateParticleType ("trail_fighter", {imagePath="ships/trail.png", imageWidth=10, imageHeight=15, velocityStart=10, lifeTime=250, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=50, killOutsideScreen = true})
-Particles.CreateParticleType ("trail_cruiser", {imagePath="ships/trail.png", imageWidth=20, imageHeight=20, velocityStart=10, lifeTime=1000, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
-Particles.CreateParticleType ("trail_carier", {imagePath="ships/trail.png", imageWidth=30, imageHeight=20, velocityStart=10, lifeTime=1000, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
+Particles.CreateParticleType ("trail_cruiser", {imagePath="ships/trail2.png", imageWidth=16, imageHeight=16, velocityStart=10, lifeTime=1000, autoOrientation=true, alphaStart=0.2, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
+Particles.CreateParticleType ("trail_carier", {imagePath="ships/trail.png", imageWidth=30, imageHeight=5, velocityStart=10, lifeTime=1000, autoOrientation=true, alphaStart=0.5, fadeInSpeed=0.5, fadeOutSpeed=-0.75, fadeOutDelay=100, killOutsideScreen = true})
 
 local baseImpulse = 150
 local maxImpulseMoveSize = 150
@@ -58,6 +58,7 @@ function buildShip(e, noevent)
 		else
 			ship = display.newImageRect("ships/"..t.ship..".png", t.res.w, t.res.h)
 		end
+		-- ship = movieclip.newAnim({p.."0001.png", p.."0002.png", p.."0003.png", p.."0004.png", p.."0005.png", p.."0006.png", p.."0007.png", p.."0008.png", p.."0009.png", p.."0010.png", p.."0011.png", p.."0012.png", p.."0013.png", p.."0014.png", p.."0015.png", p.."0016.png", p.."0017.png", p.."0018.png", p.."0019.png", p.."0020.png", p.."0021.png", p.."0022.png", p.."0023.png", p.."0024.png", p.."0025.png", p.."0026.png", p.."0027.png", p.."0028.png", p.."0029.png"})
 
 		ship.x, ship.y = p.x + p.r, p.y
 		ship.originPlanet = p

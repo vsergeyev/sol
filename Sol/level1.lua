@@ -21,7 +21,7 @@ physics.setGravity(0, 0)
 
 local Particles = require("lib_particle_candy")
 require "level1_res"
-local Group = initClouds()
+-- local Group = initClouds()
 
 --------------------------------------------
 
@@ -37,10 +37,10 @@ require "ai"
 require "notifications"
 require "dialogs"
 
-gold = 500
+gold = 5000
 levelNow = nil
 local skirmishLevel = 1
-local skirmishDelay = 60000 -- 60000
+local skirmishDelay = 6000 -- 60000
 local soundAlert = audio.loadStream("sounds/alert.m4a")
 
 local win_condition_timer = nil
@@ -136,7 +136,7 @@ function scene:createScene( event )
 	groupPinch = display.newGroup()
 
 	group0:insert(groupSky)
-	group0:insert(Group)
+	--group0:insert(Group)
 	group0:insert(group)
 	group0:insert(groupHud)
 	group0:insert(groupNotifications)
