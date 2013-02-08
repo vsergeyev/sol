@@ -54,13 +54,13 @@ function scene:createScene( event )
 	
 	local btnsX, btnsY = 100, screenH-300
 	-- Buttons
-	local cButton = addButton("Campaign", btnsX, btnsY, function (e)
-		purgeTimers()
-		isPause = false
-		Particles.WakeUp()
-		storyboard.removeScene( "mission1" )
-		storyboard.gotoScene( "mission1", "fade", 500 )
-	end)
+	-- local cButton = addButton("Campaign", btnsX, btnsY, function (e)
+	-- 	purgeTimers()
+	-- 	isPause = false
+	-- 	Particles.WakeUp()
+	-- 	storyboard.removeScene( "mission1" )
+	-- 	storyboard.gotoScene( "mission1", "fade", 500 )
+	-- end)
 
 	local sButton = addButton("Survival", btnsX, btnsY + 80, function (e)
 		purgeTimers()

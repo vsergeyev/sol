@@ -152,8 +152,13 @@ function scene:enterScene( event )
 	showInfo(selectedObject)
 	showSurvivalDlg( event, [[Your fleet traveled through wormhole to the Sirius system. Eliminate all alien presence in this sector.
 
-Notes:
-Seek for asteroids, exploring them will give you additional funds.
+Tips:
+
+ - protect E.C.S. colonists ship
+
+ - find planet with weakest defence and colonize it
+
+ - seek for asteroids, exploring them will give you additional funds
 
 Good luck, Captain!]], false, "Assault mode")
 end

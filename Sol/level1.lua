@@ -37,10 +37,10 @@ require "ai"
 require "notifications"
 require "dialogs"
 
-gold = 5000
+gold = 500
 levelNow = nil
 local skirmishLevel = 1
-local skirmishDelay = 6000 -- 60000
+local skirmishDelay = 60000
 local soundAlert = audio.loadStream("sounds/alert.m4a")
 
 local win_condition_timer = nil
@@ -255,11 +255,23 @@ function scene:enterScene( event )
 	physics.start()
 
 	showInfo(selectedObject)
-	showSurvivalDlg( event, [[Survive in the waves of enemies.
+	showSurvivalDlg( event, [[Survive in the waves of enemies. Next wave will arrive in 60 sec.
 
-Next wave will arrive in 60 sec.
+Find Wormhole portal and destroy it to achieve the victory.
 
-Victory condition: find Wormhole portal and destroy it.
+
+Tips:
+
+ - build "E.C.S." colonists ship to settle Moon
+
+ - build several "Minecrafter" transports to earn creadits
+
+ - deploy Starbase at orbit to protect Earth
+
+ - attack 
+
+ - PROFIT!!!
+
 
 Good luck, Captain!]] )
 	

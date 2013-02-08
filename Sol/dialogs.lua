@@ -116,7 +116,7 @@ function showSurvivalDlg(e, text, isVictory, mode)
 	if isVictory then
 		infoText = display.newText(text, 400, 200, 400, 200, native.systemFont, 48)
 	else
-		infoText = display.newText(text, dx + 20, dy + 100, 600, 300, native.systemFont, 22)
+		infoText = display.newText(text, dx + 20, dy + 100, 700, 400, native.systemFont, 22)
 	end
 	infoText:setTextColor(0, 200, 100)
 	p:insert(infoText)

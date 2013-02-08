@@ -60,7 +60,7 @@ display.setStatusBar( display.HiddenStatusBar )
 -- include the Corona "storyboard" module
 local storyboard = require "storyboard"
 
-utils.showFps();
+-- utils.showFps();
 
 -- load menu screen
 storyboard.gotoScene( "menu" )

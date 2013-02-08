@@ -39,15 +39,14 @@ function scene:createScene( event )
 	textAbout = display.newText([[Sol Control
 
 
-Programming:
 Volodymyr Sergeyev
 
-Design:
 Vlad Stepaniuk
 
-Q&A:
 Nazar Leush
-]], screenW - 400, screenH, 400, 600, native.systemFont, 36)
+
+
+Have fun!]], screenW - 400, screenH, 400, 600, native.systemFont, 36)
 	textAbout:setTextColor(0, 200, 100)
 	group:insert(textAbout)
 	
