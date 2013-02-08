@@ -16,6 +16,15 @@ At first game was create primarily for iPad device.
 But as it use Corona SDK framework, so can be compiled to Android, Nook, Kindle devices as well.
 
 
+Run
+---
+
+ * Download and install Corona SDK http://coronalabs.com It is free for trial use.
+ * Run emulator. Select iPad device
+ * Open `main.lua` file in emulator
+ * Enjoy :)
+
+
 Contributors
 ------------
 
